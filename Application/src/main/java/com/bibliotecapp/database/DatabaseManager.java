@@ -6,14 +6,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DatabaseManagement {
+public class DatabaseManager {
 	
 	public void connectDatabase()
 	{
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bibliotecapp", "root", null);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bibliotecapp", "root", "password");
             // create a Statement
             try (Statement stmt = conn.createStatement()) {
                 //execute query
