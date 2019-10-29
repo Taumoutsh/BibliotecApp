@@ -1,34 +1,37 @@
 package com.bibliotecapp.database;
 
-import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseManager {
 	
-	public void connectDatabase()
+	Connection conn = null;
+	
+	public Connection connectDatabase() throws BDException
 	{
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bibliotecapp", "root", "password");
-            // create a Statement
-            try (Statement stmt = conn.createStatement()) {
-                //execute query
-                try (ResultSet rs = stmt.executeQuery("SELECT 'Hello World!'")) {
-                    //position result to first
-                    rs.first();
-                    System.out.println(rs.getString(1)); //result is "Hello World!"
-                }
-            }
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bibliotecapp", "root", "password");
         } catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+        	throw new BDException("No se pudo connectar a la base de datos", e);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new BDException("No se pudo obtener el driver JDBC", e);
+		}
+		
+		return conn;
+	}
+	
+	public void disconnectDatabase() throws BDException
+	{
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new BDException("No se pudo disconnectar de la base de datos", e);
 		}
 	}
 
