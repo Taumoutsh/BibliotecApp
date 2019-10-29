@@ -19,7 +19,6 @@ public class MainController {
 	@RequestMapping("/hello.htm")
 	public ModelAndView showMessage(
 			@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
-		System.out.println("in controller");
 		
 		ArrayList<Tema> todosTemas = new ArrayList<Tema>();
 		DatabaseRequests databaseRequests = new DatabaseRequests();
@@ -39,6 +38,7 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("helloworld");
 		mv.addObject("message", message);
 		mv.addObject("name", name);
+		mv.addObject("todosTemas", todosTemas);
 		return mv;
 	}
 }
