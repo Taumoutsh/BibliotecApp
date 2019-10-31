@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bibliotecapp.database.BDException;
 import com.bibliotecapp.database.DatabaseManager;
 import com.bibliotecapp.database.DatabaseRequests;
+import com.bibliotecapp.entities.Articulo;
 import com.bibliotecapp.entities.Tema;
  
 @Controller
@@ -21,10 +22,12 @@ public class MainController {
 			@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
 		
 		ArrayList<Tema> todosTemas = new ArrayList<Tema>();
+		ArrayList<Articulo> articlosDeTema = new ArrayList<Articulo>();
 		DatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			todosTemas = databaseRequests.obtenerTodosTemas();
+			articlosDeTema = databaseRequests.obtenerTodosArticulosPorTemas(12);
 		} catch (BDException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,6 +35,10 @@ public class MainController {
 		
 		for(Tema unTema : todosTemas) {
 			System.out.println(unTema.getMensaje());
+		}
+		
+		for(Articulo unArticulo : articlosDeTema) {
+			System.out.println(unArticulo.getTitulo());
 		}
 
 		
