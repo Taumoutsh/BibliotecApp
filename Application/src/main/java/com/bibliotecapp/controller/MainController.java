@@ -17,35 +17,21 @@ import com.bibliotecapp.entities.Tema;
 public class MainController {
 	String message = "Welcome to Spring MVC!";
 	 
-	@RequestMapping("/hello.htm")
-	public ModelAndView showMessage(
-			@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
+	@RequestMapping("/index.htm")
+	public ModelAndView showMessage() throws BDException {
 		
-		ArrayList<Tema> todosTemas = new ArrayList<Tema>();
-		ArrayList<Articulo> articlosDeTema = new ArrayList<Articulo>();
+		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
 		DatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosTemas = databaseRequests.obtenerTodosTemas();
-			articlosDeTema = databaseRequests.obtenerTodosArticulosPorTemas(12);
+			todosArticulos = databaseRequests.obtenerTodosArticulos();
 		} catch (BDException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		for(Tema unTema : todosTemas) {
-			System.out.println(unTema.getMensaje());
-		}
-		
-		for(Articulo unArticulo : articlosDeTema) {
-			System.out.println(unArticulo.getTitulo());
-		}
-
-		
 		ModelAndView mv = new ModelAndView("helloworld");
 		mv.addObject("message", message);
-		mv.addObject("name", name);
-		mv.addObject("todosTemas", todosTemas);
+		mv.addObject("todosArticulos", todosArticulos);
 		return mv;
 	}
 }
