@@ -388,7 +388,7 @@ public class DatabaseRequests {
 		Cliente cliente = new Cliente();
 	
 		try {
-			String sql = "SELECT * FROM Articulo WHERE Cl_id = ?";
+			String sql = "SELECT * FROM Cliente WHERE Cl_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idCliente);
 			ResultSet rs = stmt.executeQuery();

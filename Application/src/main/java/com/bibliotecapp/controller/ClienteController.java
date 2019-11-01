@@ -15,39 +15,40 @@ import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.Tema;
  
 @Controller
-public class MainController {
-	 
-	@RequestMapping("index")
-	public ModelAndView paginaPrincipal() throws BDException {
+@RequestMapping("clientes")
+public class ClienteController {
+	 	
+	@RequestMapping("todos")
+	public ModelAndView paginaClientes() throws BDException {
 		
-		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
+		ArrayList<Cliente> todosClientes = new ArrayList<Cliente>();
 		DatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosArticulos = databaseRequests.obtenerTodosArticulos();
+			todosClientes = databaseRequests.obtenerTodosClientes();
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
 		
-		ModelAndView mv = new ModelAndView("principal");
-		mv.addObject("todosArticulos", todosArticulos);
+		ModelAndView mv = new ModelAndView("clientes");
+		mv.addObject("todosClientes", todosClientes);
 		return mv;
 	}
 	
-	@RequestMapping("/prestados.htm")
-	public ModelAndView paginaPrestados() throws BDException {
-		
-		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
+	@RequestMapping(value = "cliente")
+	public ModelAndView paginaClientePorId(@RequestParam("id") String idClienteString) throws BDException {
+		int idCliente = Integer.valueOf(idClienteString);
+		Cliente unCliente = new Cliente();
 		DatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosArticulos = databaseRequests.obtenerTodosArticulos();
+			unCliente = databaseRequests.obtenerClientePorId(idCliente);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
 		
-		ModelAndView mv = new ModelAndView("helloworld");
-		mv.addObject("todosArticulos", todosArticulos);
+		ModelAndView mv = new ModelAndView("cliente");
+		mv.addObject("cliente", unCliente);
 		return mv;
 	}
 }
