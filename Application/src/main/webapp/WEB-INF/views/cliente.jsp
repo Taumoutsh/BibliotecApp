@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 	<head>
 		<title>Ver un cliente</title>
@@ -8,15 +7,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	</head>
 	<body>
-	    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-		  <h5 class="my-0 mr-md-auto font-weight-normal">BibliotecApp</h5>
-		  <nav class="my-2 my-md-0 mr-md-3">
-		    <a class="p-2 text-dark" href="${contextPath}/index">Pagina principal</a>
-		    <a class="p-2 text-dark" href="#">Ver los prestados</a>
-		    <a class="p-2 text-dark" href="#">Ver los articulos</a>
-		    <a class="p-2 text-dark" href="${contextPath}/clientes/todos">Ver los clientes</a>
-		  </nav>
-		</div>
+	    <jsp:include page="header.jsp"></jsp:include>
 		<h1 class="jumbotron">BibliotecApp - Ver un cliente</h1>
 		
 		<div class="container">

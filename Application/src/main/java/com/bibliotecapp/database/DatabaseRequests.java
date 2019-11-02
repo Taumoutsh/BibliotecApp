@@ -10,9 +10,13 @@ import java.util.List;
 
 import com.bibliotecapp.entities.Articulo;
 import com.bibliotecapp.entities.ArticuloToCliente;
+import com.bibliotecapp.entities.CD;
 import com.bibliotecapp.entities.Cliente;
+import com.bibliotecapp.entities.DVD;
+import com.bibliotecapp.entities.Libro;
 import com.bibliotecapp.entities.Tema;
 import com.bibliotecapp.entities.Tipo;
+import com.bibliotecapp.entities.VideoJuego;
 
 public class DatabaseRequests {
 	
@@ -92,6 +96,118 @@ public class DatabaseRequests {
 		}
 		return listArticulo;
 	}
+
+	public ArrayList<VideoJuego> obtenerTodosVideoJuegos() throws BDException{
+		
+		ArrayList<VideoJuego> listVideoJuego = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "Video juego");
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				listVideoJuego.add(new VideoJuego(
+						rs.getInt("Ar_id"),
+						rs.getString("Ar_titulo"),
+						rs.getString("Ar_autor"),
+						rs.getString("Ar_identificador"),
+						rs.getBoolean("Ar_estado"),
+						rs.getString("Ar_plataforma"),
+						obtenerTipoPorId(rs.getInt("fk_tipo")),
+						obtenerTemaPorId(rs.getInt("fk_tema"))
+						));
+			}
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo obtener los video juegos", e);
+		}
+		return listVideoJuego;
+	}
+
+	public ArrayList<Libro> obtenerTodosLibros() throws BDException{
+	
+	ArrayList<Libro> listLibro = new ArrayList<>();
+
+	try {
+		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "Libro");
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			listLibro.add(new Libro(
+					rs.getInt("Ar_id"),
+					rs.getString("Ar_titulo"),
+					rs.getString("Ar_autor"),
+					rs.getString("Ar_identificador"),
+					rs.getBoolean("Ar_estado"),
+					rs.getInt("Ar_numeroPaginas"),
+					obtenerTipoPorId(rs.getInt("fk_tipo")),
+					obtenerTemaPorId(rs.getInt("fk_tema"))
+					));
+		}
+	}
+	catch (SQLException e) {
+		throw new BDException("No se pudo obtener los libros", e);
+	}
+	return listLibro;
+}
+
+	public ArrayList<DVD> obtenerTodosDVDs() throws BDException{
+	
+	ArrayList<DVD> listDVD = new ArrayList<>();
+
+	try {
+		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "DVD");
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			listDVD.add(new DVD(
+					rs.getInt("Ar_id"),
+					rs.getString("Ar_titulo"),
+					rs.getString("Ar_autor"),
+					rs.getString("Ar_identificador"),
+					rs.getBoolean("Ar_estado"),
+					rs.getString("Ar_qualidad"),
+					obtenerTipoPorId(rs.getInt("fk_tipo")),
+					obtenerTemaPorId(rs.getInt("fk_tema"))
+					));
+		}
+	}
+	catch (SQLException e) {
+		throw new BDException("No se pudo obtener los articulos", e);
+	}
+	return listDVD;
+}
+
+	public ArrayList<CD> obtenerTodosCDs() throws BDException{
+	
+	ArrayList<CD> listCD = new ArrayList<>();
+
+	try {		
+		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "CD");
+		ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				listCD.add(new CD(
+					rs.getInt("Ar_id"),
+					rs.getString("Ar_titulo"),
+					rs.getString("Ar_autor"),
+					rs.getString("Ar_identificador"),
+					rs.getBoolean("Ar_estado"),
+					rs.getInt("Ar_numeroPistas"),
+					obtenerTipoPorId(rs.getInt("fk_tipo")),
+					obtenerTemaPorId(rs.getInt("fk_tema"))
+					));
+		}
+	}
+	catch (SQLException e) {
+		throw new BDException("No se pudo obtener los articulos", e);
+	}
+	return listCD;
+}
 
 	public ArrayList<Cliente> obtenerTodosClientes() throws BDException{
 		
@@ -383,6 +499,118 @@ public class DatabaseRequests {
 		return articulo;
 	}
 	
+	public VideoJuego obtenerVideoJuegoPorId(int idVideoJuego) throws BDException{
+		
+		VideoJuego videoJuego = new VideoJuego();
+	
+		try {
+			String sql = "SELECT * FROM Articulo WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, idVideoJuego);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				videoJuego = (new VideoJuego(
+						rs.getInt("Ar_id"),
+						rs.getString("Ar_titulo"),
+						rs.getString("Ar_autor"),
+						rs.getString("Ar_identificador"),
+						rs.getBoolean("Ar_estado"),
+						rs.getString("Ar_plataforma"),
+						obtenerTipoPorId(rs.getInt("fk_tipo")),
+						obtenerTemaPorId(rs.getInt("fk_tema"))
+						));
+			}
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo obtener el articulo", e);
+		}
+		return videoJuego;
+	}
+	
+	public Libro obtenerLibroPorId(int idLibro) throws BDException{
+	
+		Libro libro = new Libro();
+
+	try {
+		String sql = "SELECT * FROM Articulo WHERE Ar_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, idLibro);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			libro = (new Libro(
+					rs.getInt("Ar_id"),
+					rs.getString("Ar_titulo"),
+					rs.getString("Ar_autor"),
+					rs.getString("Ar_identificador"),
+					rs.getBoolean("Ar_estado"),
+					rs.getInt("Ar_numeroPaginas"),
+					obtenerTipoPorId(rs.getInt("fk_tipo")),
+					obtenerTemaPorId(rs.getInt("fk_tema"))
+					));
+		}
+	}
+	catch (SQLException e) {
+		throw new BDException("No se pudo obtener el articulo", e);
+	}
+	return libro;
+}
+
+	public DVD obtenerDVDPorId(int idDVD) throws BDException{
+	
+	DVD dvd = new DVD();
+
+	try {
+		String sql = "SELECT * FROM Articulo WHERE Ar_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, idDVD);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			dvd = (new DVD(
+					rs.getInt("Ar_id"),
+					rs.getString("Ar_titulo"),
+					rs.getString("Ar_autor"),
+					rs.getString("Ar_identificador"),
+					rs.getBoolean("Ar_estado"),
+					rs.getString("Ar_qualidad"),
+					obtenerTipoPorId(rs.getInt("fk_tipo")),
+					obtenerTemaPorId(rs.getInt("fk_tema"))
+					));
+		}
+	}
+	catch (SQLException e) {
+		throw new BDException("No se pudo obtener el articulo", e);
+	}
+	return dvd;
+}
+
+	public CD obtenerCDPorId(int idCD) throws BDException{
+	
+	CD cd = new CD();
+
+	try {
+		String sql = "SELECT * FROM Articulo WHERE Ar_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, idCD);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			cd = (new CD(
+					rs.getInt("Ar_id"),
+					rs.getString("Ar_titulo"),
+					rs.getString("Ar_autor"),
+					rs.getString("Ar_identificador"),
+					rs.getBoolean("Ar_estado"),
+					rs.getInt("Ar_numeroPistas"),
+					obtenerTipoPorId(rs.getInt("fk_tipo")),
+					obtenerTemaPorId(rs.getInt("fk_tema"))
+					));
+		}
+	}
+	catch (SQLException e) {
+		throw new BDException("No se pudo obtener el articulo", e);
+	}
+	return cd;
+}
+	
 	public Cliente obtenerClientePorId(int idCliente) throws BDException{
 		
 		Cliente cliente = new Cliente();
@@ -436,6 +664,5 @@ public class DatabaseRequests {
 		}
 		return articuloToCliente;
 	}
-
 	
 }

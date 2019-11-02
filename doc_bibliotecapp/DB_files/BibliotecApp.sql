@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `bibliotecapp` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `bibliotecapp`;
 -- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
 --
 -- Host: 127.0.0.1    Database: bibliotecapp
@@ -30,12 +32,16 @@ CREATE TABLE `Articulo` (
   `Ar_estado` bit(1) NOT NULL,
   `fk_tema` int(10) NOT NULL,
   `fk_tipo` int(10) NOT NULL,
+  `Ar_plataforma` varchar(255) DEFAULT NULL,
+  `Ar_qualidad` varchar(255) DEFAULT NULL,
+  `Ar_numeroPistas` int(10) DEFAULT NULL,
+  `Ar_numeroPaginas` int(10) DEFAULT NULL,
   PRIMARY KEY (`Ar_id`),
   KEY `FKArticulo111904` (`fk_tipo`),
   KEY `FKArticulo238970` (`fk_tema`),
   CONSTRAINT `FKArticulo111904` FOREIGN KEY (`fk_tipo`) REFERENCES `tipo` (`Ti_id`),
   CONSTRAINT `FKArticulo238970` FOREIGN KEY (`fk_tema`) REFERENCES `tema` (`Te_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +50,7 @@ CREATE TABLE `Articulo` (
 
 LOCK TABLES `Articulo` WRITE;
 /*!40000 ALTER TABLE `Articulo` DISABLE KEYS */;
-INSERT INTO `Articulo` VALUES (1,'Need For Speed','Ubisoft','VJ0001',_binary '',17,4),(2,'Le monde est cruel','Vald','CD0001',_binary '',12,1);
+INSERT INTO `Articulo` VALUES (1,'Need For Speed','Ubisoft','VJ0001',_binary '',17,4,'PS4',NULL,NULL,NULL),(2,'Ce monde est cruel','Vald','CD0001',_binary '\0',12,2,NULL,NULL,13,NULL),(3,'One More Light','Linkin Park','CD0002',_binary '',7,2,NULL,NULL,15,NULL),(4,'L\'Assomoir','Émile Zola','L0001',_binary '',2,1,NULL,NULL,NULL,420),(5,'League of Legends','Riot Games','VJ0002',_binary '',18,4,'PC',NULL,NULL,NULL),(6,'Interstellar','Christopher Nolan','DVD0001',_binary '\0',2,3,NULL,'Full HD',NULL,NULL),(7,'Lucy','Luc Besson','DVD0002',_binary '',2,3,NULL,'Full HD',NULL,NULL);
 /*!40000 ALTER TABLE `Articulo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +102,7 @@ CREATE TABLE `Cliente` (
   `Cl_inicioSuscripcion` varchar(30) NOT NULL,
   `Cl_finSuscripcion` varchar(30) NOT NULL,
   PRIMARY KEY (`Cl_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,6 +111,7 @@ CREATE TABLE `Cliente` (
 
 LOCK TABLES `Cliente` WRITE;
 /*!40000 ALTER TABLE `Cliente` DISABLE KEYS */;
+INSERT INTO `Cliente` VALUES (1,'Thomas','Sinan',630139975,'18 rue du Calvaire, Saint-André-de-la-Marche','sinan.thomas@opendeusto.es','30-10-2019','30-04-2020'),(2,'Arthur','Aleixo',6789054,'30 rue du la Douceur, Nice','aleixo.arthur@opendeusto.es','01-11-2019','01-01-2020'),(3,'Alexandre','Grenon',675432134,'1 avenue du Carls','alexandre.grenon@opendeusto.es','06-10-2019','06-12-2019');
 /*!40000 ALTER TABLE `Cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +159,7 @@ CREATE TABLE `Tipo` (
 
 LOCK TABLES `Tipo` WRITE;
 /*!40000 ALTER TABLE `Tipo` DISABLE KEYS */;
-INSERT INTO `Tipo` VALUES (1,'Libros'),(2,'CD'),(3,'DVD'),(4,'Video juegos');
+INSERT INTO `Tipo` VALUES (1,'Libro'),(2,'CD'),(3,'DVD'),(4,'Video juego');
 /*!40000 ALTER TABLE `Tipo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -165,4 +172,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-29  9:59:33
+-- Dump completed on 2019-11-02 17:15:20
