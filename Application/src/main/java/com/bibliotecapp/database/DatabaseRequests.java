@@ -644,7 +644,7 @@ public class DatabaseRequests {
 		ArticuloToCliente articuloToCliente = new ArticuloToCliente();
 	
 		try {
-			String sql = "SELECT * FROM Articulo WHERE At_id = ?";
+			String sql = "SELECT * FROM ArticuloToCliente WHERE At_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idArticuloToCliente);
 			ResultSet rs = stmt.executeQuery();
@@ -660,9 +660,29 @@ public class DatabaseRequests {
 			}
 		}
 		catch (SQLException e) {
-			throw new BDException("No se pudo obtener el cliente", e);
+			throw new BDException("No se pudo obtener el articulo con el cliente", e);
 		}
 		return articuloToCliente;
 	}
 	
+	public void anadirCliente(Cliente cliente) throws BDException{
+		
+		try {
+			String sql = "INSERT INTO Cliente(Cl_nombre, Cl_apellido, Cl_telefono, Cl_direccion, Cl_email, Cl_inicioSuscripcion, Cl_finSuscripcion) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, cliente.getNombre());
+			stmt.setString(2, cliente.getApellido());
+			stmt.setInt(3, cliente.getTelefono());
+			stmt.setString(4, cliente.getDireccion());
+			stmt.setString(5, cliente.getEmail());
+			stmt.setString(6, cliente.getInicioSuscripcion());
+			stmt.setString(7, cliente.getFinSuscripcion());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo anadir el cliente en la DB", e);
+		}
+		
+	}
 }

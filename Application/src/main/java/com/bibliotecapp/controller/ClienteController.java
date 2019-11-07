@@ -3,7 +3,9 @@ package com.bibliotecapp.controller;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,7 +37,7 @@ public class ClienteController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "cliente")
+	@RequestMapping(value = "cliente",method = RequestMethod.GET)
 	public ModelAndView paginaClientePorId(@RequestParam("id") String idClienteString) throws BDException {
 		int idCliente = Integer.valueOf(idClienteString);
 		Cliente unCliente = new Cliente();
@@ -50,5 +52,22 @@ public class ClienteController {
 		ModelAndView mv = new ModelAndView("cliente");
 		mv.addObject("cliente", unCliente);
 		return mv;
+	}
+	
+	@RequestMapping(value = "anadir",method = RequestMethod.GET)
+	public ModelAndView anadirCliente() throws BDException {
+
+		ModelAndView mv = new ModelAndView("anadirCliente", "command", new Cliente());
+		return mv;
+	}
+	
+	@RequestMapping(value = "save",method = RequestMethod.POST)
+	public String saveCliente(@ModelAttribute("cliente") Cliente cliente) throws BDException {
+		
+		DatabaseRequests databaseRequests = new DatabaseRequests();
+		databaseRequests.anadirCliente(cliente);
+		
+		return "redirect:todos";
+		
 	}
 }
