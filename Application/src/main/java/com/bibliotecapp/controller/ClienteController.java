@@ -32,7 +32,7 @@ public class ClienteController {
 			e.printStackTrace();
 		}
 		
-		ModelAndView mv = new ModelAndView("clientes");
+		ModelAndView mv = new ModelAndView("clientes/clientes");
 		mv.addObject("todosClientes", todosClientes);
 		return mv;
 	}
@@ -49,7 +49,7 @@ public class ClienteController {
 			e.printStackTrace();
 		}
 		
-		ModelAndView mv = new ModelAndView("cliente");
+		ModelAndView mv = new ModelAndView("clientes/cliente");
 		mv.addObject("cliente", unCliente);
 		return mv;
 	}
@@ -57,10 +57,9 @@ public class ClienteController {
 	@RequestMapping(value = "anadir",method = RequestMethod.GET)
 	public ModelAndView anadirCliente() throws BDException {
 
-		ModelAndView mv = new ModelAndView("anadirCliente", "command", new Cliente());
+		ModelAndView mv = new ModelAndView("clientes/anadirCliente", "command", new Cliente());
 		return mv;
 	}
-	
 	@RequestMapping(value = "save",method = RequestMethod.POST)
 	public String saveCliente(@ModelAttribute("cliente") Cliente cliente) throws BDException {
 		
@@ -69,5 +68,35 @@ public class ClienteController {
 		
 		return "redirect:todos";
 		
+	}
+	
+	@RequestMapping(value = "modificar",method = RequestMethod.GET)
+	public ModelAndView modificarCliente(@RequestParam("id") String idClienteString) throws BDException {
+
+		int idCliente = Integer.valueOf(idClienteString);
+		DatabaseRequests databaseRequests = new DatabaseRequests();
+		Cliente unCliente = databaseRequests.obtenerClientePorId(idCliente);
+		
+		ModelAndView mv = new ModelAndView("clientes/modificarCliente", "command", new Cliente());
+		mv.addObject("cliente", unCliente);
+		return mv;
+	}
+	@RequestMapping(value = "modificarSave",method = RequestMethod.POST)
+	public String saveModificarCliente(@ModelAttribute("cliente") Cliente cliente) throws BDException {
+		
+		DatabaseRequests databaseRequests = new DatabaseRequests();
+		databaseRequests.modificarCliente(cliente);
+		
+		return "redirect:todos";
+		
+	}
+	
+	@RequestMapping(value = "borrar",method = RequestMethod.GET)
+	public String borrarCliente(@RequestParam("id") String idClienteString) throws BDException {
+		int idCliente = Integer.valueOf(idClienteString);
+		DatabaseRequests databaseRequests = new DatabaseRequests();
+		databaseRequests.borrarCliente(idCliente);
+		
+		return "redirect:todos";
 	}
 }

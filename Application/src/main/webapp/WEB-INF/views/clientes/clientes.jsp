@@ -5,13 +5,17 @@
 	<head>
 		<title>Ver los clientes</title>
 		<meta charset="utf-8">
+		<script src="https://kit.fontawesome.com/7d402c1f4f.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	</head>
 	<body>
-	    <jsp:include page="header.jsp"></jsp:include>
+	    <jsp:include page="../header.jsp"></jsp:include>
 		<h1 class="jumbotron">BibliotecApp - Todos los clientes</h1>
 		
 		<div class="container">
+		
+			<p><a href="${contextPath}/clientes/anadir"><i class="fas fa-user-plus"></i> Anadir un cliente</a></p>
+		
 			<h2>Buscada personalisada</h2>
 		</div>
 		
@@ -36,8 +40,8 @@
 									<p>Su suscripcion empezo el <b><c:out value="${cliente.inicioSuscripcion}" /></b>
 									y terminara el <b><c:out value="${cliente.finSuscripcion}" /></b></p>
 									<c:set var="idString">${cliente.id}</c:set>
-									<a href="${contextPath}/clientes/cliente?id=<c:out value="${idString}" />">Ver</a> |
-									<a href="#" />Modificar</a>
+									<a href="${contextPath}/clientes/cliente?id=<c:out value="${idString}" />"><i class="fas fa-search-plus"></i> Ver</a> |
+									<a href="${contextPath}/clientes/modificar?id=<c:out value="${idString}" />"><i class="fas fa-user-edit"></i> Modificar</a> | <a href="${contextPath}/clientes/borrar?id=<c:out value="${idString}" />"><i class="fas fa-user-times"></i> Borrar</a> 
 								</div>
 							</div>
 						</div>

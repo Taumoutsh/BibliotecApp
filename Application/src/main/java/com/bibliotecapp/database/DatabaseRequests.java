@@ -685,4 +685,41 @@ public class DatabaseRequests {
 		}
 		
 	}
+	
+	public void modificarCliente(Cliente cliente) throws BDException{
+		
+		try {
+			String sql = "UPDATE Cliente SET Cl_nombre = ?, Cl_apellido = ?, Cl_telefono = ?, Cl_direccion = ?, Cl_email = ?, Cl_inicioSuscripcion = ?, Cl_finSuscripcion = ? WHERE Cl_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, cliente.getNombre());
+			stmt.setString(2, cliente.getApellido());
+			stmt.setInt(3, cliente.getTelefono());
+			stmt.setString(4, cliente.getDireccion());
+			stmt.setString(5, cliente.getEmail());
+			stmt.setString(6, cliente.getInicioSuscripcion());
+			stmt.setString(7, cliente.getFinSuscripcion());
+			stmt.setInt(8, cliente.getId());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el cliente en la DB", e);
+		}
+		
+	}
+	
+public void borrarCliente(int idCliente) throws BDException{
+		
+		try {
+			String sql = "DELETE FROM Cliente WHERE Cl_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, idCliente);
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el cliente en la DB", e);
+		}
+		
+	}
 }
