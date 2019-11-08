@@ -33,7 +33,7 @@ public class DatabaseRequests {
 	public ArrayList<Tema> obtenerTodosTemas() throws BDException{
 
 		
-		ArrayList<Tema> listTema = new ArrayList<>();
+		ArrayList<Tema> listTema = new ArrayList<Tema>();
 
 		try {
 			Statement stmt = conn.createStatement();
@@ -53,7 +53,7 @@ public class DatabaseRequests {
 	
 	public ArrayList<Tipo> obtenerTodosTipos() throws BDException{
 
-		ArrayList<Tipo> listTipo = new ArrayList<>();
+		ArrayList<Tipo> listTipo = new ArrayList<Tipo>();
 
 		try {
 			Statement stmt = conn.createStatement();
@@ -73,7 +73,7 @@ public class DatabaseRequests {
 	
 	public ArrayList<Articulo> obtenerTodosArticulos() throws BDException{
 		
-		ArrayList<Articulo> listArticulo = new ArrayList<>();
+		ArrayList<Articulo> listArticulo = new ArrayList<Articulo>();
 
 		try {
 			String sql = "SELECT * FROM Articulo";
@@ -99,7 +99,7 @@ public class DatabaseRequests {
 
 	public ArrayList<VideoJuego> obtenerTodosVideoJuegos() throws BDException{
 		
-		ArrayList<VideoJuego> listVideoJuego = new ArrayList<>();
+		ArrayList<VideoJuego> listVideoJuego = new ArrayList<VideoJuego>();
 
 		try {
 			String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
@@ -127,7 +127,7 @@ public class DatabaseRequests {
 
 	public ArrayList<Libro> obtenerTodosLibros() throws BDException{
 	
-	ArrayList<Libro> listLibro = new ArrayList<>();
+	ArrayList<Libro> listLibro = new ArrayList<Libro>();
 
 	try {
 		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
@@ -155,7 +155,7 @@ public class DatabaseRequests {
 
 	public ArrayList<DVD> obtenerTodosDVDs() throws BDException{
 	
-	ArrayList<DVD> listDVD = new ArrayList<>();
+	ArrayList<DVD> listDVD = new ArrayList<DVD>();
 
 	try {
 		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
@@ -183,7 +183,7 @@ public class DatabaseRequests {
 
 	public ArrayList<CD> obtenerTodosCDs() throws BDException{
 	
-	ArrayList<CD> listCD = new ArrayList<>();
+	ArrayList<CD> listCD = new ArrayList<CD>();
 
 	try {		
 		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
@@ -211,7 +211,7 @@ public class DatabaseRequests {
 
 	public ArrayList<Cliente> obtenerTodosClientes() throws BDException{
 		
-		ArrayList<Cliente> listCliente = new ArrayList<>();
+		ArrayList<Cliente> listCliente = new ArrayList<Cliente>();
 
 		try {
 			String sql = "SELECT * FROM Cliente";
@@ -238,7 +238,7 @@ public class DatabaseRequests {
 	
 	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientes() throws BDException{
 		
-		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<>();
+		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
 			String sql = "SELECT * FROM ArticuloToCliente";
@@ -265,7 +265,7 @@ public class DatabaseRequests {
 	
 	public ArrayList<Articulo> obtenerTodosArticulosPorTema(int idTema) throws BDException{
 		
-		ArrayList<Articulo> listArticulo = new ArrayList<>();
+		ArrayList<Articulo> listArticulo = new ArrayList<Articulo>();
 
 		try {
 			String sql = "SELECT * FROM Articulo WHERE fk_tema=?";
@@ -292,7 +292,7 @@ public class DatabaseRequests {
 
 	public ArrayList<Articulo> obtenerTodosArticulosPorTipo(int idTipo) throws BDException{
 		
-		ArrayList<Articulo> listArticulo = new ArrayList<>();
+		ArrayList<Articulo> listArticulo = new ArrayList<Articulo>();
 
 		try {
 			String sql = "SELECT * FROM Articulo WHERE fk_tipo=?";
@@ -319,7 +319,7 @@ public class DatabaseRequests {
 
 	public ArrayList<Articulo> obtenerTodosArticulosPorTemaYTipo(int idTema, int idTipo) throws BDException{
 		
-		ArrayList<Articulo> listArticulo = new ArrayList<>();
+		ArrayList<Articulo> listArticulo = new ArrayList<Articulo>();
 
 		try {
 			String sql = "SELECT * FROM Articulo WHERE fk_tema=? AND fk_tipo=?";
@@ -349,7 +349,7 @@ public class DatabaseRequests {
 	
 	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorCliente(int idCliente) throws BDException{
 		
-		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<>();
+		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
 			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_cliente=?";
@@ -375,7 +375,7 @@ public class DatabaseRequests {
 	
 	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorArticulo(int idArticulo) throws BDException{
 		
-		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<>();
+		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
 			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_articulo=?";
@@ -401,7 +401,7 @@ public class DatabaseRequests {
 	
 	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorArticuloYCliente(int idArticulo, int idCliente) throws BDException{
 		
-		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<>();
+		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
 			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_articulo=? AND fk_cliente=?";
@@ -722,4 +722,41 @@ public void borrarCliente(int idCliente) throws BDException{
 		}
 		
 	}
+
+public void borrarDvd(int idDVD) throws BDException{
+	
+	try {
+		String sql = "DELETE FROM Articulo WHERE Ar_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1,  idDVD);
+		
+		stmt.executeUpdate();
+		
+	} 
+	catch (SQLException e) {
+		throw new BDException("No se pudo modificar el articulo en la DB", e);
+	}
+	
+}
+public void modificarDvd(DVD dvd) throws BDException{
+	
+	try {
+		String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, Ar_estado = ?, fk_tipo = ?, fk_tema = ?, Ar_qualidad = ? WHERE Ar_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, dvd.getTitulo());
+		stmt.setString(2, dvd.getAutor());
+		stmt.setString(3, dvd.getIdentificador());
+		stmt.setBoolean(4, dvd.isEstado());
+		stmt.setInt(5, dvd.getUnTipo().getId());
+		stmt.setInt(6, dvd.getUnTema().getId());
+		stmt.setString(7, dvd.getQualidad());
+		stmt.setInt(8, dvd.getId());
+		
+		stmt.executeUpdate();
+	}
+	catch (SQLException e) {
+		throw new BDException("No se pudo modificar el cliente en la DB", e);
+	}
+	
+}
 }

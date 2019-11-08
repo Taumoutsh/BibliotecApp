@@ -9,7 +9,7 @@
 	</head>
 	<body>
 	    
-	    <jsp:include page="header.jsp"></jsp:include>
+	    <jsp:include page="../header.jsp"></jsp:include>
 	    
 		<h1 class="jumbotron">BibliotecApp - DVDs</h1>
 		
@@ -43,8 +43,9 @@
 								<p>Es un <b><c:out value="${dvd.unTipo.mensaje}" /></b>
 								del tema <b><c:out value="${dvd.unTema.mensaje}" /></b></p>
 								<p>La qualidad de la pelicula es <b><c:out value="${dvd.qualidad}" /></b></p>
-								<button type="button" class="col-sm mr-2 btn btn btn-block btn-primary">Modificar</button>
-								<button type="button" class="col-sm mr-2 btn btn btn-block btn-danger">Borrar</button>
+								<button type="button" onclick="window.location.href='${contextPath}/dvds/modificar?id=<c:out value='${dvd.id}'/>'" class="col-sm mr-2 btn btn btn-block btn-primary">Modificar</button>
+								<button type="button" onclick="window.location.href='${contextPath}/dvds/borrar?id=<c:out value='${dvd.id}'/>'" class="col-sm mr-2 btn btn btn-block btn-danger">Borrar</button>
+								
 					     	</div>
 						</div>
 					</div>
