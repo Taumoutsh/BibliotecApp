@@ -16,6 +16,7 @@ import com.bibliotecapp.entities.Articulo;
 import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.DVD;
 import com.bibliotecapp.entities.Tema;
+import com.bibliotecapp.entities.Tipo;
 import com.bibliotecapp.entities.VideoJuego;
  
 @Controller
@@ -46,7 +47,11 @@ public class DVDController {
 		DatabaseRequests databaseRequests = new DatabaseRequests();
 		DVD unDVD = databaseRequests.obtenerDVDPorId(idDVD);
 		
+		ArrayList<Tipo> tipos = databaseRequests.obtenerTodosTipos();
+		ArrayList<Tema> temas = databaseRequests.obtenerTodosTemas();
+		
 		ModelAndView mv = new ModelAndView("dvds/modificardvd", "command", new DVD());
+		mv.addObject("temas", temas);
 		mv.addObject("dvd", unDVD);
 		return mv;
 	}

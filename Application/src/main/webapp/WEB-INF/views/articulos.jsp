@@ -23,7 +23,7 @@
 			<c:set var="i" value="1" />
 			<c:forEach items="${todosArticulos}" var="articulo">
 				<c:if test="${(i%3) == 1}">
-				<div class="row">
+				<div class="row justify-content-center">
 				</c:if>
 					<div class="col-4 card-deck text-center">
 						<div class="card mb-4 shadow-sm">

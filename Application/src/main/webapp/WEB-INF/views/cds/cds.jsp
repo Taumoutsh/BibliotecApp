@@ -9,7 +9,7 @@
 	</head>
 	<body>
 	    
-	    <jsp:include page="header.jsp"></jsp:include>
+	    <jsp:include page="../header.jsp"></jsp:include>
 	    
 		<h1 class="jumbotron">BibliotecApp - CDs</h1>
 		
@@ -24,7 +24,7 @@
 			<c:set var="i" value="1" />
 			<c:forEach items="${todosCDs}" var="cd">
 				<c:if test="${(i%3) == 1}">
-				<div class="row">
+				<div class="row justify-content-center">
 				</c:if>
 					<div class="col-4 card-deck text-center">
 						<div class="card mb-4 shadow-sm">
@@ -43,8 +43,8 @@
 								<p>Es un <b><c:out value="${cd.unTipo.mensaje}" /></b>
 								del tema <b><c:out value="${cd.unTema.mensaje}" /></b></p>
 								<p>El CD tiene <b><c:out value="${cd.numeroPistas}" /></b> pistas</p>
-								<button type="button" class="col-sm mr-2 btn btn btn-block btn-primary">Modificar</button>
-								<button type="button" class="col-sm mr-2 btn btn btn-block btn-danger">Borrar</button>
+								<button type="button" onclick="window.location.href='${contextPath}/cds/modificar?id=<c:out value='${cd.id}'/>'" class="col-sm mr-2 btn btn btn-block btn-primary">Modificar</button>
+								<button type="button" onclick="window.location.href='${contextPath}/cds/borrar?id=<c:out value='${cd.id}'/>'" class="col-sm mr-2 btn btn btn-block btn-danger">Borrar</button>
 					     	</div>
 						</div>
 					</div>

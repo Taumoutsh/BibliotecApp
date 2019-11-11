@@ -13,24 +13,24 @@
 <body>
 
  		<jsp:include page="../header.jsp"></jsp:include>
-		<h1 class="jumbotron">BibliotecApp - Modificar articulo</h1>
+		<h1 class="jumbotron">BibliotecApp - Modificar CD</h1>
   
   		<div class=container>
 	       	<form:form method="post" action="modificarSave">  
-	       	 <form:input type="hidden" path="id" value="${dvd.getId()}"/>  
+	       	 <form:input type="hidden" path="id" value="${cd.getId()}"/>  
 	        	<table>    
 		         <tr>    
 		          <td>Nombre : </td>   
-		          <td><form:input path="titulo" value="${dvd.getTitulo()}" class="form-control"/></td>  
+		          <td><form:input path="titulo" value="${cd.getTitulo()}" class="form-control"/></td>  
 		         </tr>    
 		         <tr>    
 		          <td>Autor :</td>    
-		          <td><form:input path="autor" value="${dvd.getAutor()}" class="form-control"/></td>  
+		          <td><form:input path="autor" value="${cd.getAutor()}" class="form-control"/></td>  
 		         </tr>   
 		         <tr>    
 		          <td>identificator :</td>    
-		          <td><form:input path="identificador" value="${dvd.getIdentificador()}" class="form-control"/></td>  
-		         </tr> 
+		          <td><form:input path="identificador" value="${cd.getIdentificador()}" class="form-control"/></td>  
+		         </tr>
 		         <tr>
 		         <td>Tema :</td>
 		         <td>
@@ -43,8 +43,8 @@
 		         </tr>
 		         <tr>   
 		         <tr>    
-		          <td>Qualidad :</td>    
-		          <td><form:input path="qualidad" value="${dvd.getQualidad()}" class="form-control"/></td>  
+		          <td>Numero pistas :</td>    
+		          <td><form:input path="numeroPistas" value="${cd.getNumeroPistas()}" class="form-control"/></td>  
 		         </tr> 
 		         <tr>     
 		          <td colspan="2"><input type="submit" value="Modificar" class="btn btn-primary mt-3"/></td>    

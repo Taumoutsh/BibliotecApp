@@ -708,12 +708,46 @@ public class DatabaseRequests {
 		
 	}
 	
-public void borrarCliente(int idCliente) throws BDException{
-		
+	public void borrarCliente(int idCliente) throws BDException{
+			
 		try {
 			String sql = "DELETE FROM Cliente WHERE Cl_id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = conn.prepareStatement(sql);				
 			stmt.setInt(1, idCliente);
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {				
+			throw new BDException("No se pudo modificar el cliente en la DB", e);
+		}
+			
+	}
+	
+	public void borrarDvd(int idDVD) throws BDException{
+		
+		try {
+			String sql = "DELETE FROM Articulo WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,  idDVD);
+			
+			stmt.executeUpdate();
+			
+		} 
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el articulo en la DB", e);
+		}
+		
+	}
+	public void modificarDvd(DVD dvd) throws BDException{
+		
+		try {
+			String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, fk_tema = ?, Ar_qualidad = ? WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, dvd.getTitulo());
+			stmt.setString(2, dvd.getAutor());
+			stmt.setString(3, dvd.getIdentificador());
+			stmt.setInt(4, dvd.getUnTema().getId());
+			stmt.setString(5, dvd.getQualidad());
+			stmt.setInt(6, dvd.getId());
 			
 			stmt.executeUpdate();
 		}
@@ -722,41 +756,40 @@ public void borrarCliente(int idCliente) throws BDException{
 		}
 		
 	}
+	
+public void borrarCd(int idCD) throws BDException{
+		
+		try {
+			String sql = "DELETE FROM Articulo WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,  idCD);
+			
+			stmt.executeUpdate();
+			
+		} 
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el CD en la DB", e);
+		}
+		
+	}
+	public void modificarCd(CD cd) throws BDException{
+		
+		try {
+			String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, fk_tema = ?, Ar_numeroPistas = ? WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, cd.getTitulo());
+			stmt.setString(2, cd.getAutor());
+			stmt.setString(3, cd.getIdentificador());
+			stmt.setInt(4, cd.getUnTema().getId());
+			stmt.setInt(5, cd.getNumeroPistas());
+			stmt.setInt(6, cd.getId());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el CD en la DB", e);
+		}
+		
+	}
 
-public void borrarDvd(int idDVD) throws BDException{
-	
-	try {
-		String sql = "DELETE FROM Articulo WHERE Ar_id = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1,  idDVD);
-		
-		stmt.executeUpdate();
-		
-	} 
-	catch (SQLException e) {
-		throw new BDException("No se pudo modificar el articulo en la DB", e);
-	}
-	
-}
-public void modificarDvd(DVD dvd) throws BDException{
-	
-	try {
-		String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, Ar_estado = ?, fk_tipo = ?, fk_tema = ?, Ar_qualidad = ? WHERE Ar_id = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, dvd.getTitulo());
-		stmt.setString(2, dvd.getAutor());
-		stmt.setString(3, dvd.getIdentificador());
-		stmt.setBoolean(4, dvd.isEstado());
-		stmt.setInt(5, dvd.getUnTipo().getId());
-		stmt.setInt(6, dvd.getUnTema().getId());
-		stmt.setString(7, dvd.getQualidad());
-		stmt.setInt(8, dvd.getId());
-		
-		stmt.executeUpdate();
-	}
-	catch (SQLException e) {
-		throw new BDException("No se pudo modificar el cliente en la DB", e);
-	}
-	
-}
 }
