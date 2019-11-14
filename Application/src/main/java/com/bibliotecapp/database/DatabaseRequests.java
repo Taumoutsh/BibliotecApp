@@ -665,6 +665,8 @@ public class DatabaseRequests {
 		return articuloToCliente;
 	}
 	
+	// Methodos por la gestion de clientes
+	
 	public void anadirCliente(Cliente cliente) throws BDException{
 		
 		try {
@@ -722,6 +724,8 @@ public class DatabaseRequests {
 			
 	}
 	
+	// Methodos por la gestion de DVD
+	
 	public void borrarDvd(int idDVD) throws BDException{
 		
 		try {
@@ -737,6 +741,7 @@ public class DatabaseRequests {
 		}
 		
 	}
+	
 	public void modificarDvd(DVD dvd) throws BDException{
 		
 		try {
@@ -757,7 +762,9 @@ public class DatabaseRequests {
 		
 	}
 	
-public void borrarCd(int idCD) throws BDException{
+	// Methodos por la gestion de CD
+	
+	public void borrarCd(int idCD) throws BDException{
 		
 		try {
 			String sql = "DELETE FROM Articulo WHERE Ar_id = ?";
@@ -772,6 +779,7 @@ public void borrarCd(int idCD) throws BDException{
 		}
 		
 	}
+	
 	public void modificarCd(CD cd) throws BDException{
 		
 		try {
@@ -792,4 +800,66 @@ public void borrarCd(int idCD) throws BDException{
 		
 	}
 
+	// Methodos por la prestacion de articulos
+	
+	public void anadirPrestacion(ArticuloToCliente atc) throws BDException{
+		
+		try {
+			String sqlAnadir = "INSERT INTO ArticuloToCliente(At_fechaPrestamo, At_fechaPlanificadaDevolucion, fk_cliente, fk_articulo) VALUES(?, ?, ?, ?)";
+			PreparedStatement stmtAnadir = conn.prepareStatement(sqlAnadir);
+			stmtAnadir.setString(1, atc.getFechaPrestamo());
+			stmtAnadir.setString(2, atc.getFechaPanificadaDevolucion());
+			stmtAnadir.setInt(3, atc.getUnCliente().getId());
+			stmtAnadir.setInt(4, atc.getUnArticulo().getId());
+			
+			String sqlModificar = "UPDATE Articulo SET Ar_estado = false WHERE Ar_id = ?";
+			PreparedStatement stmtModificar = conn.prepareStatement(sqlModificar);
+			stmtModificar.setInt(1, atc.getUnArticulo().getId());
+			
+			stmtAnadir.executeUpdate();
+			stmtModificar.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo gardar la prestacion en la DB", e);
+		}
+		
+	}
+	
+	public void modificarPrestacion(ArticuloToCliente atc) throws BDException{
+		
+		try {
+			
+			System.out.println(atc.getFechaRealDevolucion());
+			
+			
+			if(atc.getFechaRealDevolucion() != "") {
+				atc.getUnArticulo().setEstado(true);
+			}
+			else {
+				atc.getUnArticulo().setEstado(false);
+			}
+			
+			String sqlAnadir = "UPDATE ArticuloToCliente SET At_fechaPrestamo = ?, At_fechaPlanificadaDevolucion = ?, fk_cliente = ?, fk_articulo = ?, At_fechaRealDevolucion = ? WHERE At_id = ?";
+			PreparedStatement stmtAnadir = conn.prepareStatement(sqlAnadir);
+			stmtAnadir.setString(1, atc.getFechaPrestamo());
+			stmtAnadir.setString(2, atc.getFechaPanificadaDevolucion());
+			stmtAnadir.setInt(3, atc.getUnCliente().getId());
+			stmtAnadir.setInt(4, atc.getUnArticulo().getId());
+			stmtAnadir.setString(5, atc.getFechaRealDevolucion());
+			stmtAnadir.setInt(6, atc.getId());
+			
+			String sqlModificar = "UPDATE Articulo SET Ar_estado = ? WHERE Ar_id = ?";
+			PreparedStatement stmtModificar = conn.prepareStatement(sqlModificar);
+			stmtModificar.setBoolean(1, atc.getUnArticulo().isEstado());
+			stmtModificar.setInt(2, atc.getUnArticulo().getId());
+			
+			stmtAnadir.executeUpdate();
+			stmtModificar.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo gardar la prestacion en la DB", e);
+		}
+		
+	}
+	
 }
