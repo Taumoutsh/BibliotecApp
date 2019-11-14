@@ -49,7 +49,7 @@ public class ArticulosToClienteController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosArticulos = databaseRequests.obtenerTodosArticulos();
+			todosArticulos = databaseRequests.obtenerTodosArticulosPorEstado(true);
 			todosClientes = databaseRequests.obtenerTodosClientes();
 			
 		} catch (BDException e) {
@@ -80,7 +80,7 @@ public class ArticulosToClienteController {
 		int idArticuloToCliente = Integer.valueOf(idArticuloToClienteString);
 		ArticuloToCliente atc = databaseRequests.obtenerArticuloToClientePorId(idArticuloToCliente);
 		
-		todosArticulos = databaseRequests.obtenerTodosArticulos();
+		todosArticulos = databaseRequests.obtenerTodosArticulosPorEstado(true);
 		todosClientes = databaseRequests.obtenerTodosClientes();
 		
 		ModelAndView mv = new ModelAndView("prestamos/modificarArticuloToCliente", "command", new ArticuloToCliente());

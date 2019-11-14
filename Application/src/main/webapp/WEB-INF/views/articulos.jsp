@@ -13,6 +13,7 @@
 		<div class="container">
 			<h2>Buscada personalisada</h2>
 			<p>//TODO</p>
+			<p>JUnit tests</p>
 			
 		</div>
 		

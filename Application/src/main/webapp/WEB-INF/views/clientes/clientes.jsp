@@ -14,19 +14,18 @@
 		
 		<div class="container">
 		
-			<p><a href="${contextPath}/clientes/anadir"><i class="fas fa-user-plus"></i> Anadir un cliente</a></p>
-		
 			<h2>Buscada personalisada</h2>
 		</div>
 		
 		<div class="container">
 			<h2>Todos los clientes</h2>
+			<p><a href="${contextPath}/clientes/anadir"><i class="fas fa-user-plus"></i> Anadir un cliente</a></p>
 		</div>
 		<div class="container mt-4 ">	
 			<c:set var="i" value="1" />
 			<c:forEach items="${todosClientes}" var="cliente">
 				<c:if test="${(i%2) == 1}">
-					<div class="row">
+					<div class="row justify-content-center">
 				</c:if>
 						<div class="col-6 card-deck text-center">
 							<div class="card mb-4 shadow-sm">

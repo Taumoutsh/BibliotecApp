@@ -346,6 +346,33 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listArticulo;
 	}
 
+	public ArrayList<Articulo> obtenerTodosArticulosPorEstado(boolean estado) throws BDException{
+		
+		ArrayList<Articulo> listArticulos = new ArrayList<Articulo>();
+
+		try {
+			String sql = "SELECT * FROM Articulo WHERE Ar_estado = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, estado);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				listArticulos.add(new Articulo(
+						rs.getInt("Ar_id"),
+						rs.getString("Ar_titulo"),
+						rs.getString("Ar_autor"),
+						rs.getString("Ar_identificador"),
+						rs.getBoolean("Ar_estado"),
+						obtenerTipoPorId(rs.getInt("fk_tipo")),
+						obtenerTemaPorId(rs.getInt("fk_tema"))
+						));
+			}
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo obtener los articulosToClientes según el estado", e);
+		}
+		return listArticulos;
+	}
+	
 	// Solicitud para obtener un objecto de tipo ArticuloToClientes segun un Cliente o un Articulo
 	
 	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorCliente(int idCliente) throws BDException{

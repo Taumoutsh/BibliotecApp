@@ -10,24 +10,41 @@
 	</head>
 	<body>
 	    <jsp:include page="../header.jsp"></jsp:include>
-		<h1 class="jumbotron">BibliotecApp - Todos los prestamos</h1>
+		<h1 class="jumbotron">BibliotecApp - Todos los préstamos</h1>
 		
 		<div class="container">
 			<h2>Buscada personalisada</h2>
 			<p>//TODO</p>
+			<p>Archivar y borrar aren't programmed yet</p>
 		</div>
 		
 		<div class="container">
-			<h2>Todos los prestamos</h2>
-			<a class="mb-4" href="${contextPath}/articulosToClientes/anadir"><i class="fas fa-plus"></i> Anadir un prestamo</a>
+			<h2>Todos los préstamos</h2>
+			<a class="mb-4" href="${contextPath}/articulosToClientes/anadir"><i class="fas fa-plus"></i> Anadir un préstamo</a>
 		</div>
 		<div class="container mt-4 ">
+			<table class="table table-striped">
+				<tr>
+					<th>Cliente</th>
+					<th>Articulo</th>
+					<th>Fecha de préstamo</th>
+					<th>Fecha planificada de devolución</th>
+					<th>Fecha real de devolución</th>
+					<th>Acciones</th>
+				</tr>
 			<c:forEach items="${todosArticulosToClientes}" var="articuloToCliente">
-				<p><a href="${contextPath}/clientes/cliente/?id=${articuloToCliente.unCliente.id}">${articuloToCliente.unCliente.nombre} ${articuloToCliente.unCliente.apellido}</a> tomó prestado del articulo
-				<a href="${contextPath}/articulos/articulo/?id=${articuloToCliente.unArticulo.id}">${articuloToCliente.unArticulo.titulo}</a> desde el ${articuloToCliente.fechaPrestamo}
-				la fecha de devolucion planificada es el ${articuloToCliente.fechaPanificadaDevolucion}
-				<a href="${contextPath}/articulosToClientes/modificar/?id=${articuloToCliente.id}"><i class="fas fa-edit"></i> Cambiar un prestamo</a></p>
+				<tr>
+					<td><a href="${contextPath}/clientes/cliente/?id=${articuloToCliente.unCliente.id}">${articuloToCliente.unCliente.nombre} ${articuloToCliente.unCliente.apellido}</a></td>
+					<td><a href="${contextPath}/articulos/articulo/?id=${articuloToCliente.unArticulo.id}">${articuloToCliente.unArticulo.titulo}</a></td>
+					<td>${articuloToCliente.fechaPrestamo}</td>
+					<td>${articuloToCliente.fechaPanificadaDevolucion}</td>
+					<td>${articuloToCliente.fechaRealDevolucion}</td>
+					<td class="text-center"><a href="${contextPath}/articulosToClientes/modificar/?id=${articuloToCliente.id}"><i class="fas fa-edit"></i></a> | 
+					<a href="${contextPath}/articulosToClientes/archivar/?id=${articuloToCliente.id}"><i class="fas fa-archive"></i></a> | 
+					<a href="${contextPath}/articulosToClientes/borrar/?id=${articuloToCliente.id}"><i class="fas fa-trash-alt"></i></a></td>
+				</tr>
 			</c:forEach>
+			</table>
 		</div>
 		
 		

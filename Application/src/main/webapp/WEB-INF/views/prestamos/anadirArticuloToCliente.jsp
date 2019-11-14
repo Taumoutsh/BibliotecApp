@@ -18,7 +18,7 @@
 	       	<form:form method="post" action="saveAnadir">
 	        	<table>    
 		         <tr>    
-		          <td>Fecha de prestamo (YYYY-MM-DD) : </td>   
+		          <td>Fecha de préstamo (YYYY-MM-DD) : </td>   
 		          <td><form:input path="fechaPrestamo" class="form-control"/></td>  
 		         </tr>    
 		         <tr>    
@@ -45,7 +45,7 @@
 				 </form:select>
 				 </td> 
 		         <tr>     
-		          <td colspan="2"><input type="submit" value="Modificar" class="btn btn-primary mt-3"/></td>    
+		          <td colspan="2"><input type="submit" value="Anadir el préstamo" class="btn btn-primary mt-3"/></td>    
 		         </tr>    
 		        </table>    
 	       </form:form> 

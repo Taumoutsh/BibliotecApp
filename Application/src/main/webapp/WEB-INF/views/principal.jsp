@@ -19,13 +19,13 @@
 		<div class="container">
 			<h2>Todos los articulos inscritos</h2>
 		</div>
-		<div class="container mt-4 ">	
+		<div class="container mt-4">	
 			<c:set var="i" value="1" />
 			<c:forEach items="${todosArticulos}" var="articulo">
-				<c:if test="${(i%4) == 1}">
-				<div class="row">
+				<c:if test="${(i%3) == 1}">
+				<div class="row justify-content-center">
 				</c:if>
-					<div class="col-sm card-deck text-center">
+					<div class="col-4 card-deck text-center">
 						<div class="card mb-4 shadow-sm">
 							<div class="card-header">
 								<h4><c:out value="${articulo.titulo}" /></h4>
@@ -46,7 +46,7 @@
 					     	</div>
 						</div>
 					</div>
-				<c:if test="${(i%4) == 0}">
+				<c:if test="${(i%3) == 0}">
 				</div>
 				</c:if>
 			<c:set var="i" value="${i+1}"/>
