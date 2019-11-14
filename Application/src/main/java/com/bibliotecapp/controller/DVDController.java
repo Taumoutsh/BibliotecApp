@@ -18,6 +18,7 @@ import com.bibliotecapp.entities.DVD;
 import com.bibliotecapp.entities.Tema;
 import com.bibliotecapp.entities.Tipo;
 import com.bibliotecapp.entities.VideoJuego;
+import com.bibliotecapp.interfaces.IDatabaseRequests;
  
 @Controller
 @RequestMapping("dvds")
@@ -27,7 +28,7 @@ public class DVDController {
 	public ModelAndView paginaPrincipal() throws BDException {
 		
 		ArrayList<DVD> todosDVDs = new ArrayList<DVD>();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			todosDVDs = databaseRequests.obtenerTodosDVDs();
@@ -44,7 +45,7 @@ public class DVDController {
 	public ModelAndView modificarDvd(@RequestParam("id") String idDvdString) throws BDException {
 
 		int idDVD = Integer.valueOf(idDvdString);
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		DVD unDVD = databaseRequests.obtenerDVDPorId(idDVD);
 		
 		ArrayList<Tipo> tipos = databaseRequests.obtenerTodosTipos();
@@ -59,7 +60,7 @@ public class DVDController {
 	@RequestMapping(value = "modificarSave",method = RequestMethod.POST)
 	public String saveModificarDvd(@ModelAttribute("dvd") DVD dvd) throws BDException {
 		
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarDvd(dvd);
 		
 		return "redirect:todos";
@@ -68,7 +69,7 @@ public class DVDController {
 	@RequestMapping(value = "borrar",method = RequestMethod.GET)
 	public String borrarDvd(@RequestParam("id") String idDvdString) throws BDException {
 		int idDVD = Integer.valueOf(idDvdString);
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.borrarDvd(idDVD);
 		
 		return "redirect:todos";

@@ -15,6 +15,7 @@ import com.bibliotecapp.database.DatabaseRequests;
 import com.bibliotecapp.entities.Articulo;
 import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.Tema;
+import com.bibliotecapp.interfaces.IDatabaseRequests;
  
 @Controller
 @RequestMapping("clientes")
@@ -24,7 +25,7 @@ public class ClienteController {
 	public ModelAndView paginaClientes() throws BDException {
 		
 		ArrayList<Cliente> todosClientes = new ArrayList<Cliente>();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			todosClientes = databaseRequests.obtenerTodosClientes();
@@ -41,7 +42,7 @@ public class ClienteController {
 	public ModelAndView paginaClientePorId(@RequestParam("id") String idClienteString) throws BDException {
 		int idCliente = Integer.valueOf(idClienteString);
 		Cliente unCliente = new Cliente();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			unCliente = databaseRequests.obtenerClientePorId(idCliente);
@@ -63,7 +64,7 @@ public class ClienteController {
 	@RequestMapping(value = "save",method = RequestMethod.POST)
 	public String saveCliente(@ModelAttribute("cliente") Cliente cliente) throws BDException {
 		
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.anadirCliente(cliente);
 		
 		return "redirect:todos";
@@ -74,7 +75,7 @@ public class ClienteController {
 	public ModelAndView modificarCliente(@RequestParam("id") String idClienteString) throws BDException {
 
 		int idCliente = Integer.valueOf(idClienteString);
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		Cliente unCliente = databaseRequests.obtenerClientePorId(idCliente);
 		
 		ModelAndView mv = new ModelAndView("clientes/modificarCliente", "command", new Cliente());
@@ -84,7 +85,7 @@ public class ClienteController {
 	@RequestMapping(value = "modificarSave",method = RequestMethod.POST)
 	public String saveModificarCliente(@ModelAttribute("cliente") Cliente cliente) throws BDException {
 		
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarCliente(cliente);
 		
 		return "redirect:todos";
@@ -94,7 +95,7 @@ public class ClienteController {
 	@RequestMapping(value = "borrar",method = RequestMethod.GET)
 	public String borrarCliente(@RequestParam("id") String idClienteString) throws BDException {
 		int idCliente = Integer.valueOf(idClienteString);
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.borrarCliente(idCliente);
 		
 		return "redirect:todos";

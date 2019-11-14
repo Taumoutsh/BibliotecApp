@@ -13,6 +13,7 @@ import com.bibliotecapp.database.DatabaseRequests;
 import com.bibliotecapp.entities.Articulo;
 import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.Tema;
+import com.bibliotecapp.interfaces.IDatabaseRequests;
  
 @Controller
 public class MainController {
@@ -21,7 +22,7 @@ public class MainController {
 	public ModelAndView paginaPrincipal() throws BDException {
 		
 		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			todosArticulos = databaseRequests.obtenerTodosArticulos();
@@ -34,20 +35,4 @@ public class MainController {
 		return mv;
 	}
 	
-	@RequestMapping("/prestados.htm")
-	public ModelAndView paginaPrestados() throws BDException {
-		
-		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
-		
-		try {
-			todosArticulos = databaseRequests.obtenerTodosArticulos();
-		} catch (BDException e) {
-			e.printStackTrace();
-		}
-		
-		ModelAndView mv = new ModelAndView("helloworld");
-		mv.addObject("todosArticulos", todosArticulos);
-		return mv;
-	}
 }

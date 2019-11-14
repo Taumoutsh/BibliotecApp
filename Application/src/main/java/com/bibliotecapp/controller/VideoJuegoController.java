@@ -14,6 +14,7 @@ import com.bibliotecapp.entities.Articulo;
 import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.Tema;
 import com.bibliotecapp.entities.VideoJuego;
+import com.bibliotecapp.interfaces.IDatabaseRequests;
  
 @Controller
 @RequestMapping("videojuegos")
@@ -23,7 +24,7 @@ public class VideoJuegoController {
 	public ModelAndView paginaPrincipal() throws BDException {
 		
 		ArrayList<VideoJuego> todosVideoJuegos = new ArrayList<VideoJuego>();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			todosVideoJuegos = databaseRequests.obtenerTodosVideoJuegos();

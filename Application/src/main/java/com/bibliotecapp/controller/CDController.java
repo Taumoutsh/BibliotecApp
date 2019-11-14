@@ -18,6 +18,7 @@ import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.DVD;
 import com.bibliotecapp.entities.Tema;
 import com.bibliotecapp.entities.Tipo;
+import com.bibliotecapp.interfaces.IDatabaseRequests;
  
 @Controller
 @RequestMapping("cds")
@@ -27,7 +28,7 @@ public class CDController {
 	public ModelAndView paginaPrincipal() throws BDException {
 		
 		ArrayList<CD> todosCDs = new ArrayList<CD>();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			todosCDs = databaseRequests.obtenerTodosCDs();
@@ -44,7 +45,7 @@ public class CDController {
 	public ModelAndView modificarDvd(@RequestParam("id") String idCdString) throws BDException {
 
 		int idCD = Integer.valueOf(idCdString);
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		CD unCD = databaseRequests.obtenerCDPorId(idCD);
 		
 		ArrayList<Tipo> tipos = databaseRequests.obtenerTodosTipos();
@@ -59,7 +60,7 @@ public class CDController {
 	@RequestMapping(value = "modificarSave",method = RequestMethod.POST)
 	public String saveModificarCd(@ModelAttribute("cd") CD cd) throws BDException {
 		
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarCd(cd);
 		
 		return "redirect:todos";
@@ -68,7 +69,7 @@ public class CDController {
 	@RequestMapping(value = "borrar",method = RequestMethod.GET)
 	public String borrarCd(@RequestParam("id") String idCdString) throws BDException {
 		int idCD = Integer.valueOf(idCdString);
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.borrarCd(idCD);
 		
 		return "redirect:todos";

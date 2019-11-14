@@ -18,6 +18,7 @@ import com.bibliotecapp.entities.CD;
 import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.DVD;
 import com.bibliotecapp.entities.Tema;
+import com.bibliotecapp.interfaces.IDatabaseRequests;
  
 @Controller
 @RequestMapping("articulosToClientes")
@@ -27,7 +28,7 @@ public class ArticulosToClienteController {
 	public ModelAndView todosArticulosToClientes() throws BDException {
 		
 		ArrayList<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			todosArticulosToClientes = databaseRequests.obtenerTodosArticulosToClientes();
@@ -45,7 +46,7 @@ public class ArticulosToClienteController {
 		
 		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
 		ArrayList<Cliente> todosClientes = new ArrayList<Cliente>();
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
 			todosArticulos = databaseRequests.obtenerTodosArticulos();
@@ -62,7 +63,7 @@ public class ArticulosToClienteController {
 	}
 	@RequestMapping(value="saveAnadir", method = RequestMethod.POST)
 	public String saveAnadirArticuloToCliente(@ModelAttribute("articuloToCliente") ArticuloToCliente articuloToCliente) throws BDException {
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.anadirPrestacion(articuloToCliente);
 		
 		return "redirect:todos";
@@ -71,7 +72,7 @@ public class ArticulosToClienteController {
 	
 	@RequestMapping(value="modificar", method = RequestMethod.GET)
 	public ModelAndView modificarArticuloToCliente(@RequestParam("id") String idArticuloToClienteString) throws BDException {
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
 		ArrayList<Cliente> todosClientes = new ArrayList<Cliente>();
@@ -90,7 +91,7 @@ public class ArticulosToClienteController {
 	}
 	@RequestMapping(value="saveModificar", method = RequestMethod.POST)
 	public String saveModificarArticuloToCliente(@ModelAttribute("articuloToCliente") ArticuloToCliente articuloToCliente) throws BDException {
-		DatabaseRequests databaseRequests = new DatabaseRequests();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarPrestacion(articuloToCliente);
 		
 		return "redirect:todos";

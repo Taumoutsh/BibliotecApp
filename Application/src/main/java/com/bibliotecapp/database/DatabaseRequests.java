@@ -17,8 +17,9 @@ import com.bibliotecapp.entities.Libro;
 import com.bibliotecapp.entities.Tema;
 import com.bibliotecapp.entities.Tipo;
 import com.bibliotecapp.entities.VideoJuego;
+import com.bibliotecapp.interfaces.IDatabaseRequests;
 
-public class DatabaseRequests {
+public class DatabaseRequests implements IDatabaseRequests{
 	
 	private Connection conn;
 	
