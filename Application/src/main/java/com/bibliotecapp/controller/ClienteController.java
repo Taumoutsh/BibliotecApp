@@ -1,6 +1,14 @@
 package com.bibliotecapp.controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +21,7 @@ import com.bibliotecapp.database.BDException;
 import com.bibliotecapp.database.DatabaseManager;
 import com.bibliotecapp.database.DatabaseRequests;
 import com.bibliotecapp.entities.Articulo;
+import com.bibliotecapp.entities.ArticuloToCliente;
 import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.Tema;
 import com.bibliotecapp.interfaces.IDatabaseRequests;
@@ -24,7 +33,7 @@ public class ClienteController {
 	@RequestMapping("todos")
 	public ModelAndView paginaClientes() throws BDException {
 		
-		ArrayList<Cliente> todosClientes = new ArrayList<Cliente>();
+		List<Cliente> todosClientes = new ArrayList<Cliente>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
@@ -100,4 +109,45 @@ public class ClienteController {
 		
 		return "redirect:todos";
 	}
+	
+	@RequestMapping(value = "prestamos",method = RequestMethod.GET)
+	public String prestamosPorClienteFichieros(@RequestParam("id") String idClienteString) throws BDException {
+		
+		List<ArticuloToCliente> articulosToClientePorCliente = new ArrayList<ArticuloToCliente>();
+		
+		int idCliente = Integer.valueOf(idClienteString);
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		Cliente cliente = databaseRequests.obtenerClientePorId(idCliente);
+		articulosToClientePorCliente = databaseRequests.obtenerTodosArticulosToClientePorCliente(idCliente);
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		
+		String nombreFichero = "src/main/resources/"+cliente.getApellido() + cliente.getNombre() + dateFormat.format(date) +".txt";
+		System.out.println(nombreFichero);
+		 try{
+		      PrintWriter out  = new PrintWriter(new FileWriter(nombreFichero));
+		      out.println("Prestamos por el cliente "+cliente.getApellido()+" "+cliente.getNombre());
+		      out.println("Fichero creado el : "+dateFormat.format(date));
+		      out.println("****************\n");
+		      for (ArticuloToCliente a : articulosToClientePorCliente) {
+		    	  out.println("Articulo prestado "+a.getUnArticulo());
+		    	  out.println("Fecha de prestamo :"+a.getFechaPrestamo());
+			      out.println("Fecha de devolucion planificada "+a.getFechaPanificadaDevolucion());
+			      out.println("Fecha de devolucion real : "+a.getFechaRealDevolucion());
+			      out.println("-------------------");
+		      }
+		        
+		      out.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		 
+		return "redirect:todos";
+		
+	}
+
+	
+	
 }

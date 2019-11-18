@@ -8,13 +8,11 @@ public class VideoJuego extends Articulo {
 
 	public VideoJuego() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public VideoJuego(int id, String titulo, String autor, String identificador, boolean estado, String plataforma, Tipo unTipo, Tema unTema) {
 		super(id, titulo, autor, identificador, estado, unTipo, unTema);
 		this.plataforma = plataforma;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Column(name="Ar_plataforma")

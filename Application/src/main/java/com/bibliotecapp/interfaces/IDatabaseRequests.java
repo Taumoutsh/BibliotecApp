@@ -15,6 +15,9 @@ import com.bibliotecapp.entities.VideoJuego;
 
 public interface IDatabaseRequests {
 	
+	//Interface of all the requests calling the database
+	//From the class DatabaseRequests
+	
 	public ArrayList<Tema> obtenerTodosTemas() throws BDException;
 	public ArrayList<Tipo> obtenerTodosTipos() throws BDException;
 	public ArrayList<Articulo> obtenerTodosArticulos() throws BDException;
