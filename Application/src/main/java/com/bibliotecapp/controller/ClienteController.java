@@ -1,6 +1,7 @@
 package com.bibliotecapp.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -9,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +32,8 @@ import com.bibliotecapp.interfaces.IDatabaseRequests;
 @Controller
 @RequestMapping("clientes")
 public class ClienteController {
+	
+	public final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	 	
 	@RequestMapping("todos")
 	public ModelAndView paginaClientes() throws BDException {
@@ -37,10 +42,17 @@ public class ClienteController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
+			
+			logger.setLevel(Level.INFO);
+			logger.info("BIBLIOTEC'APP LOGGER - Recupera clientes de la base de datos");
+			
 			todosClientes = databaseRequests.obtenerTodosClientes();
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Mostra la vista con todos los clientes de la base de datos");
 		
 		ModelAndView mv = new ModelAndView("clientes/clientes");
 		mv.addObject("todosClientes", todosClientes);
@@ -59,6 +71,9 @@ public class ClienteController {
 			e.printStackTrace();
 		}
 		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Mostra la vista del cliente : "+unCliente.getApellido()+" "+unCliente.getNombre());
+		
 		ModelAndView mv = new ModelAndView("clientes/cliente");
 		mv.addObject("cliente", unCliente);
 		return mv;
@@ -68,6 +83,11 @@ public class ClienteController {
 	public ModelAndView anadirCliente() throws BDException {
 
 		ModelAndView mv = new ModelAndView("clientes/anadirCliente", "command", new Cliente());
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Mostra la vista para anadir un nuevo cliente en la base de datos");
+		
+		
 		return mv;
 	}
 	@RequestMapping(value = "save",method = RequestMethod.POST)
@@ -75,6 +95,9 @@ public class ClienteController {
 		
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.anadirCliente(cliente);
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Anado el cliente con el nombre "+cliente.getApellido()+" "+cliente.getNombre()+ " en la base de datos");
 		
 		return "redirect:todos";
 		
@@ -89,6 +112,10 @@ public class ClienteController {
 		
 		ModelAndView mv = new ModelAndView("clientes/modificarCliente", "command", new Cliente());
 		mv.addObject("cliente", unCliente);
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Mostra la vista para modificar un cliente de la base de datos");
+		
 		return mv;
 	}
 	@RequestMapping(value = "modificarSave",method = RequestMethod.POST)
@@ -96,6 +123,9 @@ public class ClienteController {
 		
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarCliente(cliente);
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Modificar el cliente "+cliente.getApellido()+" "+cliente.getNombre()+" de la base de datos");
 		
 		return "redirect:todos";
 		
@@ -106,6 +136,9 @@ public class ClienteController {
 		int idCliente = Integer.valueOf(idClienteString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.borrarCliente(idCliente);
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Borra el cliente con el identificador "+idCliente+" de la base de datos");
 		
 		return "redirect:todos";
 	}
@@ -120,29 +153,36 @@ public class ClienteController {
 		Cliente cliente = databaseRequests.obtenerClientePorId(idCliente);
 		articulosToClientePorCliente = databaseRequests.obtenerTodosArticulosToClientePorCliente(idCliente);
 		
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		DateFormat dateFormatTitulo = new SimpleDateFormat("yyyyMMdd-HHmmss");
+		DateFormat dateFormatContent = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Date date = new Date();
 		
-		String nombreFichero = "src/main/resources/"+cliente.getApellido() + cliente.getNombre() + dateFormat.format(date) +".txt";
+		String nombreFichero = "/Users/Tomoutch/Downloads/"+cliente.getApellido() + cliente.getNombre() + dateFormatTitulo.format(date) +".txt";
 		System.out.println(nombreFichero);
 		 try{
-		      PrintWriter out  = new PrintWriter(new FileWriter(nombreFichero));
+			  File file = new File(nombreFichero);
+		      PrintWriter out  = new PrintWriter(new FileWriter(file));
 		      out.println("Prestamos por el cliente "+cliente.getApellido()+" "+cliente.getNombre());
-		      out.println("Fichero creado el : "+dateFormat.format(date));
+		      out.println("Fichero creado el : "+dateFormatContent.format(date)+"\n");
 		      out.println("****************\n");
 		      for (ArticuloToCliente a : articulosToClientePorCliente) {
-		    	  out.println("Articulo prestado "+a.getUnArticulo());
-		    	  out.println("Fecha de prestamo :"+a.getFechaPrestamo());
-			      out.println("Fecha de devolucion planificada "+a.getFechaPanificadaDevolucion());
+		    	  out.println("Articulo prestado : "+a.getUnArticulo().getTitulo()+" ("+a.getUnArticulo().getUnTipo().getMensaje()+")");
+		    	  out.println("Identificador del articulo : "+a.getUnArticulo().getIdentificador());
+		    	  out.println("Fecha de prestamo : "+a.getFechaPrestamo());
+			      out.println("Fecha de devolucion planificada : "+a.getFechaPanificadaDevolucion());
 			      out.println("Fecha de devolucion real : "+a.getFechaRealDevolucion());
 			      out.println("-------------------");
 		      }
 		        
 		      out.close();
+		      System.out.printf("File is located at %s%n", file.getAbsolutePath());
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		 
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Crea un fichera TXT contenido los pretamos del cliente "+cliente.getApellido()+" "+cliente.getNombre());
 		 
 		return "redirect:todos";
 		
