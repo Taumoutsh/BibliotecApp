@@ -1,6 +1,7 @@
 package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +22,11 @@ public class MainController {
 	@RequestMapping("index")
 	public ModelAndView paginaPrincipal() throws BDException {
 		
-		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
+		List<Articulo> todosArticulos = new ArrayList<Articulo>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosArticulos = databaseRequests.obtenerTodosArticulos();
+			todosArticulos = databaseRequests.obtenerTodosArticulos(false);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}

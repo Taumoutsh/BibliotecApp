@@ -20,12 +20,13 @@ public class Cliente implements Serializable  {
 	private String email;
 	private String inicioSuscripcion;
 	private String finSuscripcion;
+	private boolean archivo;
 	
 	public Cliente() {
 	}
 	
 	public Cliente(int id, String nombre, String apellido, int telefono, String direccion, String email,
-			String inicioSuscripcion, String finSuscripcion) {
+			String inicioSuscripcion, String finSuscripcion, boolean archivo) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -34,6 +35,7 @@ public class Cliente implements Serializable  {
 		this.email = email;
 		this.inicioSuscripcion = inicioSuscripcion;
 		this.finSuscripcion = finSuscripcion;
+		this.archivo = archivo;
 	}
 	
 	@Id
@@ -102,6 +104,15 @@ public class Cliente implements Serializable  {
 	public void setFinSuscripcion(String finSuscripcion) {
 		this.finSuscripcion = finSuscripcion;
 	}
+	@Column(name="Cl_archivo")
+	public boolean isArchivo() {
+		return archivo;
+	}
+
+	public void setArchivo(boolean archivo) {
+		this.archivo = archivo;
+	}
+	
 	
 	
 

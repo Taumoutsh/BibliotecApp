@@ -1,6 +1,7 @@
 package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +24,11 @@ public class VideoJuegoController {
 	@RequestMapping("todos")
 	public ModelAndView paginaPrincipal() throws BDException {
 		
-		ArrayList<VideoJuego> todosVideoJuegos = new ArrayList<VideoJuego>();
+		List<VideoJuego> todosVideoJuegos = new ArrayList<VideoJuego>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosVideoJuegos = databaseRequests.obtenerTodosVideoJuegos();
+			todosVideoJuegos = databaseRequests.obtenerTodosVideoJuegos(false);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}

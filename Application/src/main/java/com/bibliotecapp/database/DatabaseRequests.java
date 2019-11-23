@@ -31,10 +31,10 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	// Solicitud para obtener todos los objectos de un tipo definido
 	
-	public ArrayList<Tema> obtenerTodosTemas() throws BDException{
+	public List<Tema> obtenerTodosTemas() throws BDException{
 
 		
-		ArrayList<Tema> listTema = new ArrayList<Tema>();
+		List<Tema> listTema = new ArrayList<Tema>();
 
 		try {
 			Statement stmt = conn.createStatement();
@@ -52,9 +52,9 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listTema;
 	}
 	
-	public ArrayList<Tipo> obtenerTodosTipos() throws BDException{
+	public List<Tipo> obtenerTodosTipos() throws BDException{
 
-		ArrayList<Tipo> listTipo = new ArrayList<Tipo>();
+		List<Tipo> listTipo = new ArrayList<Tipo>();
 
 		try {
 			Statement stmt = conn.createStatement();
@@ -72,14 +72,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listTipo;
 	}
 	
-	public ArrayList<Articulo> obtenerTodosArticulos() throws BDException{
+	public List<Articulo> obtenerTodosArticulos(boolean archivo) throws BDException{
 		
-		ArrayList<Articulo> listArticulo = new ArrayList<Articulo>();
+		List<Articulo> listArticulo = new ArrayList<Articulo>();
 
 		try {
-			String sql = "SELECT * FROM Articulo";
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			String sql = "SELECT * FROM Articulo WHERE Ar_archivo = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, archivo);
+			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticulo.add(new Articulo(
 						rs.getInt("Ar_id"),
@@ -88,7 +89,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("Ar_identificador"),
 						rs.getBoolean("Ar_estado"),
 						obtenerTipoPorId(rs.getInt("fk_tipo")),
-						obtenerTemaPorId(rs.getInt("fk_tema"))
+						obtenerTemaPorId(rs.getInt("fk_tema")),
+						rs.getBoolean("Ar_archivo")
 						));
 			}
 		}
@@ -98,14 +100,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listArticulo;
 	}
 
-	public ArrayList<VideoJuego> obtenerTodosVideoJuegos() throws BDException{
+	public List<VideoJuego> obtenerTodosVideoJuegos(boolean archivo) throws BDException{
 		
-		ArrayList<VideoJuego> listVideoJuego = new ArrayList<VideoJuego>();
+		List<VideoJuego> listVideoJuego = new ArrayList<VideoJuego>();
 
 		try {
-			String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
+			String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje = ? AND Ar_archivo = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "Video juego");
+			stmt.setBoolean(2, archivo);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listVideoJuego.add(new VideoJuego(
@@ -116,7 +119,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getBoolean("Ar_estado"),
 						rs.getString("Ar_plataforma"),
 						obtenerTipoPorId(rs.getInt("fk_tipo")),
-						obtenerTemaPorId(rs.getInt("fk_tema"))
+						obtenerTemaPorId(rs.getInt("fk_tema")),
+						rs.getBoolean("Ar_archivo")
 						));
 			}
 		}
@@ -126,14 +130,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listVideoJuego;
 	}
 
-	public ArrayList<Libro> obtenerTodosLibros() throws BDException{
+	public List<Libro> obtenerTodosLibros(boolean archivo) throws BDException{
 	
-	ArrayList<Libro> listLibro = new ArrayList<Libro>();
+	List<Libro> listLibro = new ArrayList<Libro>();
 
 	try {
-		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
+		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =? AND Ar_archivo = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "Libro");
+		stmt.setBoolean(2, archivo);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			listLibro.add(new Libro(
@@ -144,7 +149,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 					rs.getBoolean("Ar_estado"),
 					rs.getInt("Ar_numeroPaginas"),
 					obtenerTipoPorId(rs.getInt("fk_tipo")),
-					obtenerTemaPorId(rs.getInt("fk_tema"))
+					obtenerTemaPorId(rs.getInt("fk_tema")),
+					rs.getBoolean("Ar_archivo")
 					));
 		}
 	}
@@ -154,14 +160,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 	return listLibro;
 }
 
-	public ArrayList<DVD> obtenerTodosDVDs() throws BDException{
+	public List<DVD> obtenerTodosDVDs(boolean archivo) throws BDException{
 	
-	ArrayList<DVD> listDVD = new ArrayList<DVD>();
+	List<DVD> listDVD = new ArrayList<DVD>();
 
 	try {
-		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
+		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =? AND Ar_archivo = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "DVD");
+		stmt.setBoolean(2, archivo);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			listDVD.add(new DVD(
@@ -172,7 +179,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 					rs.getBoolean("Ar_estado"),
 					rs.getString("Ar_qualidad"),
 					obtenerTipoPorId(rs.getInt("fk_tipo")),
-					obtenerTemaPorId(rs.getInt("fk_tema"))
+					obtenerTemaPorId(rs.getInt("fk_tema")),
+					rs.getBoolean("Ar_archivo")
 					));
 		}
 	}
@@ -182,14 +190,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 	return listDVD;
 }
 
-	public ArrayList<CD> obtenerTodosCDs() throws BDException{
+	public List<CD> obtenerTodosCDs(boolean archivo) throws BDException{
 	
-	ArrayList<CD> listCD = new ArrayList<CD>();
+	List<CD> listCD = new ArrayList<CD>();
 
 	try {		
-		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =?";
+		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =? AND Ar_archivo = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "CD");
+		stmt.setBoolean(2, archivo);
 		ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listCD.add(new CD(
@@ -200,7 +209,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 					rs.getBoolean("Ar_estado"),
 					rs.getInt("Ar_numeroPistas"),
 					obtenerTipoPorId(rs.getInt("fk_tipo")),
-					obtenerTemaPorId(rs.getInt("fk_tema"))
+					obtenerTemaPorId(rs.getInt("fk_tema")),
+					rs.getBoolean("Ar_archivo")
 					));
 		}
 	}
@@ -210,14 +220,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 	return listCD;
 }
 
-	public ArrayList<Cliente> obtenerTodosClientes() throws BDException{
+	public List<Cliente> obtenerTodosClientes(boolean archivo) throws BDException{
 		
-		ArrayList<Cliente> listCliente = new ArrayList<Cliente>();
+		List<Cliente> listCliente = new ArrayList<Cliente>();
 
 		try {
-			String sql = "SELECT * FROM Cliente";
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			String sql = "SELECT * FROM Cliente WHERE Cl_archivo = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, archivo);
+			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listCliente.add(new Cliente(
 						rs.getInt("Cl_id"),
@@ -227,7 +238,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("Cl_direccion"),
 						rs.getString("Cl_email"),
 						rs.getString("Cl_inicioSuscripcion"),
-						rs.getString("Cl_finSuscripcion")
+						rs.getString("Cl_finSuscripcion"),
+						rs.getBoolean("Cl_archivo")
 						));
 			}
 		}
@@ -237,14 +249,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listCliente;
 	}
 	
-	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientes() throws BDException{
+	public List<ArticuloToCliente> obtenerTodosArticulosToClientes(boolean archivo) throws BDException{
 		
-		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
+		List<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
-			String sql = "SELECT * FROM ArticuloToCliente";
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			String sql = "SELECT * FROM ArticuloToCliente WHERE At_archivo = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, archivo);
+			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticuloToCliente.add(new ArticuloToCliente(
 						rs.getInt("At_id"),
@@ -252,7 +265,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("At_fechaPlanificadaDevolucion"),
 						rs.getString("At_fechaRealDevolucion"),
 						obtenerClientePorId(rs.getInt("fk_cliente")),
-						obtenerArticuloPorId(rs.getInt("fk_articulo"))
+						obtenerArticuloPorId(rs.getInt("fk_articulo")),
+						rs.getBoolean("At_archivo")
 						));
 			}
 		}
@@ -264,14 +278,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	// Solicitud para obtener un objecto de tipo Articulo segun un Tema o un Tipo
 	
-	public ArrayList<Articulo> obtenerTodosArticulosPorTema(int idTema) throws BDException{
+	public List<Articulo> obtenerTodosArticulosPorTema(int idTema, boolean archivo) throws BDException{
 		
-		ArrayList<Articulo> listArticulo = new ArrayList<Articulo>();
+		List<Articulo> listArticulo = new ArrayList<Articulo>();
 
 		try {
-			String sql = "SELECT * FROM Articulo WHERE fk_tema=?";
+			String sql = "SELECT * FROM Articulo WHERE fk_tema=? AND Ar_archivo = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idTema);
+			stmt.setBoolean(2, archivo);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticulo.add(new Articulo(
@@ -281,7 +296,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("Ar_identificador"),
 						rs.getBoolean("Ar_estado"),
 						obtenerTipoPorId(rs.getInt("fk_tipo")),
-						obtenerTemaPorId(rs.getInt("fk_tema"))
+						obtenerTemaPorId(rs.getInt("fk_tema")),
+						rs.getBoolean("Ar_archivo")
 						));
 			}
 		}
@@ -291,14 +307,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listArticulo;
 	}
 
-	public ArrayList<Articulo> obtenerTodosArticulosPorTipo(int idTipo) throws BDException{
+	public List<Articulo> obtenerTodosArticulosPorTipo(int idTipo, boolean archivo) throws BDException{
 		
-		ArrayList<Articulo> listArticulo = new ArrayList<Articulo>();
+		List<Articulo> listArticulo = new ArrayList<Articulo>();
 
 		try {
-			String sql = "SELECT * FROM Articulo WHERE fk_tipo=?";
+			String sql = "SELECT * FROM Articulo WHERE fk_tipo=? AND Ar_archivo = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idTipo);
+			stmt.setBoolean(2, archivo);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticulo.add(new Articulo(
@@ -308,7 +325,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("Ar_identificador"),
 						rs.getBoolean("Ar_estado"),
 						obtenerTipoPorId(rs.getInt("fk_tipo")),
-						obtenerTemaPorId(rs.getInt("fk_tema"))
+						obtenerTemaPorId(rs.getInt("fk_tema")),
+						rs.getBoolean("Ar_archivo")
 						));
 			}
 		}
@@ -318,15 +336,16 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listArticulo;
 	}
 
-	public ArrayList<Articulo> obtenerTodosArticulosPorTemaYTipo(int idTema, int idTipo) throws BDException{
+	public List<Articulo> obtenerTodosArticulosPorTemaYTipo(int idTema, int idTipo, boolean archivo) throws BDException{
 		
-		ArrayList<Articulo> listArticulo = new ArrayList<Articulo>();
+		List<Articulo> listArticulo = new ArrayList<Articulo>();
 
 		try {
-			String sql = "SELECT * FROM Articulo WHERE fk_tema=? AND fk_tipo=?";
+			String sql = "SELECT * FROM Articulo WHERE fk_tema=? AND fk_tipo=? AND Ar_archivo = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idTema);
 			stmt.setInt(2, idTipo);
+			stmt.setBoolean(3, archivo);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticulo.add(new Articulo(
@@ -336,7 +355,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("Ar_identificador"),
 						rs.getBoolean("Ar_estado"),
 						obtenerTipoPorId(rs.getInt("fk_tipo")),
-						obtenerTemaPorId(rs.getInt("fk_tema"))
+						obtenerTemaPorId(rs.getInt("fk_tema")),
+						rs.getBoolean("Ar_archivo")
 						));
 			}
 		}
@@ -346,14 +366,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listArticulo;
 	}
 
-	public ArrayList<Articulo> obtenerTodosArticulosPorEstado(boolean estado) throws BDException{
+	public List<Articulo> obtenerTodosArticulosPorEstado(boolean estado, boolean archivo) throws BDException{
 		
-		ArrayList<Articulo> listArticulos = new ArrayList<Articulo>();
+		List<Articulo> listArticulos = new ArrayList<Articulo>();
 
 		try {
-			String sql = "SELECT * FROM Articulo WHERE Ar_estado = ?";
+			String sql = "SELECT * FROM Articulo WHERE Ar_estado = ? AND Ar_archivo = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setBoolean(1, estado);
+			stmt.setBoolean(2, archivo);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticulos.add(new Articulo(
@@ -363,7 +384,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("Ar_identificador"),
 						rs.getBoolean("Ar_estado"),
 						obtenerTipoPorId(rs.getInt("fk_tipo")),
-						obtenerTemaPorId(rs.getInt("fk_tema"))
+						obtenerTemaPorId(rs.getInt("fk_tema")),
+						rs.getBoolean("Ar_archivo")
 						));
 			}
 		}
@@ -375,14 +397,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	// Solicitud para obtener un objecto de tipo ArticuloToClientes segun un Cliente o un Articulo
 	
-	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorCliente(int idCliente) throws BDException{
+	public List<ArticuloToCliente> obtenerTodosArticulosToClientePorCliente(int idCliente, boolean archivo) throws BDException{
 		
-		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
+		List<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
-			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_cliente=?";
+			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_cliente=? AND At_archivo = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idCliente);
+			stmt.setBoolean(2, archivo);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticuloToCliente.add(new ArticuloToCliente(
@@ -391,7 +414,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("At_fechaPlanificadaDevolucion"),
 						rs.getString("At_fechaRealDevolucion"),
 						obtenerClientePorId(rs.getInt("fk_cliente")),
-						obtenerArticuloPorId(rs.getInt("fk_articulo"))
+						obtenerArticuloPorId(rs.getInt("fk_articulo")),
+						rs.getBoolean("At_archivo")
 						));
 			}
 		}
@@ -401,14 +425,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listArticuloToCliente;
 	}
 	
-	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorArticulo(int idArticulo) throws BDException{
+	public List<ArticuloToCliente> obtenerTodosArticulosToClientePorArticulo(int idArticulo, boolean archivo) throws BDException{
 		
-		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
+		List<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
-			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_articulo=?";
+			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_articulo=? AND Ar_archivo = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idArticulo);
+			stmt.setBoolean(2, archivo);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticuloToCliente.add(new ArticuloToCliente(
@@ -417,7 +442,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("At_fechaPlanificadaDevolucion"),
 						rs.getString("At_fechaRealDevolucion"),
 						obtenerClientePorId(rs.getInt("fk_cliente")),
-						obtenerArticuloPorId(rs.getInt("fk_articulo"))
+						obtenerArticuloPorId(rs.getInt("fk_articulo")),
+						rs.getBoolean("At_archivo")
 						));
 			}
 		}
@@ -427,15 +453,16 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return listArticuloToCliente;
 	}
 	
-	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorArticuloYCliente(int idArticulo, int idCliente) throws BDException{
+	public List<ArticuloToCliente> obtenerTodosArticulosToClientePorArticuloYCliente(int idArticulo, int idCliente, boolean archivo) throws BDException{
 		
-		ArrayList<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
+		List<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
-			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_articulo=? AND fk_cliente=?";
+			String sql = "SELECT * FROM ArticuloToCliente WHERE fk_articulo=? AND fk_cliente=? AND Ar_archivo = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idArticulo);
 			stmt.setInt(2, idCliente);
+			stmt.setBoolean(3, archivo);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listArticuloToCliente.add(new ArticuloToCliente(
@@ -444,7 +471,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("At_fechaPlanificadaDevolucion"),
 						rs.getString("At_fechaRealDevolucion"),
 						obtenerClientePorId(rs.getInt("fk_cliente")),
-						obtenerArticuloPorId(rs.getInt("fk_articulo"))
+						obtenerArticuloPorId(rs.getInt("fk_articulo")),
+						rs.getBoolean("At_archivo")
 						));
 			}
 		}
@@ -517,7 +545,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("Ar_identificador"),
 						rs.getBoolean("Ar_estado"),
 						obtenerTipoPorId(rs.getInt("fk_tipo")),
-						obtenerTemaPorId(rs.getInt("fk_tema"))
+						obtenerTemaPorId(rs.getInt("fk_tema")),
+						rs.getBoolean("Ar_archivo")
 						));
 			}
 		}
@@ -545,7 +574,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getBoolean("Ar_estado"),
 						rs.getString("Ar_plataforma"),
 						obtenerTipoPorId(rs.getInt("fk_tipo")),
-						obtenerTemaPorId(rs.getInt("fk_tema"))
+						obtenerTemaPorId(rs.getInt("fk_tema")),
+						rs.getBoolean("Ar_archivo")
 						));
 			}
 		}
@@ -573,7 +603,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 					rs.getBoolean("Ar_estado"),
 					rs.getInt("Ar_numeroPaginas"),
 					obtenerTipoPorId(rs.getInt("fk_tipo")),
-					obtenerTemaPorId(rs.getInt("fk_tema"))
+					obtenerTemaPorId(rs.getInt("fk_tema")),
+					rs.getBoolean("Ar_archivo")
 					));
 		}
 	}
@@ -601,7 +632,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 					rs.getBoolean("Ar_estado"),
 					rs.getString("Ar_qualidad"),
 					obtenerTipoPorId(rs.getInt("fk_tipo")),
-					obtenerTemaPorId(rs.getInt("fk_tema"))
+					obtenerTemaPorId(rs.getInt("fk_tema")),
+					rs.getBoolean("Ar_archivo")
 					));
 		}
 	}
@@ -629,7 +661,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 					rs.getBoolean("Ar_estado"),
 					rs.getInt("Ar_numeroPistas"),
 					obtenerTipoPorId(rs.getInt("fk_tipo")),
-					obtenerTemaPorId(rs.getInt("fk_tema"))
+					obtenerTemaPorId(rs.getInt("fk_tema")),
+					rs.getBoolean("Ar_archivo")
 					));
 		}
 	}
@@ -657,7 +690,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("Cl_direccion"),
 						rs.getString("Cl_email"),
 						rs.getString("Cl_inicioSuscripcion"),
-						rs.getString("Cl_finSuscripcion")
+						rs.getString("Cl_finSuscripcion"),
+						rs.getBoolean("Cl_archivo")
 						));
 			}
 		}
@@ -683,7 +717,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 						rs.getString("At_fechaPlanificadaDevolucion"),
 						rs.getString("At_fechaRealDevolucion"),
 						obtenerClientePorId(rs.getInt("fk_cliente")),
-						obtenerArticuloPorId(rs.getInt("fk_articulo"))
+						obtenerArticuloPorId(rs.getInt("fk_articulo")),
+						rs.getBoolean("At_archivo")
 						));
 			}
 		}
@@ -698,7 +733,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 	public void anadirCliente(Cliente cliente) throws BDException{
 		
 		try {
-			String sql = "INSERT INTO Cliente(Cl_nombre, Cl_apellido, Cl_telefono, Cl_direccion, Cl_email, Cl_inicioSuscripcion, Cl_finSuscripcion) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO Cliente(Cl_nombre, Cl_apellido, Cl_telefono, Cl_direccion, Cl_email, Cl_inicioSuscripcion, Cl_finSuscripcion, Cl_archivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cliente.getNombre());
 			stmt.setString(2, cliente.getApellido());
@@ -707,6 +742,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 			stmt.setString(5, cliente.getEmail());
 			stmt.setString(6, cliente.getInicioSuscripcion());
 			stmt.setString(7, cliente.getFinSuscripcion());
+			stmt.setBoolean(8, cliente.isArchivo());
 			
 			stmt.executeUpdate();
 		}
@@ -719,7 +755,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 	public void modificarCliente(Cliente cliente) throws BDException{
 		
 		try {
-			String sql = "UPDATE Cliente SET Cl_nombre = ?, Cl_apellido = ?, Cl_telefono = ?, Cl_direccion = ?, Cl_email = ?, Cl_inicioSuscripcion = ?, Cl_finSuscripcion = ? WHERE Cl_id = ?";
+			String sql = "UPDATE Cliente SET Cl_nombre = ?, Cl_apellido = ?, Cl_telefono = ?, Cl_direccion = ?, Cl_email = ?, Cl_inicioSuscripcion = ?, Cl_finSuscripcion = ?, Cl_archivo = ? WHERE Cl_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cliente.getNombre());
 			stmt.setString(2, cliente.getApellido());
@@ -728,7 +764,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 			stmt.setString(5, cliente.getEmail());
 			stmt.setString(6, cliente.getInicioSuscripcion());
 			stmt.setString(7, cliente.getFinSuscripcion());
-			stmt.setInt(8, cliente.getId());
+			stmt.setBoolean(8, cliente.isArchivo());
+			stmt.setInt(9, cliente.getId());
 			
 			stmt.executeUpdate();
 		}
@@ -738,12 +775,14 @@ public class DatabaseRequests implements IDatabaseRequests{
 		
 	}
 	
-	public void borrarCliente(int idCliente) throws BDException{
+	public void archivarCliente(int idCliente) throws BDException{
 			
 		try {
-			String sql = "DELETE FROM Cliente WHERE Cl_id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);				
-			stmt.setInt(1, idCliente);
+			
+			String sql = "UPDATE Cliente SET Cl_archivo = ? WHERE Cl_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, true);
+			stmt.setInt(2, idCliente);
 			stmt.executeUpdate();
 		}
 		catch (SQLException e) {				
@@ -754,12 +793,14 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	// Methodos por la gestion de DVD
 	
-	public void borrarDvd(int idDVD) throws BDException{
+	public void archivarDvd(int idDVD) throws BDException{
 		
 		try {
-			String sql = "DELETE FROM Articulo WHERE Ar_id = ?";
+			String sql = "UPDATE Articulo SET Ar_archivo = ? WHERE Ar_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1,  idDVD);
+			stmt.setBoolean(1, true);
+			stmt.setInt(2, idDVD);
+			stmt.executeUpdate();
 			
 			stmt.executeUpdate();
 			
@@ -773,14 +814,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 	public void modificarDvd(DVD dvd) throws BDException{
 		
 		try {
-			String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, fk_tema = ?, Ar_qualidad = ? WHERE Ar_id = ?";
+			String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, fk_tema = ?, Ar_archivo = ?, Ar_qualidad = ? WHERE Ar_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, dvd.getTitulo());
 			stmt.setString(2, dvd.getAutor());
 			stmt.setString(3, dvd.getIdentificador());
 			stmt.setInt(4, dvd.getUnTema().getId());
-			stmt.setString(5, dvd.getQualidad());
-			stmt.setInt(6, dvd.getId());
+			stmt.setBoolean(5, dvd.isArchivo());
+			stmt.setString(6, dvd.getQualidad());
+			stmt.setInt(7, dvd.getId());
 			
 			stmt.executeUpdate();
 		}
@@ -792,15 +834,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	// Methodos por la gestion de CD
 	
-	public void borrarCd(int idCD) throws BDException{
+	
+	public void archivarCd(int idCD) throws BDException{
 		
 		try {
-			String sql = "DELETE FROM Articulo WHERE Ar_id = ?";
+			String sql = "UPDATE Articulo SET Ar_archivo = ? WHERE Ar_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1,  idCD);
-			
+			stmt.setBoolean(1, true);
+			stmt.setInt(2, idCD);
 			stmt.executeUpdate();
-			
 		} 
 		catch (SQLException e) {
 			throw new BDException("No se pudo modificar el CD en la DB", e);
@@ -808,17 +850,19 @@ public class DatabaseRequests implements IDatabaseRequests{
 		
 	}
 	
+	
 	public void modificarCd(CD cd) throws BDException{
 		
 		try {
-			String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, fk_tema = ?, Ar_numeroPistas = ? WHERE Ar_id = ?";
+			String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, fk_tema = ?, Ar_archivo = ?, Ar_numeroPistas = ? WHERE Ar_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cd.getTitulo());
 			stmt.setString(2, cd.getAutor());
 			stmt.setString(3, cd.getIdentificador());
 			stmt.setInt(4, cd.getUnTema().getId());
-			stmt.setInt(5, cd.getNumeroPistas());
-			stmt.setInt(6, cd.getId());
+			stmt.setBoolean(5, cd.isArchivo());
+			stmt.setInt(6, cd.getNumeroPistas());
+			stmt.setInt(7, cd.getId());
 			
 			stmt.executeUpdate();
 		}
@@ -830,15 +874,17 @@ public class DatabaseRequests implements IDatabaseRequests{
 
 	// Methodos por la prestacion de articulos
 	
+	
 	public void anadirPrestacion(ArticuloToCliente atc) throws BDException{
 		
 		try {
-			String sqlAnadir = "INSERT INTO ArticuloToCliente(At_fechaPrestamo, At_fechaPlanificadaDevolucion, fk_cliente, fk_articulo) VALUES(?, ?, ?, ?)";
+			String sqlAnadir = "INSERT INTO ArticuloToCliente(At_fechaPrestamo, At_fechaPlanificadaDevolucion, fk_cliente, fk_articulo, At_archivo) VALUES(?, ?, ?, ?, ?)";
 			PreparedStatement stmtAnadir = conn.prepareStatement(sqlAnadir);
 			stmtAnadir.setString(1, atc.getFechaPrestamo());
 			stmtAnadir.setString(2, atc.getFechaPanificadaDevolucion());
 			stmtAnadir.setInt(3, atc.getUnCliente().getId());
 			stmtAnadir.setInt(4, atc.getUnArticulo().getId());
+			stmtAnadir.setBoolean(5, atc.isArchivo());
 			
 			String sqlModificar = "UPDATE Articulo SET Ar_estado = false WHERE Ar_id = ?";
 			PreparedStatement stmtModificar = conn.prepareStatement(sqlModificar);
@@ -852,6 +898,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 		}
 		
 	}
+	
 	
 	public void modificarPrestacion(ArticuloToCliente atc) throws BDException{
 		
@@ -867,14 +914,15 @@ public class DatabaseRequests implements IDatabaseRequests{
 				atc.getUnArticulo().setEstado(false);
 			}
 			
-			String sqlAnadir = "UPDATE ArticuloToCliente SET At_fechaPrestamo = ?, At_fechaPlanificadaDevolucion = ?, fk_cliente = ?, fk_articulo = ?, At_fechaRealDevolucion = ? WHERE At_id = ?";
+			String sqlAnadir = "UPDATE ArticuloToCliente SET At_fechaPrestamo = ?, At_fechaPlanificadaDevolucion = ?, fk_cliente = ?, fk_articulo = ?, At_fechaRealDevolucion = ?, At_archivo = ? WHERE At_id = ?";
 			PreparedStatement stmtAnadir = conn.prepareStatement(sqlAnadir);
 			stmtAnadir.setString(1, atc.getFechaPrestamo());
 			stmtAnadir.setString(2, atc.getFechaPanificadaDevolucion());
 			stmtAnadir.setInt(3, atc.getUnCliente().getId());
 			stmtAnadir.setInt(4, atc.getUnArticulo().getId());
 			stmtAnadir.setString(5, atc.getFechaRealDevolucion());
-			stmtAnadir.setInt(6, atc.getId());
+			stmtAnadir.setBoolean(6, atc.isArchivo());
+			stmtAnadir.setInt(7, atc.getId());
 			
 			String sqlModificar = "UPDATE Articulo SET Ar_estado = ? WHERE Ar_id = ?";
 			PreparedStatement stmtModificar = conn.prepareStatement(sqlModificar);

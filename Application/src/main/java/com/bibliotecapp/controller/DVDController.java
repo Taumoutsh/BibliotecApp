@@ -1,6 +1,7 @@
 package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,11 +28,11 @@ public class DVDController {
 	@RequestMapping("todos")
 	public ModelAndView paginaPrincipal() throws BDException {
 		
-		ArrayList<DVD> todosDVDs = new ArrayList<DVD>();
+		List<DVD> todosDVDs = new ArrayList<DVD>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosDVDs = databaseRequests.obtenerTodosDVDs();
+			todosDVDs = databaseRequests.obtenerTodosDVDs(false);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -48,8 +49,8 @@ public class DVDController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		DVD unDVD = databaseRequests.obtenerDVDPorId(idDVD);
 		
-		ArrayList<Tipo> tipos = databaseRequests.obtenerTodosTipos();
-		ArrayList<Tema> temas = databaseRequests.obtenerTodosTemas();
+		List<Tipo> tipos = databaseRequests.obtenerTodosTipos();
+		List<Tema> temas = databaseRequests.obtenerTodosTemas();
 		
 		ModelAndView mv = new ModelAndView("dvds/modificardvd", "command", new DVD());
 		mv.addObject("temas", temas);
@@ -70,7 +71,7 @@ public class DVDController {
 	public String borrarDvd(@RequestParam("id") String idDvdString) throws BDException {
 		int idDVD = Integer.valueOf(idDvdString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
-		databaseRequests.borrarDvd(idDVD);
+		databaseRequests.archivarDvd(idDVD);
 		
 		return "redirect:todos";
 	}

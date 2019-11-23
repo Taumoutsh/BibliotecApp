@@ -11,8 +11,8 @@ public class CD extends Articulo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CD(int id, String titulo, String autor, String identificador, boolean estado, int numeroPistas, Tipo unTipo, Tema unTema) {
-		super(id, titulo, autor, identificador, estado, unTipo, unTema);
+	public CD(int id, String titulo, String autor, String identificador, boolean estado, int numeroPistas, Tipo unTipo, Tema unTema, boolean archivo) {
+		super(id, titulo, autor, identificador, estado, unTipo, unTema, archivo);
 		this.numeroPistas = numeroPistas;
 		// TODO Auto-generated constructor stub
 	}

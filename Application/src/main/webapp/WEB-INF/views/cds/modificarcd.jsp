@@ -45,7 +45,23 @@
 		         <tr>    
 		          <td>Numero pistas :</td>    
 		          <td><form:input path="numeroPistas" value="${cd.getNumeroPistas()}" class="form-control"/></td>  
-		         </tr> 
+		         </tr>
+		         <tr>    
+		          <td>Archivar :</td>
+		          <td>
+		          <c:choose>
+					    <c:when test="${cd.isArchivo() == true}">
+					        <form:radiobutton path="archivo" value="1" checked="checked" />Si /
+					  		<form:radiobutton path="archivo" value="0"/>No
+					    </c:when>    
+					    <c:otherwise>
+					        <form:radiobutton path="archivo" value="1"/>Si /
+					  		<form:radiobutton path="archivo" value="0" checked="checked" />No 
+					    </c:otherwise>
+					</c:choose>
+				  </td> 
+		         </tr>
+		         <tr> 
 		         <tr>     
 		          <td colspan="2"><input type="submit" value="Modificar" class="btn btn-primary mt-3"/></td>    
 		         </tr>    

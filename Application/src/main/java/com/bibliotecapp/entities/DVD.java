@@ -11,8 +11,8 @@ public class DVD extends Articulo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DVD(int id, String titulo, String autor, String identificador, boolean estado, String qualidad, Tipo unTipo, Tema unTema) {
-		super(id, titulo, autor, identificador, estado, unTipo, unTema);
+	public DVD(int id, String titulo, String autor, String identificador, boolean estado, String qualidad, Tipo unTipo, Tema unTema, boolean archivo) {
+		super(id, titulo, autor, identificador, estado, unTipo, unTema, archivo);
 		this.qualidad = qualidad;
 		// TODO Auto-generated constructor stub
 	}

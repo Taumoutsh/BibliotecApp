@@ -1,6 +1,7 @@
 package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,11 +28,11 @@ public class CDController {
 	@RequestMapping("todos")
 	public ModelAndView paginaPrincipal() throws BDException {
 		
-		ArrayList<CD> todosCDs = new ArrayList<CD>();
+		List<CD> todosCDs = new ArrayList<CD>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosCDs = databaseRequests.obtenerTodosCDs();
+			todosCDs = databaseRequests.obtenerTodosCDs(false);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -48,8 +49,8 @@ public class CDController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		CD unCD = databaseRequests.obtenerCDPorId(idCD);
 		
-		ArrayList<Tipo> tipos = databaseRequests.obtenerTodosTipos();
-		ArrayList<Tema> temas = databaseRequests.obtenerTodosTemas();
+		List<Tipo> tipos = databaseRequests.obtenerTodosTipos();
+		List<Tema> temas = databaseRequests.obtenerTodosTemas();
 		
 		ModelAndView mv = new ModelAndView("cds/modificarcd", "command", new CD());
 		mv.addObject("temas", temas);
@@ -70,8 +71,25 @@ public class CDController {
 	public String borrarCd(@RequestParam("id") String idCdString) throws BDException {
 		int idCD = Integer.valueOf(idCdString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
-		databaseRequests.borrarCd(idCD);
+		databaseRequests.archivarCd(idCD);
 		
 		return "redirect:todos";
+	}
+	
+	@RequestMapping("archivos")
+	public ModelAndView cdArchivos() throws BDException {
+		
+		List<CD> todosCDs = new ArrayList<CD>();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		try {
+			todosCDs = databaseRequests.obtenerTodosCDs(true);
+		} catch (BDException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("cds/cds");
+		mv.addObject("todosCDs", todosCDs);
+		return mv;
 	}
 }

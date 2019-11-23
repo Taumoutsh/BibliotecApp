@@ -46,7 +46,22 @@
 		         <tr>    
 		          <td>Fin suscripcion :</td>    
 		          <td><form:input type="date" path="finSuscripcion" value="${cliente.getFinSuscripcion()}" class="form-control"/></td>  
-		         </tr>    
+		         </tr>
+		         <tr>    
+		          <td>Archivar :</td>
+		          <td>
+		          <c:choose>
+					    <c:when test="${cliente.isArchivo() == true}">
+					        <form:radiobutton path="archivo" value="1" checked="checked" />Si /
+					  		<form:radiobutton path="archivo" value="0"/>No
+					    </c:when>    
+					    <c:otherwise>
+					        <form:radiobutton path="archivo" value="1"/>Si /
+					  		<form:radiobutton path="archivo" value="0" checked="checked" />No 
+					    </c:otherwise>
+					</c:choose>
+				  </td> 
+		         </tr>   
 		          <td colspan="2"><input type="submit" value="Modificar" class="btn btn-primary mt-3"/></td>    
 		         </tr>    
 		        </table>    

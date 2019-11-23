@@ -22,12 +22,13 @@ public class Articulo implements Serializable  {
 	private boolean estado;
 	private Tipo unTipo;
 	private Tema unTema;
+	private boolean archivo;
 	
 	public Articulo() {
 	}
 	
 	public Articulo(int id, String titulo, String autor, String identificador, boolean estado, Tipo unTipo,
-			Tema unTema) {
+			Tema unTema, boolean archivo) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
@@ -36,6 +37,7 @@ public class Articulo implements Serializable  {
 		this.estado = estado;
 		this.unTipo = unTipo;
 		this.unTema = unTema;
+		this.archivo = archivo;
 	}
 	
 	@Id
@@ -97,5 +99,15 @@ public class Articulo implements Serializable  {
 	public void setUnTipo(Tipo unTipo) {
 		this.unTipo = unTipo;
 	}
+	
+	@Column(name="Ar_archivo")
+	public boolean isArchivo() {
+		return archivo;
+	}
+
+	public void setArchivo(boolean archivo) {
+		this.archivo = archivo;
+	}
+	
 	
 }

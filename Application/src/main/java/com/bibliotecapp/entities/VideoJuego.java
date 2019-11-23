@@ -10,8 +10,8 @@ public class VideoJuego extends Articulo {
 		super();
 	}
 
-	public VideoJuego(int id, String titulo, String autor, String identificador, boolean estado, String plataforma, Tipo unTipo, Tema unTema) {
-		super(id, titulo, autor, identificador, estado, unTipo, unTema);
+	public VideoJuego(int id, String titulo, String autor, String identificador, boolean estado, String plataforma, Tipo unTipo, Tema unTema, boolean archivo) {
+		super(id, titulo, autor, identificador, estado, unTipo, unTema, archivo);
 		this.plataforma = plataforma;
 	}
 

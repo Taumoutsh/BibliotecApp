@@ -46,7 +46,22 @@
 		          <td>Qualidad :</td>    
 		          <td><form:input path="qualidad" value="${dvd.getQualidad()}" class="form-control"/></td>  
 		         </tr> 
-		         <tr>     
+		         <tr> 
+		         <tr>    
+		          <td>Archivar :</td>
+		          <td>
+		          <c:choose>
+					    <c:when test="${dvd.isArchivo() == true}">
+					        <form:radiobutton path="archivo" value="1" checked="checked" />Si /
+					  		<form:radiobutton path="archivo" value="0"/>No
+					    </c:when>    
+					    <c:otherwise>
+					        <form:radiobutton path="archivo" value="1"/>Si /
+					  		<form:radiobutton path="archivo" value="0" checked="checked" />No 
+					    </c:otherwise>
+					</c:choose>
+				  </td> 
+		         </tr>    
 		          <td colspan="2"><input type="submit" value="Modificar" class="btn btn-primary mt-3"/></td>    
 		         </tr>    
 		        </table>    

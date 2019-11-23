@@ -11,8 +11,8 @@ public class Libro extends Articulo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Libro(int id, String titulo, String autor, String identificador, boolean estado, int numeroPaginas, Tipo unTipo, Tema unTema) {
-		super(id, titulo, autor, identificador, estado, unTipo, unTema);
+	public Libro(int id, String titulo, String autor, String identificador, boolean estado, int numeroPaginas, Tipo unTipo, Tema unTema, boolean archivo) {
+		super(id, titulo, autor, identificador, estado, unTipo, unTema, archivo);
 		this.numeroPaginas = numeroPaginas;
 		// TODO Auto-generated constructor stub
 	}

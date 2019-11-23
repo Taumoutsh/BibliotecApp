@@ -46,7 +46,7 @@ public class ClienteController {
 			logger.setLevel(Level.INFO);
 			logger.info("BIBLIOTEC'APP LOGGER - Recupera clientes de la base de datos");
 			
-			todosClientes = databaseRequests.obtenerTodosClientes();
+			todosClientes = databaseRequests.obtenerTodosClientes(false);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -135,7 +135,7 @@ public class ClienteController {
 	public String borrarCliente(@RequestParam("id") String idClienteString) throws BDException {
 		int idCliente = Integer.valueOf(idClienteString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
-		databaseRequests.borrarCliente(idCliente);
+		databaseRequests.archivarCliente(idCliente);
 		
 		logger.setLevel(Level.INFO);
 		logger.info("BIBLIOTEC'APP LOGGER - Borra el cliente con el identificador "+idCliente+" de la base de datos");
@@ -151,7 +151,7 @@ public class ClienteController {
 		int idCliente = Integer.valueOf(idClienteString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		Cliente cliente = databaseRequests.obtenerClientePorId(idCliente);
-		articulosToClientePorCliente = databaseRequests.obtenerTodosArticulosToClientePorCliente(idCliente);
+		articulosToClientePorCliente = databaseRequests.obtenerTodosArticulosToClientePorCliente(idCliente, false);
 		
 		DateFormat dateFormatTitulo = new SimpleDateFormat("yyyyMMdd-HHmmss");
 		DateFormat dateFormatContent = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");

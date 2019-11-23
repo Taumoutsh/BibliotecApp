@@ -1,6 +1,7 @@
 package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,11 +28,11 @@ public class ArticulosToClienteController {
 	@RequestMapping("todos")
 	public ModelAndView todosArticulosToClientes() throws BDException {
 		
-		ArrayList<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
+		List<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosArticulosToClientes = databaseRequests.obtenerTodosArticulosToClientes();
+			todosArticulosToClientes = databaseRequests.obtenerTodosArticulosToClientes(false);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -44,13 +45,13 @@ public class ArticulosToClienteController {
 	@RequestMapping(value="anadir", method = RequestMethod.GET)
 	public ModelAndView anadirArticuloToCliente() throws BDException {
 		
-		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
-		ArrayList<Cliente> todosClientes = new ArrayList<Cliente>();
+		List<Articulo> todosArticulos = new ArrayList<Articulo>();
+		List<Cliente> todosClientes = new ArrayList<Cliente>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
 		try {
-			todosArticulos = databaseRequests.obtenerTodosArticulosPorEstado(true);
-			todosClientes = databaseRequests.obtenerTodosClientes();
+			todosArticulos = databaseRequests.obtenerTodosArticulosPorEstado(true, false);
+			todosClientes = databaseRequests.obtenerTodosClientes(false);
 			
 		} catch (BDException e) {
 			e.printStackTrace();
@@ -74,14 +75,14 @@ public class ArticulosToClienteController {
 	public ModelAndView modificarArticuloToCliente(@RequestParam("id") String idArticuloToClienteString) throws BDException {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
-		ArrayList<Articulo> todosArticulos = new ArrayList<Articulo>();
-		ArrayList<Cliente> todosClientes = new ArrayList<Cliente>();
+		List<Articulo> todosArticulos = new ArrayList<Articulo>();
+		List<Cliente> todosClientes = new ArrayList<Cliente>();
 		
 		int idArticuloToCliente = Integer.valueOf(idArticuloToClienteString);
 		ArticuloToCliente atc = databaseRequests.obtenerArticuloToClientePorId(idArticuloToCliente);
 		
-		todosArticulos = databaseRequests.obtenerTodosArticulosPorEstado(true);
-		todosClientes = databaseRequests.obtenerTodosClientes();
+		todosArticulos = databaseRequests.obtenerTodosArticulosPorEstado(true, false);
+		todosClientes = databaseRequests.obtenerTodosClientes(false);
 		
 		ModelAndView mv = new ModelAndView("prestamos/modificarArticuloToCliente", "command", new ArticuloToCliente());
 		mv.addObject("ArticuloToCliente", atc);

@@ -21,13 +21,14 @@ public class ArticuloToCliente implements Serializable  {
 	private String fechaRealDevolucion;
 	private Cliente unCliente;
 	private Articulo unArticulo;
+	private boolean archivo;
 	
 	public ArticuloToCliente() {
 		super();
 	}
 
 	public ArticuloToCliente(int id, String fechaPrestamo, String fechaPanificadaDevolucion, String fechaRealDevolucion,
-			Cliente unCliente, Articulo unArticulo) {
+			Cliente unCliente, Articulo unArticulo, boolean archivo) {
 		super();
 		this.id = id;
 		this.fechaPrestamo = fechaPrestamo;
@@ -35,6 +36,7 @@ public class ArticuloToCliente implements Serializable  {
 		this.fechaRealDevolucion = fechaRealDevolucion;
 		this.unCliente = unCliente;
 		this.unArticulo = unArticulo;
+		this.archivo = archivo;
 	}
 
 	@Id
@@ -93,5 +95,14 @@ public class ArticuloToCliente implements Serializable  {
 	public void setUnArticulo(Articulo unArticulo) {
 		this.unArticulo = unArticulo;
 	}
+
+	public boolean isArchivo() {
+		return archivo;
+	}
+
+	public void setArchivo(boolean archivo) {
+		this.archivo = archivo;
+	}
+	
 	
 }

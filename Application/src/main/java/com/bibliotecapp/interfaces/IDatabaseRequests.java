@@ -1,6 +1,6 @@
 package com.bibliotecapp.interfaces;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.bibliotecapp.database.BDException;
 import com.bibliotecapp.entities.Articulo;
@@ -18,24 +18,24 @@ public interface IDatabaseRequests {
 	//Interface of all the requests calling the database
 	//From the class DatabaseRequests
 	
-	public ArrayList<Tema> obtenerTodosTemas() throws BDException;
-	public ArrayList<Tipo> obtenerTodosTipos() throws BDException;
-	public ArrayList<Articulo> obtenerTodosArticulos() throws BDException;
-	public ArrayList<VideoJuego> obtenerTodosVideoJuegos() throws BDException;
-	public ArrayList<Libro> obtenerTodosLibros() throws BDException;
-	public ArrayList<DVD> obtenerTodosDVDs() throws BDException;
-	public ArrayList<CD> obtenerTodosCDs() throws BDException;
-	public ArrayList<Cliente> obtenerTodosClientes() throws BDException;
+	public List<Tema> obtenerTodosTemas() throws BDException;
+	public List<Tipo> obtenerTodosTipos() throws BDException;
+	public List<Articulo> obtenerTodosArticulos(boolean archivo) throws BDException;
+	public List<VideoJuego> obtenerTodosVideoJuegos(boolean archivo) throws BDException;
+	public List<Libro> obtenerTodosLibros(boolean archivo) throws BDException;
+	public List<DVD> obtenerTodosDVDs(boolean archivo) throws BDException;
+	public List<CD> obtenerTodosCDs(boolean archivo) throws BDException;
+	public List<Cliente> obtenerTodosClientes(boolean archivo) throws BDException;
 	
-	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientes() throws BDException;
-	public ArrayList<Articulo> obtenerTodosArticulosPorTema(int idTema) throws BDException;
-	public ArrayList<Articulo> obtenerTodosArticulosPorTipo(int idTipo) throws BDException;
-	public ArrayList<Articulo> obtenerTodosArticulosPorEstado(boolean estado) throws BDException;
-	public ArrayList<Articulo> obtenerTodosArticulosPorTemaYTipo(int idTema, int idTipo) throws BDException;
+	public List<ArticuloToCliente> obtenerTodosArticulosToClientes(boolean archivo) throws BDException;
+	public List<Articulo> obtenerTodosArticulosPorTema(int idTema, boolean archivo) throws BDException;
+	public List<Articulo> obtenerTodosArticulosPorTipo(int idTipo, boolean archivo) throws BDException;
+	public List<Articulo> obtenerTodosArticulosPorEstado(boolean estado, boolean archivo) throws BDException;
+	public List<Articulo> obtenerTodosArticulosPorTemaYTipo(int idTema, int idTipo, boolean archivo) throws BDException;
 	
-	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorCliente(int idCliente) throws BDException;
-	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorArticulo(int idArticulo) throws BDException;
-	public ArrayList<ArticuloToCliente> obtenerTodosArticulosToClientePorArticuloYCliente(int idArticulo, int idCliente) throws BDException;
+	public List<ArticuloToCliente> obtenerTodosArticulosToClientePorCliente(int idCliente, boolean archivo) throws BDException;
+	public List<ArticuloToCliente> obtenerTodosArticulosToClientePorArticulo(int idArticulo, boolean archivo) throws BDException;
+	public List<ArticuloToCliente> obtenerTodosArticulosToClientePorArticuloYCliente(int idArticulo, int idCliente, boolean archivo) throws BDException;
 	
 	public Tema obtenerTemaPorId(int idTema) throws BDException;
 	public Tipo obtenerTipoPorId(int idTipo) throws BDException;
@@ -49,12 +49,12 @@ public interface IDatabaseRequests {
 	
 	public void anadirCliente(Cliente cliente) throws BDException;
 	public void modificarCliente(Cliente cliente) throws BDException;
-	public void borrarCliente(int idCliente) throws BDException;
+	public void archivarCliente(int idCliente) throws BDException;
 	
-	public void borrarDvd(int idDVD) throws BDException;
+	public void archivarDvd(int idDVD) throws BDException;
 	public void modificarDvd(DVD dvd) throws BDException;
 	
-	public void borrarCd(int idCD) throws BDException;
+	public void archivarCd(int idCD) throws BDException;
 	public void modificarCd(CD cd) throws BDException;
 	
 	public void anadirPrestacion(ArticuloToCliente atc) throws BDException;

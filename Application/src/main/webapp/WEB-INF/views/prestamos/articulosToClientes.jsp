@@ -20,7 +20,14 @@
 		
 		<div class="container">
 			<h2>Todos los préstamos</h2>
-			<a class="mb-4" href="${contextPath}/articulosToClientes/anadir"><i class="fas fa-plus"></i> Anadir un préstamo</a>
+			<div class="row justify-content-center">
+				<div class="col-md-3">
+					<a class="mb-4" href="${contextPath}/articulosToClientes/anadir"><i class="fas fa-plus"></i> Anadir un préstamo</a>
+				</div>
+				<div class="col-md-3 offset-md-6">
+					<a class="mb-4" href="${contextPath}/#"><i class="fas fa-archive"></i> Ver los prestamos archivados</a>
+				</div>
+			</div>
 		</div>
 		<div class="container mt-4 ">
 			<table class="table table-striped">
@@ -40,8 +47,7 @@
 					<td>${articuloToCliente.fechaPanificadaDevolucion}</td>
 					<td>${articuloToCliente.fechaRealDevolucion}</td>
 					<td class="text-center"><a href="${contextPath}/articulosToClientes/modificar/?id=${articuloToCliente.id}"><i class="fas fa-edit"></i></a> | 
-					<a href="${contextPath}/articulosToClientes/archivar/?id=${articuloToCliente.id}"><i class="fas fa-archive"></i></a> | 
-					<a href="${contextPath}/articulosToClientes/borrar/?id=${articuloToCliente.id}"><i class="fas fa-trash-alt"></i></a></td>
+					<a href="${contextPath}/articulosToClientes/archivar/?id=${articuloToCliente.id}"><i class="fas fa-archive"></i></a> 
 				</tr>
 			</c:forEach>
 			</table>
