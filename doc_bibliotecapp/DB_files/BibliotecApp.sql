@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `bibliotecapp` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `bibliotecapp`;
 -- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
 --
 -- Host: 127.0.0.1    Database: bibliotecapp
@@ -36,6 +34,7 @@ CREATE TABLE `Articulo` (
   `Ar_qualidad` varchar(255) DEFAULT NULL,
   `Ar_numeroPistas` int(10) DEFAULT NULL,
   `Ar_numeroPaginas` int(10) DEFAULT NULL,
+  `Ar_archivo` bit(1) NOT NULL,
   PRIMARY KEY (`Ar_id`),
   KEY `FKArticulo111904` (`fk_tipo`),
   KEY `FKArticulo238970` (`fk_tema`),
@@ -50,7 +49,7 @@ CREATE TABLE `Articulo` (
 
 LOCK TABLES `Articulo` WRITE;
 /*!40000 ALTER TABLE `Articulo` DISABLE KEYS */;
-INSERT INTO `Articulo` VALUES (1,'Need For Speed','Ubisoft','VJ0001',_binary '',17,4,'PS4',NULL,NULL,NULL),(2,'Ce monde est cruel','Vald','CD0001',_binary '\0',12,2,NULL,NULL,13,NULL),(3,'One More Light','Linkin Park','CD0002',_binary '',7,2,NULL,NULL,15,NULL),(4,'L\'Assomoir','Émile Zola','L0001',_binary '',2,1,NULL,NULL,NULL,420),(5,'League of Legends','Riot Games','VJ0002',_binary '',18,4,'PC',NULL,NULL,NULL),(6,'Interstellar','Christopher Nolan','DVD0001',_binary '\0',2,3,NULL,'Full HD',NULL,NULL),(7,'Lucy','Luc Besson','DVD0002',_binary '',2,3,NULL,'Full HD',NULL,NULL);
+INSERT INTO `Articulo` VALUES (1,'Need For Speed','Ubisoft','VJ0001',_binary '\0',17,4,'PS4',NULL,NULL,NULL,_binary '\0'),(2,'Ce monde est cruel','Vald','CD0001',_binary '\0',12,2,NULL,NULL,13,NULL,_binary '\0'),(3,'One More Light','Linkin Park','CD0002',_binary '',7,2,NULL,NULL,15,NULL,_binary '\0'),(4,'L\'Assomoir','Émile Zola','L0001',_binary '',2,1,NULL,NULL,NULL,420,_binary '\0'),(5,'League of Legends','Riot Games','VJ0002',_binary '',18,4,'PC',NULL,NULL,NULL,_binary '\0'),(6,'Interstellar','Christopher Nolan','DVD0001',_binary '',2,3,NULL,'Full HD',NULL,NULL,_binary '\0'),(7,'Lucy','Luc Besson','DVD0002',_binary '',1,3,NULL,'Full HD',NULL,NULL,_binary '\0');
 /*!40000 ALTER TABLE `Articulo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,12 +67,13 @@ CREATE TABLE `ArticuloToCliente` (
   `At_fechaRealDevolucion` varchar(30) DEFAULT NULL,
   `fk_cliente` int(10) NOT NULL,
   `fk_articulo` int(10) NOT NULL,
+  `At_archivo` bit(1) NOT NULL,
   PRIMARY KEY (`At_id`),
   KEY `FKArticuloTo234304` (`fk_articulo`),
   KEY `FKArticuloTo960803` (`fk_cliente`),
   CONSTRAINT `FKArticuloTo234304` FOREIGN KEY (`fk_articulo`) REFERENCES `articulo` (`Ar_id`),
   CONSTRAINT `FKArticuloTo960803` FOREIGN KEY (`fk_cliente`) REFERENCES `cliente` (`Cl_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,6 +82,7 @@ CREATE TABLE `ArticuloToCliente` (
 
 LOCK TABLES `ArticuloToCliente` WRITE;
 /*!40000 ALTER TABLE `ArticuloToCliente` DISABLE KEYS */;
+INSERT INTO `ArticuloToCliente` VALUES (6,'2019-11-14','2019-11-30','2019-11-18',1,4,_binary '\0'),(7,'18-11-2019','27-11-2019',NULL,2,1,_binary '\0'),(8,'2019-11-20','2020-01-10',NULL,1,2,_binary '\0');
 /*!40000 ALTER TABLE `ArticuloToCliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,8 +102,9 @@ CREATE TABLE `Cliente` (
   `Cl_email` varchar(255) NOT NULL,
   `Cl_inicioSuscripcion` varchar(30) NOT NULL,
   `Cl_finSuscripcion` varchar(30) NOT NULL,
+  `Cl_archivo` bit(1) NOT NULL,
   PRIMARY KEY (`Cl_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +113,7 @@ CREATE TABLE `Cliente` (
 
 LOCK TABLES `Cliente` WRITE;
 /*!40000 ALTER TABLE `Cliente` DISABLE KEYS */;
-INSERT INTO `Cliente` VALUES (1,'Thomas','Sinan',630139975,'18 rue du Calvaire, Saint-André-de-la-Marche','sinan.thomas@opendeusto.es','30-10-2019','30-04-2020'),(2,'Arthur','Aleixo',6789054,'30 rue du la Douceur, Nice','aleixo.arthur@opendeusto.es','01-11-2019','01-01-2020'),(3,'Alexandre','Grenon',675432134,'1 avenue du Carls','alexandre.grenon@opendeusto.es','06-10-2019','06-12-2019');
+INSERT INTO `Cliente` VALUES (1,'Thomas','SINAN',630139975,'18 rue du Calvaire, Saint-Andre-de-la-Marche, 49450','sinan.thomas@opendeusto.es','10-11-2019','10-03-2020',_binary '\0'),(2,'Arthur','ALEIXO',634567890,'18 rue de Nice, Nice','arthur.aleixo@opendeusto.es','10-12-2020','12-04-2020',_binary '\0');
 /*!40000 ALTER TABLE `Cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-02 17:15:20
+-- Dump completed on 2019-11-23 16:39:18
