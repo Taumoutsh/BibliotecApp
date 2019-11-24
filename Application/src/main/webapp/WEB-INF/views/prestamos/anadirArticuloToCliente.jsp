@@ -18,11 +18,11 @@
 	       	<form:form method="post" action="saveAnadir">
 	        	<table>    
 		         <tr>    
-		          <td>Fecha de préstamo (YYYY-MM-DD) : </td>   
+		          <td>Fecha de préstamo (DD-MM-YYYY) : </td>   
 		          <td><form:input path="fechaPrestamo" class="form-control"/></td>  
 		         </tr>    
 		         <tr>    
-		          <td>Fecha planificada de devolucion (YYYY-MM-DD) :</td>    
+		          <td>Fecha planificada de devolucion (DD-MM-YYYY) :</td>    
 		          <td><form:input path="fechaPanificadaDevolucion" class="form-control"/></td>  
 		         </tr>   
 		         <tr>    

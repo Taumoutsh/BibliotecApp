@@ -14,10 +14,6 @@
 		<h1 class="jumbotron">BibliotecApp - Libros</h1>
 		
 		<div class="container">
-			<h2>Buscada personalisada</h2>
-		</div>
-		
-		<div class="container">
 			<h2>Todos los libros</h2>
 		</div>
 		<div class="container mt-4 ">	

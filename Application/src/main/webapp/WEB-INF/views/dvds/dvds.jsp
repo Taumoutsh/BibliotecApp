@@ -14,10 +14,6 @@
 		<h1 class="jumbotron">BibliotecApp - DVDs</h1>
 		
 		<div class="container">
-			<h2>Buscada personalisada</h2>
-		</div>
-		
-		<div class="container">
 			<h2>Todos los DVDs</h2>
 		</div>
 		<div class="container mt-4 ">	

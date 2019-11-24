@@ -2,10 +2,13 @@ package com.bibliotecapp.database;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.bibliotecapp.entities.Articulo;
@@ -254,7 +257,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 		List<ArticuloToCliente> listArticuloToCliente = new ArrayList<ArticuloToCliente>();
 
 		try {
-			String sql = "SELECT * FROM ArticuloToCliente WHERE At_archivo = ?";
+			String sql = "SELECT * FROM ArticuloToCliente WHERE At_archivo = ? ORDER BY At_id DESC";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setBoolean(1, archivo);
 			ResultSet rs = stmt.executeQuery();
@@ -914,15 +917,13 @@ public class DatabaseRequests implements IDatabaseRequests{
 				atc.getUnArticulo().setEstado(false);
 			}
 			
-			String sqlAnadir = "UPDATE ArticuloToCliente SET At_fechaPrestamo = ?, At_fechaPlanificadaDevolucion = ?, fk_cliente = ?, fk_articulo = ?, At_fechaRealDevolucion = ?, At_archivo = ? WHERE At_id = ?";
+			String sqlAnadir = "UPDATE ArticuloToCliente SET At_fechaPrestamo = ?, At_fechaPlanificadaDevolucion = ?, At_fechaRealDevolucion = ?, At_archivo = ? WHERE At_id = ?";
 			PreparedStatement stmtAnadir = conn.prepareStatement(sqlAnadir);
 			stmtAnadir.setString(1, atc.getFechaPrestamo());
 			stmtAnadir.setString(2, atc.getFechaPanificadaDevolucion());
-			stmtAnadir.setInt(3, atc.getUnCliente().getId());
-			stmtAnadir.setInt(4, atc.getUnArticulo().getId());
-			stmtAnadir.setString(5, atc.getFechaRealDevolucion());
-			stmtAnadir.setBoolean(6, atc.isArchivo());
-			stmtAnadir.setInt(7, atc.getId());
+			stmtAnadir.setString(3, atc.getFechaRealDevolucion());
+			stmtAnadir.setBoolean(4, atc.isArchivo());
+			stmtAnadir.setInt(5, atc.getId());
 			
 			String sqlModificar = "UPDATE Articulo SET Ar_estado = ? WHERE Ar_id = ?";
 			PreparedStatement stmtModificar = conn.prepareStatement(sqlModificar);
@@ -950,6 +951,36 @@ public class DatabaseRequests implements IDatabaseRequests{
 		catch (SQLException e) {
 			throw new BDException("No se pudo archivar la prestacion en la DB", e);
 		}
+		
+	}
+	
+	public boolean checkValidezCuento(ArticuloToCliente atc) throws BDException{
+	
+		boolean validezCuento = true;
+		
+		try {
+		IDatabaseRequests dbr = new DatabaseRequests();
+		Cliente cliente = dbr.obtenerClientePorId(atc.getUnCliente().getId());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		Date dateFinSuscripcion = formatter.parse(cliente.getFinSuscripcion());
+		
+		Date dateDevolucionPlanificada = formatter.parse(atc.getFechaPanificadaDevolucion());
+		
+		
+			if (dateFinSuscripcion.compareTo(dateDevolucionPlanificada) >= 0) {
+				validezCuento = true;
+	        }
+			else {
+				validezCuento = false;
+			}
+		}
+		catch(ParseException e) {
+			throw new BDException("No se pudo convertir la fecha", e);
+		}
+		
+		
+		return validezCuento;
 		
 	}
 

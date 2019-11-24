@@ -15,8 +15,11 @@
 		<h1 class="jumbotron">BibliotecApp - Modificar CD</h1>
   
   		<div class="container">
+  			<p>Articulo "${ArticuloToCliente.unArticulo.titulo}" prestado a ${ArticuloToCliente.unCliente.nombre} :</p>
 	       	<form:form method="post" action="../saveModificar">
+	       		
 	       		<form:input path="id" value="${ArticuloToCliente.id}" type="hidden"/>
+	       		<form:input path="unArticulo.id" value="${ArticuloToCliente.unArticulo.id}" type="hidden"/>
 	        	<table>    
 		         <tr>    
 		          <td>Fecha de prestamo (YYYY-MM-DD) : </td>   
@@ -30,28 +33,6 @@
 		          <td>Fecha real de devolucion (YYYY-MM-DD) :</td>    
 		          <td><form:input path="fechaRealDevolucion" value="${ArticuloToCliente.fechaRealDevolucion}" class="form-control"/></td>  
 		         </tr>  
-		         <tr>    
-		          <td>Articulo prestado :</td> 
-		          <td>   
-		          <form:select path="unArticulo.id" class="form-control">
-		          	<form:option value="${ArticuloToCliente.unArticulo.id}" label="${ArticuloToCliente.unArticulo.titulo} - ${ArticuloToCliente.unArticulo.unTipo.mensaje}" selected="true" />
-		         	<c:forEach items="${articulos}" var="articulo">
-				    	<form:option value="${articulo.id}" label="${articulo.titulo} - ${articulo.unTipo.mensaje}" />
-				    </c:forEach>
-				 </form:select> 
-				 </td> 
-		         </tr>
-		         <tr>
-		         <td>Cliente :</td>
-		         <td>
-		         <form:select path="unCliente.id" class="form-control">
-		         	<form:option value="${ArticuloToCliente.unCliente.id}" label="${ArticuloToCliente.unCliente.nombre} ${ArticuloToCliente.unCliente.apellido}" selected="true" />
-		         	<c:forEach items="${clientes}" var="cliente">
-				    <form:option value="${cliente.id}" label="${cliente.nombre} ${cliente.apellido}" />
-				    </c:forEach>
-				 </form:select>
-				 </td>
-				 </tr>
 				 <tr>    
 		          <td>Archivar :</td>
 		          <td>

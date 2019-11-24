@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.bibliotecapp.database.BDException;
 import com.bibliotecapp.database.DatabaseManager;
@@ -87,7 +88,12 @@ public class ArticulosToClienteController {
 	@RequestMapping(value="saveAnadir", method = RequestMethod.POST)
 	public String saveAnadirArticuloToCliente(@ModelAttribute("articuloToCliente") ArticuloToCliente articuloToCliente) throws BDException {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
-		databaseRequests.anadirPrestacion(articuloToCliente);
+		
+		boolean validezCuento = databaseRequests.checkValidezCuento(articuloToCliente);
+		
+		if(validezCuento == true) {
+			databaseRequests.anadirPrestacion(articuloToCliente);
+		}
 		
 		return "redirect:todos";
 	
@@ -121,11 +127,11 @@ public class ArticulosToClienteController {
 	
 	}
 	@RequestMapping(value = "archivar",method = RequestMethod.GET)
-	public String borrarDvd(@RequestParam("id") String idArticuloToClienteString) throws BDException {
+	public RedirectView borrarDvd(@RequestParam("id") String idArticuloToClienteString) throws BDException {
 		int idArticuloToCliente = Integer.valueOf(idArticuloToClienteString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.archivarPrestacion(idArticuloToCliente);
 		
-		return "redirect:todos";
+		return new RedirectView("../todos");
 	}
 }

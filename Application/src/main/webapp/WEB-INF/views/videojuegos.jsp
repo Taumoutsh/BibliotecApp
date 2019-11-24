@@ -12,11 +12,7 @@
 	    <jsp:include page="header.jsp"></jsp:include>
 	    
 		<h1 class="jumbotron">BibliotecApp - Video juegos</h1>
-		
-		<div class="container">
-			<h2>Buscada personalisada</h2>
-		</div>
-		
+
 		<div class="container">
 			<h2>Todos los video juegos</h2>
 		</div>

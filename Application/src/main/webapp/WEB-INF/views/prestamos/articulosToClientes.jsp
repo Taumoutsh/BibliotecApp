@@ -18,12 +18,7 @@
             <h1 class="jumbotron">BibliotecApp - Todos los préstamos</h1>
          </c:when>
       </c:choose>
-		<div class="container">
-			<h2>Buscada personalisada</h2>
-			<p>//TODO</p>
-			<p>Archivar y borrar aren't programmed yet</p>
-		</div>
-		
+
 		<div class="container">
 			<h2>Todos los préstamos</h2>
 			<div class="row justify-content-center">

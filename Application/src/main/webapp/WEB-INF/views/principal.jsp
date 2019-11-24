@@ -9,13 +9,7 @@
 	<body>
 	    <jsp:include page="header.jsp"></jsp:include>
 		<h1 class="jumbotron">BibliotecApp - Página principal</h1>
-		
-		<div class="container">
-			<h2>Buscada personalisada</h2>
-			<p>//TODO</p>
-			
-		</div>
-		
+
 		<div class="container">
 			<h2>Todos los articulos inscritos</h2>
 		</div>
