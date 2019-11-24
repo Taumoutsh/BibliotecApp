@@ -45,7 +45,15 @@
 		         <tr>    
 		          <td>Fin suscripcion :</td>    
 		          <td><form:input path="finSuscripcion" class="form-control" /></td>  
-		         </tr>    
+		         </tr>
+		         <tr>    
+		          <td>Archivar :</td>
+		          <td>
+					  <form:radiobutton path="archivo" value="1" />Si /
+					  <form:radiobutton path="archivo" value="0" checked="checked" />No
+				  </td> 
+		         </tr>
+		         <tr> 
 		          <td colspan="2"><input type="submit" value="Anadir" class="btn btn-primary mt-3" /></td>    
 		         </tr>    
 		        </table>    

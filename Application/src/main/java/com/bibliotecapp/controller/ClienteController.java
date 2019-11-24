@@ -41,12 +41,14 @@ public class ClienteController {
 		List<Cliente> todosClientes = new ArrayList<Cliente>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
+		boolean archivos = false;
+		
 		try {
 			
 			logger.setLevel(Level.INFO);
 			logger.info("BIBLIOTEC'APP LOGGER - Recupera clientes de la base de datos");
 			
-			todosClientes = databaseRequests.obtenerTodosClientes(false);
+			todosClientes = databaseRequests.obtenerTodosClientes(archivos);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -56,6 +58,34 @@ public class ClienteController {
 		
 		ModelAndView mv = new ModelAndView("clientes/clientes");
 		mv.addObject("todosClientes", todosClientes);
+		mv.addObject("archivos", archivos);
+		return mv;
+	}
+	
+	@RequestMapping("todosArchivos")
+	public ModelAndView paginaClientesArchivados() throws BDException {
+		
+		List<Cliente> todosClientes = new ArrayList<Cliente>();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		boolean archivos = true;
+		
+		try {
+			
+			logger.setLevel(Level.INFO);
+			logger.info("BIBLIOTEC'APP LOGGER - Recupera clientes de la base de datos");
+			
+			todosClientes = databaseRequests.obtenerTodosClientes(archivos);
+		} catch (BDException e) {
+			e.printStackTrace();
+		}
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Mostra la vista con todos los clientes de la base de datos");
+		
+		ModelAndView mv = new ModelAndView("clientes/clientes");
+		mv.addObject("todosClientes", todosClientes);
+		mv.addObject("archivos", archivos);
 		return mv;
 	}
 	
@@ -131,14 +161,14 @@ public class ClienteController {
 		
 	}
 	
-	@RequestMapping(value = "borrar",method = RequestMethod.GET)
+	@RequestMapping(value = "archivar",method = RequestMethod.GET)
 	public String borrarCliente(@RequestParam("id") String idClienteString) throws BDException {
 		int idCliente = Integer.valueOf(idClienteString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.archivarCliente(idCliente);
 		
 		logger.setLevel(Level.INFO);
-		logger.info("BIBLIOTEC'APP LOGGER - Borra el cliente con el identificador "+idCliente+" de la base de datos");
+		logger.info("BIBLIOTEC'APP LOGGER - Archiva el cliente con el identificador "+idCliente+" de la base de datos");
 		
 		return "redirect:todos";
 	}

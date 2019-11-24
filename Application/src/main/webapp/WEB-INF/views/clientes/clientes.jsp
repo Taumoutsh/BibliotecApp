@@ -11,15 +11,27 @@
 	<body>
 	    <jsp:include page="../header.jsp"></jsp:include>
 		<h1 class="jumbotron">BibliotecApp - Todos los clientes</h1>
-		
-		<div class="container">
-		
-			<h2>Buscada personalisada</h2>
-		</div>
-		
+
 		<div class="container">
 			<h2>Todos los clientes</h2>
-			<p><a href="${contextPath}/clientes/anadir"><i class="fas fa-user-plus"></i> Anadir un cliente</a></p>
+			<hr>
+			<div class="row justify-content-center mt-4">
+				<div class="col-md-3">
+					<p><a class="mb-4" href="${contextPath}/clientes/anadir"><i class="fas fa-user-plus"></i> Anadir un cliente</a></p>
+				</div>
+			<c:choose>
+		         <c:when test = "${archivos == false}">
+		            <div class="col-md-3 offset-md-6">
+						<a class="mb-4" href="${contextPath}/clientes/todosArchivos"><i class="fas fa-archive"></i> Ver los clientes archivados</a>
+					</div>
+		         </c:when>
+		         <c:when test = "${archivos == true}">
+		            <div class="col-md-3 offset-md-6">
+						<a class="mb-4" href="${contextPath}/clientes/todos"><i class="fas fa-arrow-left"></i> Volver a los clientes</a>
+					</div>
+		         </c:when>
+     		 </c:choose>
+      		</div>
 		</div>
 		<div class="container mt-4 ">	
 			<c:set var="i" value="1" />
@@ -40,7 +52,10 @@
 									y terminara el <b><c:out value="${cliente.finSuscripcion}" /></b></p>
 									<c:set var="idString">${cliente.id}</c:set>
 									<a href="${contextPath}/clientes/cliente?id=<c:out value="${idString}" />"><i class="fas fa-search-plus"></i> Ver</a> |
-									<a href="${contextPath}/clientes/modificar?id=<c:out value="${idString}" />"><i class="fas fa-user-edit"></i> Modificar</a> | <a href="${contextPath}/clientes/borrar?id=<c:out value="${idString}" />"><i class="fas fa-user-times"></i> Borrar</a> 
+									<a href="${contextPath}/clientes/modificar?id=<c:out value="${idString}" />"><i class="fas fa-user-edit"></i> Modificar</a> 
+									<c:if test = "${archivos == false}">
+								  | <a href="${contextPath}/clientes/archivar?id=<c:out value="${idString}" />"><i class="fas fa-user-minus"></i> Archivar</a> 
+								</c:if>
 								</div>
 							</div>
 						</div>

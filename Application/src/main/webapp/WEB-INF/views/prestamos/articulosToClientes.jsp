@@ -10,8 +10,14 @@
 	</head>
 	<body>
 	    <jsp:include page="../header.jsp"></jsp:include>
-		<h1 class="jumbotron">BibliotecApp - Todos los préstamos</h1>
-		
+	    <c:choose>
+         <c:when test = "${archivos == true}">
+            <h1 class="jumbotron">BibliotecApp - Todos los préstamos archivados</h1>
+         </c:when>
+         <c:when test = "${archivos == false}">
+            <h1 class="jumbotron">BibliotecApp - Todos los préstamos</h1>
+         </c:when>
+      </c:choose>
 		<div class="container">
 			<h2>Buscada personalisada</h2>
 			<p>//TODO</p>
@@ -24,9 +30,18 @@
 				<div class="col-md-3">
 					<a class="mb-4" href="${contextPath}/articulosToClientes/anadir"><i class="fas fa-plus"></i> Anadir un préstamo</a>
 				</div>
-				<div class="col-md-3 offset-md-6">
-					<a class="mb-4" href="${contextPath}/#"><i class="fas fa-archive"></i> Ver los prestamos archivados</a>
-				</div>
+		<c:choose>
+         <c:when test = "${archivos == false}">
+            <div class="col-md-3 offset-md-6">
+				<a class="mb-4" href="${contextPath}/articulosToClientes/todosArchivos"><i class="fas fa-archive"></i> Ver los prestamos archivados</a>
+			</div>
+         </c:when>
+         <c:when test = "${archivos == true}">
+            <div class="col-md-3 offset-md-6">
+				<a class="mb-4" href="${contextPath}/articulosToClientes/todos"><i class="fas fa-arrow-left"></i> Volver a los prestamos</a>
+			</div>
+         </c:when>
+      </c:choose>
 			</div>
 		</div>
 		<div class="container mt-4 ">
@@ -46,8 +61,10 @@
 					<td>${articuloToCliente.fechaPrestamo}</td>
 					<td>${articuloToCliente.fechaPanificadaDevolucion}</td>
 					<td>${articuloToCliente.fechaRealDevolucion}</td>
-					<td class="text-center"><a href="${contextPath}/articulosToClientes/modificar/?id=${articuloToCliente.id}"><i class="fas fa-edit"></i></a> | 
-					<a href="${contextPath}/articulosToClientes/archivar/?id=${articuloToCliente.id}"><i class="fas fa-archive"></i></a> 
+					<td class="text-center"><a href="${contextPath}/articulosToClientes/modificar/?id=${articuloToCliente.id}"><i class="fas fa-edit"></i></a> 
+				<c:if test = "${archivos == false}">
+					| <a href="${contextPath}/articulosToClientes/archivar/?id=${articuloToCliente.id}"><i class="fas fa-archive"></i></a> 
+				</c:if>
 				</tr>
 			</c:forEach>
 			</table>

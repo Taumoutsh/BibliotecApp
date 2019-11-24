@@ -31,6 +31,8 @@ public class ArticulosToClienteController {
 		List<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
+		boolean archivos = false;
+		
 		try {
 			todosArticulosToClientes = databaseRequests.obtenerTodosArticulosToClientes(false);
 		} catch (BDException e) {
@@ -38,6 +40,26 @@ public class ArticulosToClienteController {
 		}
 		
 		ModelAndView mv = new ModelAndView("prestamos/articulosToClientes");
+		mv.addObject("archivos", archivos);
+		mv.addObject("todosArticulosToClientes", todosArticulosToClientes);
+		return mv;
+	}
+	@RequestMapping("todosArchivos")
+	public ModelAndView todosArticulosToClientesArchivos() throws BDException {
+		
+		List<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		boolean archivos = true;
+		
+		try {
+			todosArticulosToClientes = databaseRequests.obtenerTodosArticulosToClientes(archivos);
+		} catch (BDException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("prestamos/articulosToClientes");
+		mv.addObject("archivos", archivos);
 		mv.addObject("todosArticulosToClientes", todosArticulosToClientes);
 		return mv;
 	}
@@ -98,6 +120,12 @@ public class ArticulosToClienteController {
 		return "redirect:todos";
 	
 	}
-	
-	
+	@RequestMapping(value = "archivar",method = RequestMethod.GET)
+	public String borrarDvd(@RequestParam("id") String idArticuloToClienteString) throws BDException {
+		int idArticuloToCliente = Integer.valueOf(idArticuloToClienteString);
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		databaseRequests.archivarPrestacion(idArticuloToCliente);
+		
+		return "redirect:todos";
+	}
 }

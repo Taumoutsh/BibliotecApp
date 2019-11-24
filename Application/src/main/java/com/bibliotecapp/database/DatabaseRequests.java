@@ -937,6 +937,21 @@ public class DatabaseRequests implements IDatabaseRequests{
 		}
 		
 	}
+	
+	public void archivarPrestacion(int atcId) throws BDException{
+		
+		try {
+			String sql = "UPDATE ArticuloToCliente SET At_archivo = ? WHERE At_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, true);
+			stmt.setInt(2, atcId);
+			stmt.executeUpdate();
+		} 
+		catch (SQLException e) {
+			throw new BDException("No se pudo archivar la prestacion en la DB", e);
+		}
+		
+	}
 
 	
 }

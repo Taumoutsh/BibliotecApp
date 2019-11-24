@@ -59,6 +59,7 @@ public interface IDatabaseRequests {
 	
 	public void anadirPrestacion(ArticuloToCliente atc) throws BDException;
 	public void modificarPrestacion(ArticuloToCliente atc) throws BDException;
+	public void archivarPrestacion(int atcId) throws BDException;
 	
 
 }
