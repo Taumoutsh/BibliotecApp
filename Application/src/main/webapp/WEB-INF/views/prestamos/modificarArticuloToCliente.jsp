@@ -15,7 +15,7 @@
 		<h1 class="jumbotron">BibliotecApp - Modificar CD</h1>
   
   		<div class="container">
-  			<p>Articulo "${ArticuloToCliente.unArticulo.titulo}" prestado a ${ArticuloToCliente.unCliente.nombre} :</p>
+  			<p>Articulo "${ArticuloToCliente.unArticulo.titulo}" prestado a ${ArticuloToCliente.unCliente.nombre} ${ArticuloToCliente.unCliente.apellido} :</p>
 	       	<form:form method="post" action="../saveModificar">
 	       		
 	       		<form:input path="id" value="${ArticuloToCliente.id}" type="hidden"/>

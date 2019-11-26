@@ -796,6 +796,24 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	// Methodos por la gestion de DVD
 	
+	public void anadirDvd(DVD dvd) throws BDException{
+		try {
+			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_qualidad) VALUES (?,?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, dvd.getTitulo());
+			stmt.setString(2, dvd.getAutor());
+			stmt.setString(3, dvd.getIdentificador());
+			stmt.setInt(4, dvd.getUnTema().getId());
+			stmt.setBoolean(5, dvd.isArchivo());
+			stmt.setString(6, dvd.getQualidad());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo anadir el DVD en la DB", e);
+		}
+	}
+	
 	public void archivarDvd(int idDVD) throws BDException{
 		
 		try {
@@ -837,6 +855,23 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	// Methodos por la gestion de CD
 	
+	public void anadirCd(CD cd) throws BDException{
+		try {
+			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_numeroPistas) VALUES (?,?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, cd.getTitulo());
+			stmt.setString(2, cd.getAutor());
+			stmt.setString(3, cd.getIdentificador());
+			stmt.setInt(4, cd.getUnTema().getId());
+			stmt.setBoolean(5, cd.isArchivo());
+			stmt.setInt(6, cd.getNumeroPistas());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo anadir el CD en la DB", e);
+		}
+	}
 	
 	public void archivarCd(int idCD) throws BDException{
 		
@@ -852,7 +887,6 @@ public class DatabaseRequests implements IDatabaseRequests{
 		}
 		
 	}
-	
 	
 	public void modificarCd(CD cd) throws BDException{
 		
@@ -874,9 +908,120 @@ public class DatabaseRequests implements IDatabaseRequests{
 		}
 		
 	}
+	
+	// Methodos por la gestion de Libros
+	
+	public void anadirLibro(Libro libro) throws BDException{
+		try {
+			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_numeroPaginas) VALUES (?,?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, libro.getTitulo());
+			stmt.setString(2, libro.getAutor());
+			stmt.setString(3, libro.getIdentificador());
+			stmt.setInt(4, libro.getUnTema().getId());
+			stmt.setBoolean(5, libro.isArchivo());
+			stmt.setInt(6, libro.getNumeroPaginas());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo anadir el libro en la DB", e);
+		}
+	}
+	
+	public void archivarLibro(int idLibro) throws BDException{
+		
+		try {
+			String sql = "UPDATE Articulo SET Ar_archivo = ? WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, true);
+			stmt.setInt(2, idLibro);
+			stmt.executeUpdate();
+		} 
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el libro en la DB", e);
+		}
+		
+	}
+	
+	public void modificarLibro(Libro libro) throws BDException{
+		
+		try {
+			String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, fk_tema = ?, Ar_archivo = ?, Ar_numeroPaginas = ? WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, libro.getTitulo());
+			stmt.setString(2, libro.getAutor());
+			stmt.setString(3, libro.getIdentificador());
+			stmt.setInt(4, libro.getUnTema().getId());
+			stmt.setBoolean(5, libro.isArchivo());
+			stmt.setInt(6, libro.getNumeroPaginas());
+			stmt.setInt(7, libro.getId());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el CD en la DB", e);
+		}
+		
+	}
+
+	// Methodos por la gestion de Video Juegos
+	
+	public void anadirVideoJuego(VideoJuego videoJuego) throws BDException{
+		try {
+			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_plataforma) VALUES (?,?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, videoJuego.getTitulo());
+			stmt.setString(2, videoJuego.getAutor());
+			stmt.setString(3, videoJuego.getIdentificador());
+			stmt.setInt(4, videoJuego.getUnTema().getId());
+			stmt.setBoolean(5, videoJuego.isArchivo());
+			stmt.setString(6, videoJuego.getPlataforma());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo anadir el CD en la DB", e);
+		}
+	}
+	
+	public void archivarVideoJuego(int idVideoJuego) throws BDException{
+		
+		try {
+			String sql = "UPDATE Articulo SET Ar_archivo = ? WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setBoolean(1, true);
+			stmt.setInt(2, idVideoJuego);
+			stmt.executeUpdate();
+		} 
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el CD en la DB", e);
+		}
+		
+	}
+	
+	public void modificarVideoJuego(VideoJuego videoJuego) throws BDException{
+		
+		try {
+			String sql = "UPDATE Articulo SET Ar_titulo = ?, Ar_autor = ?, Ar_identificador = ?, fk_tema = ?, Ar_archivo = ?, Ar_plataforma = ? WHERE Ar_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, videoJuego.getTitulo());
+			stmt.setString(2, videoJuego.getAutor());
+			stmt.setString(3, videoJuego.getIdentificador());
+			stmt.setInt(4, videoJuego.getUnTema().getId());
+			stmt.setBoolean(5, videoJuego.isArchivo());
+			stmt.setString(6, videoJuego.getPlataforma());
+			stmt.setInt(7, videoJuego.getId());
+			
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new BDException("No se pudo modificar el CD en la DB", e);
+		}
+		
+	}
 
 	// Methodos por la prestacion de articulos
-	
 	
 	public void anadirPrestacion(ArticuloToCliente atc) throws BDException{
 		
@@ -901,7 +1046,6 @@ public class DatabaseRequests implements IDatabaseRequests{
 		}
 		
 	}
-	
 	
 	public void modificarPrestacion(ArticuloToCliente atc) throws BDException{
 		

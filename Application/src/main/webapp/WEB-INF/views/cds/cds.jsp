@@ -5,6 +5,7 @@
 	<head>
 		<title>CDs</title>
 		<meta charset="utf-8">
+		<script src="https://kit.fontawesome.com/7d402c1f4f.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	</head>
 	<body>
@@ -14,11 +15,23 @@
 		<h1 class="jumbotron">BibliotecApp - CDs</h1>
 		
 		<div class="container">
-			<h2>Buscada personalisada</h2>
-		</div>
-		
-		<div class="container">
 			<h2>Todos los CDs</h2>
+			<div class="row justify-content-center mt-4">
+				<div class="col-md-3">
+					<p><a class="mb-4" href="${contextPath}/cds/anadir"><i class="fas fa-user-plus"></i> Anadir un CD</a></p>
+				</div>
+			<c:choose>
+		         <c:when test = "${archivos == false}">
+		            <div class="col-md-3 offset-md-6">
+						<a class="mb-4" href="${contextPath}/cds/todosArchivos"><i class="fas fa-archive"></i> Ver los CDs archivados</a>
+					</div>
+		         </c:when>
+		         <c:when test = "${archivos == true}">
+		            <div class="col-md-3 offset-md-6">
+						<a class="mb-4" href="${contextPath}/cds/todos"><i class="fas fa-arrow-left"></i> Volver a los CDs</a>
+					</div>
+		         </c:when>
+     		 </c:choose>
 		</div>
 		<div class="container mt-4 ">	
 			<c:set var="i" value="1" />

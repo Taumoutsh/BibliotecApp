@@ -52,7 +52,7 @@
 			<c:forEach items="${todosArticulosToClientes}" var="articuloToCliente">
 				<tr>
 					<td><a href="${contextPath}/clientes/cliente/?id=${articuloToCliente.unCliente.id}">${articuloToCliente.unCliente.nombre} ${articuloToCliente.unCliente.apellido}</a></td>
-					<td><a href="${contextPath}/articulos/articulo/?id=${articuloToCliente.unArticulo.id}">${articuloToCliente.unArticulo.titulo}</a></td>
+					<td>${articuloToCliente.unArticulo.titulo}</td>
 					<td>${articuloToCliente.fechaPrestamo}</td>
 					<td>${articuloToCliente.fechaPanificadaDevolucion}</td>
 					<td>${articuloToCliente.fechaRealDevolucion}</td>

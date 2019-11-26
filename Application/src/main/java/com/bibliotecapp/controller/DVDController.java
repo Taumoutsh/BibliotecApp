@@ -2,6 +2,7 @@ package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,15 +32,36 @@ public class DVDController {
 		List<DVD> todosDVDs = new ArrayList<DVD>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
+		boolean archivos = false;
+		
 		try {
-			todosDVDs = databaseRequests.obtenerTodosDVDs(false);
+			todosDVDs = databaseRequests.obtenerTodosDVDs(archivos);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
 		
 		ModelAndView mv = new ModelAndView("dvds/dvds");
 		mv.addObject("todosDVDs", todosDVDs);
+		mv.addObject("archivos", archivos);
 		return mv;
+	}
+	
+	@RequestMapping(value = "anadir",method = RequestMethod.GET)
+	public ModelAndView anadirDvd() throws BDException {
+
+		ModelAndView mv = new ModelAndView("dvds/anadirDvd", "command", new DVD());
+		
+		
+		return mv;
+	}
+	@RequestMapping(value = "anadirSave",method = RequestMethod.POST)
+	public String saveDvd(@ModelAttribute("dvd") DVD dvd) throws BDException {
+		
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		databaseRequests.anadirDvd(dvd);
+
+		return "redirect:todos";
+		
 	}
 	
 	@RequestMapping(value = "modificar",method = RequestMethod.GET)
@@ -52,7 +74,7 @@ public class DVDController {
 		List<Tipo> tipos = databaseRequests.obtenerTodosTipos();
 		List<Tema> temas = databaseRequests.obtenerTodosTemas();
 		
-		ModelAndView mv = new ModelAndView("dvds/modificardvd", "command", new DVD());
+		ModelAndView mv = new ModelAndView("dvds/modificarDvd", "command", new DVD());
 		mv.addObject("temas", temas);
 		mv.addObject("dvd", unDVD);
 		return mv;

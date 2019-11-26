@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Anadir un Articulo</title>
+	<title>Anadir un libro</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		
@@ -13,23 +13,22 @@
 <body>
 
  		<jsp:include page="../header.jsp"></jsp:include>
-		<h1 class="jumbotron">BibliotecApp - Modificar articulo</h1>
+		<h1 class="jumbotron">BibliotecApp - Anadir un libro</h1>
   
   		<div class=container>
-	       	<form:form method="post" action="modificarSave">  
-	       	 <form:input type="hidden" path="id" value="${dvd.getId()}"/>  
+	       	<form:form method="post" action="anadirSave">
 	        	<table>    
 		         <tr>    
 		          <td>Nombre : </td>   
-		          <td><form:input path="titulo" value="${dvd.getTitulo()}" class="form-control"/></td>  
+		          <td><form:input path="titulo" class="form-control"/></td>  
 		         </tr>    
 		         <tr>    
 		          <td>Autor :</td>    
-		          <td><form:input path="autor" value="${dvd.getAutor()}" class="form-control"/></td>  
+		          <td><form:input path="autor" class="form-control"/></td>  
 		         </tr>   
 		         <tr>    
-		          <td>identificator :</td>    
-		          <td><form:input path="identificador" value="${dvd.getIdentificador()}" class="form-control"/></td>  
+		          <td>Identificator :</td>    
+		          <td><form:input path="identificador" class="form-control"/></td>  
 		         </tr> 
 		         <tr>
 		         <td>Tema :</td>
@@ -43,23 +42,15 @@
 		         </tr>
 		         <tr>   
 		         <tr>    
-		          <td>Qualidad :</td>    
-		          <td><form:input path="qualidad" value="${dvd.getQualidad()}" class="form-control"/></td>  
+		          <td>Numero de paginas :</td>    
+		          <td><form:input path="numeroPaginas" class="form-control"/></td>  
 		         </tr> 
 		         <tr> 
 		         <tr>    
 		          <td>Archivar :</td>
 		          <td>
-		          <c:choose>
-					    <c:when test="${dvd.isArchivo() == true}">
-					        <form:radiobutton path="archivo" value="1" checked="checked" />Si /
-					  		<form:radiobutton path="archivo" value="0"/>No
-					    </c:when>    
-					    <c:otherwise>
-					        <form:radiobutton path="archivo" value="1"/>Si /
-					  		<form:radiobutton path="archivo" value="0" checked="checked" />No 
-					    </c:otherwise>
-					</c:choose>
+					<form:radiobutton path="archivo" value="1"/>Si / 
+					<form:radiobutton path="archivo" value="0" checked="checked" />No
 				  </td> 
 		         </tr>    
 		          <td colspan="2"><input type="submit" value="Modificar" class="btn btn-primary mt-3"/></td>    

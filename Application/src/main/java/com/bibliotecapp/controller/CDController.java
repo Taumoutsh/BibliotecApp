@@ -17,6 +17,7 @@ import com.bibliotecapp.entities.Articulo;
 import com.bibliotecapp.entities.CD;
 import com.bibliotecapp.entities.Cliente;
 import com.bibliotecapp.entities.DVD;
+import com.bibliotecapp.entities.Libro;
 import com.bibliotecapp.entities.Tema;
 import com.bibliotecapp.entities.Tipo;
 import com.bibliotecapp.interfaces.IDatabaseRequests;
@@ -31,15 +32,36 @@ public class CDController {
 		List<CD> todosCDs = new ArrayList<CD>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		
+		boolean archivos = false;
+		
 		try {
-			todosCDs = databaseRequests.obtenerTodosCDs(false);
+			todosCDs = databaseRequests.obtenerTodosCDs(archivos);
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
 		
 		ModelAndView mv = new ModelAndView("cds/cds");
 		mv.addObject("todosCDs", todosCDs);
+		mv.addObject("archivos", archivos);
 		return mv;
+	}
+	
+	@RequestMapping(value = "anadir",method = RequestMethod.GET)
+	public ModelAndView anadirCd() throws BDException {
+
+		ModelAndView mv = new ModelAndView("cds/anadirCds", "command", new CD());
+		
+		
+		return mv;
+	}
+	@RequestMapping(value = "anadirSave",method = RequestMethod.POST)
+	public String saveAnadirCd(@ModelAttribute("cd") CD cd) throws BDException {
+		
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		databaseRequests.anadirCd(cd);
+
+		return "redirect:todos";
+		
 	}
 	
 	@RequestMapping(value = "modificar",method = RequestMethod.GET)
@@ -52,7 +74,7 @@ public class CDController {
 		List<Tipo> tipos = databaseRequests.obtenerTodosTipos();
 		List<Tema> temas = databaseRequests.obtenerTodosTemas();
 		
-		ModelAndView mv = new ModelAndView("cds/modificarcd", "command", new CD());
+		ModelAndView mv = new ModelAndView("cds/modificarCd", "command", new CD());
 		mv.addObject("temas", temas);
 		mv.addObject("cd", unCD);
 		return mv;

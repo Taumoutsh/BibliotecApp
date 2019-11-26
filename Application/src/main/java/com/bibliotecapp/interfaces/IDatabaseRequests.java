@@ -51,11 +51,21 @@ public interface IDatabaseRequests {
 	public void modificarCliente(Cliente cliente) throws BDException;
 	public void archivarCliente(int idCliente) throws BDException;
 	
+	public void anadirDvd(DVD dvd) throws BDException;
 	public void archivarDvd(int idDVD) throws BDException;
 	public void modificarDvd(DVD dvd) throws BDException;
 	
+	public void anadirCd(CD cd) throws BDException;
 	public void archivarCd(int idCD) throws BDException;
 	public void modificarCd(CD cd) throws BDException;
+	
+	public void anadirVideoJuego(VideoJuego videoJuego) throws BDException;
+	public void archivarVideoJuego(int idVideoJuego) throws BDException;
+	public void modificarVideoJuego(VideoJuego videoJuego) throws BDException;
+	
+	public void anadirLibro(Libro libro) throws BDException;
+	public void archivarLibro(int idLibro) throws BDException;
+	public void modificarLibro(Libro libro) throws BDException;
 	
 	public void anadirPrestacion(ArticuloToCliente atc) throws BDException;
 	public void modificarPrestacion(ArticuloToCliente atc) throws BDException;
