@@ -35,8 +35,6 @@
 								<p>Su identificafor es <b><c:out value="${articulo.identificador}" /></b></p>				
 								<p>Es un <b><c:out value="${articulo.unTipo.mensaje}" /></b>
 								del tema <b><c:out value="${articulo.unTema.mensaje}" /></b></p>
-								<button type="button" class="col-sm mr-2 btn btn btn-block btn-primary">Modificar</button>
-								<button type="button" class="col-sm mr-2 btn btn btn-block btn-danger">Borrar</button>
 					     	</div>
 						</div>
 					</div>

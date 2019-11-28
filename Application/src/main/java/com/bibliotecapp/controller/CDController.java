@@ -46,11 +46,33 @@ public class CDController {
 		return mv;
 	}
 	
+	@RequestMapping("todosArchivos")
+	public ModelAndView paginaArchivos() throws BDException {
+		
+		List<CD> todosCDs = new ArrayList<CD>();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		boolean archivos = true;
+		
+		try {
+			todosCDs = databaseRequests.obtenerTodosCDs(archivos);
+		} catch (BDException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("cds/cds");
+		mv.addObject("todosCDs", todosCDs);
+		mv.addObject("archivos", archivos);
+		return mv;
+	}
+	
 	@RequestMapping(value = "anadir",method = RequestMethod.GET)
 	public ModelAndView anadirCd() throws BDException {
 
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		List<Tema> temas = databaseRequests.obtenerTodosTemas();
 		ModelAndView mv = new ModelAndView("cds/anadirCds", "command", new CD());
-		
+		mv.addObject("temas", temas);
 		
 		return mv;
 	}

@@ -46,11 +46,33 @@ public class DVDController {
 		return mv;
 	}
 	
+	@RequestMapping("todosArchivos")
+	public ModelAndView paginaArchivos() throws BDException {
+		
+		List<DVD> todosDVDs = new ArrayList<DVD>();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		boolean archivos = true;
+		
+		try {
+			todosDVDs = databaseRequests.obtenerTodosDVDs(archivos);
+		} catch (BDException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("dvds/dvds");
+		mv.addObject("todosDVDs", todosDVDs);
+		mv.addObject("archivos", archivos);
+		return mv;
+	}
+	
 	@RequestMapping(value = "anadir",method = RequestMethod.GET)
 	public ModelAndView anadirDvd() throws BDException {
 
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		List<Tema> temas = databaseRequests.obtenerTodosTemas();
 		ModelAndView mv = new ModelAndView("dvds/anadirDvd", "command", new DVD());
-		
+		mv.addObject("temas", temas);
 		
 		return mv;
 	}

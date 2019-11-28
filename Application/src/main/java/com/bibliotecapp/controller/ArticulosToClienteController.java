@@ -29,6 +29,13 @@ public class ArticulosToClienteController {
 	@RequestMapping("todos")
 	public ModelAndView todosArticulosToClientes() throws BDException {
 		
+		Thread t = new Thread() {
+		      public void run() {
+		        System.out.println("Mon traitement");
+		      }
+		    };
+		    t.start();
+		
 		List<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		

@@ -138,7 +138,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 	List<Libro> listLibro = new ArrayList<Libro>();
 
 	try {
-		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje =? AND Ar_archivo = ?";
+		String sql = "SELECT * FROM Articulo, Tipo WHERE Articulo.fk_tipo = Tipo.Ti_id AND Ti_mensaje = ? AND Ar_archivo = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "Libro");
 		stmt.setBoolean(2, archivo);
@@ -798,7 +798,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	public void anadirDvd(DVD dvd) throws BDException{
 		try {
-			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_qualidad) VALUES (?,?,?,?,?,?)";
+			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_qualidad, Ar_estado, fk_tipo) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, dvd.getTitulo());
 			stmt.setString(2, dvd.getAutor());
@@ -806,6 +806,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 			stmt.setInt(4, dvd.getUnTema().getId());
 			stmt.setBoolean(5, dvd.isArchivo());
 			stmt.setString(6, dvd.getQualidad());
+			stmt.setBoolean(7, true);
+			stmt.setInt(8, 3);
 			
 			stmt.executeUpdate();
 		}
@@ -857,7 +859,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	public void anadirCd(CD cd) throws BDException{
 		try {
-			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_numeroPistas) VALUES (?,?,?,?,?,?)";
+			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_numeroPistas, Ar_estado, fk_tipo) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, cd.getTitulo());
 			stmt.setString(2, cd.getAutor());
@@ -865,6 +867,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 			stmt.setInt(4, cd.getUnTema().getId());
 			stmt.setBoolean(5, cd.isArchivo());
 			stmt.setInt(6, cd.getNumeroPistas());
+			stmt.setBoolean(7, true);
+			stmt.setInt(8, 2);
 			
 			stmt.executeUpdate();
 		}
@@ -913,7 +917,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	public void anadirLibro(Libro libro) throws BDException{
 		try {
-			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_numeroPaginas) VALUES (?,?,?,?,?,?)";
+			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_numeroPaginas, Ar_estado, fk_tipo) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, libro.getTitulo());
 			stmt.setString(2, libro.getAutor());
@@ -921,6 +925,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 			stmt.setInt(4, libro.getUnTema().getId());
 			stmt.setBoolean(5, libro.isArchivo());
 			stmt.setInt(6, libro.getNumeroPaginas());
+			stmt.setBoolean(7, true);
+			stmt.setInt(8, 1);
 			
 			stmt.executeUpdate();
 		}
@@ -969,7 +975,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 	
 	public void anadirVideoJuego(VideoJuego videoJuego) throws BDException{
 		try {
-			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_plataforma) VALUES (?,?,?,?,?,?)";
+			String sql = "INSERT INTO Articulo(Ar_titulo, Ar_autor, Ar_identificador, fk_tema, Ar_archivo, Ar_plataforma, Ar_estado, fk_tipo) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, videoJuego.getTitulo());
 			stmt.setString(2, videoJuego.getAutor());
@@ -977,6 +983,8 @@ public class DatabaseRequests implements IDatabaseRequests{
 			stmt.setInt(4, videoJuego.getUnTema().getId());
 			stmt.setBoolean(5, videoJuego.isArchivo());
 			stmt.setString(6, videoJuego.getPlataforma());
+			stmt.setBoolean(7, true);
+			stmt.setInt(8, 4);
 			
 			stmt.executeUpdate();
 		}

@@ -12,13 +12,19 @@
 	    
 	    <jsp:include page="../header.jsp"></jsp:include>
 	    
-		<h1 class="jumbotron">BibliotecApp - DVDs</h1>
-		
+		<c:choose>
+         <c:when test = "${archivos == true}">
+            <h1 class="jumbotron">BibliotecApp - Todos los DVD archivados</h1>
+         </c:when>
+         <c:when test = "${archivos == false}">
+            <h1 class="jumbotron">BibliotecApp - Todos los DVD</h1>
+         </c:when>
+      </c:choose>
+      
 		<div class="container">
-			<h2>Todos los DVDs</h2>
 			<div class="row justify-content-center mt-4">
 				<div class="col-md-3">
-					<p><a class="mb-4" href="${contextPath}/dvds/anadir"><i class="fas fa-user-plus"></i> Anadir un DVD</a></p>
+					<p><a class="mb-4" href="${contextPath}/dvds/anadir"><i class="fas fa-plus"></i> Anadir un DVD</a></p>
 				</div>
 			<c:choose>
 		         <c:when test = "${archivos == false}">

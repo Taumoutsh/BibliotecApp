@@ -5,7 +5,6 @@
 	<nav class="my-2 my-md-0 mr-md-3">
 		<a class="p-2 text-dark" href="${contextPath}/index">Pagina principal</a>
 		<a class="p-2 text-dark" href="${contextPath}/articulosToClientes/todos">Ver los prestados</a>
-		<a class="p-2 text-dark" href="${contextPath}/articulos/todos">Articulos</a>
 		<a class="p-2 text-dark" href="${contextPath}/videojuegos/todos">Video juegos</a>
 		<a class="p-2 text-dark" href="${contextPath}/libros/todos">Libros</a>
 		<a class="p-2 text-dark" href="${contextPath}/cds/todos">CDs</a>

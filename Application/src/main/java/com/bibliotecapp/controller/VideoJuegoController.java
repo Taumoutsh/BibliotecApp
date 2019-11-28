@@ -46,10 +46,34 @@ public class VideoJuegoController {
 		return mv;
 	}
 	
+	@RequestMapping("todosArchivos")
+	public ModelAndView paginaArchivos() throws BDException {
+		
+		List<VideoJuego> todosVideoJuegos = new ArrayList<VideoJuego>();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		boolean archivos = true;
+		
+		try {
+			todosVideoJuegos = databaseRequests.obtenerTodosVideoJuegos(archivos);
+		} catch (BDException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("videojuegos/videojuegos");
+		mv.addObject("todosVideoJuegos", todosVideoJuegos);
+		mv.addObject("archivos", archivos);
+		return mv;
+	}
+	
 	@RequestMapping(value = "anadir",method = RequestMethod.GET)
 	public ModelAndView anadirVideoJuego() throws BDException {
 
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		List<Tema> temas = databaseRequests.obtenerTodosTemas();
 		ModelAndView mv = new ModelAndView("videojuegos/anadirVideoJuego", "command", new VideoJuego());
+		mv.addObject("temas", temas);
+		
 		return mv;
 	}
 	@RequestMapping(value = "anadirSave",method = RequestMethod.POST)

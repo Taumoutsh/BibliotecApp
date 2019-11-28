@@ -41,16 +41,38 @@ public class LibroController {
 		}
 		
 		ModelAndView mv = new ModelAndView("libros/libros");
-		mv.addObject("libros/todosLibros", todosLibros);
+		mv.addObject("todosLibros", todosLibros);
+		mv.addObject("archivos", archivos);
+		return mv;
+	}
+	
+	@RequestMapping("todosArchivos")
+	public ModelAndView paginaArchivos() throws BDException {
+		
+		List<Libro> todosLibros = new ArrayList<Libro>();
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		boolean archivos = true;
+		
+		try {
+			todosLibros = databaseRequests.obtenerTodosLibros(archivos);
+		} catch (BDException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("libros/libros");
+		mv.addObject("todosLibros", todosLibros);
 		mv.addObject("archivos", archivos);
 		return mv;
 	}
 	
 	@RequestMapping(value = "anadir",method = RequestMethod.GET)
-	public ModelAndView anadirCliente() throws BDException {
-
-		ModelAndView mv = new ModelAndView("libros/anadirLibro", "command", new Libro());
+	public ModelAndView anadirLibro() throws BDException {
 		
+		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		List<Tema> temas = databaseRequests.obtenerTodosTemas();
+		ModelAndView mv = new ModelAndView("libros/anadirLibro", "command", new Libro());
+		mv.addObject("temas", temas);
 		
 		return mv;
 	}
