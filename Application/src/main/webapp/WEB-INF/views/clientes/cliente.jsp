@@ -28,7 +28,9 @@
 						<p>Su suscripcion empezo el <b><c:out value="${cliente.inicioSuscripcion}" /></b>
 						y terminara el <b><c:out value="${cliente.finSuscripcion}" /></b></p>
 						<a href="${contextPath}/clientes/modificar?id=<c:out value="${cliente.id}" />"><i class="fas fa-user-edit"></i> Modificar</a> | 
-						<a href="${contextPath}/clientes/borrar?id=<c:out value="${cliente.id}" />"><i class="fas fa-user-times"></i> Borrar</a> |
+						<c:if test = "${archivo == false}">
+						<a href="${contextPath}/clientes/archivar?id=<c:out value="${cliente.id}" />"><i class="fas fa-user-minus"></i> Archivar</a> |
+						</c:if>
 						<a href="${contextPath}/clientes/prestamos?id=<c:out value="${cliente.id}" />"><i class="fas fa-file-export"></i> Export sus prestamos</a> 
 								
 					</div>

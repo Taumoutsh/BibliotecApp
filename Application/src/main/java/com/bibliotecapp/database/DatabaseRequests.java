@@ -1094,11 +1094,16 @@ public class DatabaseRequests implements IDatabaseRequests{
 	public void archivarPrestacion(int atcId) throws BDException{
 		
 		try {
-			String sql = "UPDATE ArticuloToCliente SET At_archivo = ? WHERE At_id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setBoolean(1, true);
-			stmt.setInt(2, atcId);
-			stmt.executeUpdate();
+			ArticuloToCliente atc = new ArticuloToCliente();
+			atc = obtenerArticuloToClientePorId(atcId);
+			
+			if(atc.getFechaRealDevolucion() != null) {
+				String sql = "UPDATE ArticuloToCliente SET At_archivo = ? WHERE At_id = ?";
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setBoolean(1, true);
+				stmt.setInt(2, atcId);
+				stmt.executeUpdate();
+			}
 		} 
 		catch (SQLException e) {
 			throw new BDException("No se pudo archivar la prestacion en la DB", e);
@@ -1133,6 +1138,33 @@ public class DatabaseRequests implements IDatabaseRequests{
 		
 		
 		return validezCuento;
+		
+	}
+	
+	public int contarRebasarFechaDevolucion(List<ArticuloToCliente> atc){
+		
+		int contar = 0;
+		try {
+			Date fechaDevolucionPlanificada;	
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			Date fechaHoy = new Date();
+			
+			for(ArticuloToCliente unAtc : atc) {	
+				fechaDevolucionPlanificada = formatter.parse(unAtc.getFechaPanificadaDevolucion());
+				if((fechaDevolucionPlanificada.compareTo(fechaHoy) < 0) && (unAtc.getFechaRealDevolucion() == null)) {
+					contar++;
+				}		
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return contar;
+		
+	}
+	
+	public int recursividadContarLosArticulo(List<Articulo> listArticulo) {
 		
 	}
 

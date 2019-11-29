@@ -70,7 +70,10 @@ public interface IDatabaseRequests {
 	public void anadirPrestacion(ArticuloToCliente atc) throws BDException;
 	public void modificarPrestacion(ArticuloToCliente atc) throws BDException;
 	public void archivarPrestacion(int atcId) throws BDException;
+	
 	public boolean checkValidezCuento(ArticuloToCliente atc) throws BDException;
+	
+	public int contarRebasarFechaDevolucion(List<ArticuloToCliente> atc);
 	
 
 }

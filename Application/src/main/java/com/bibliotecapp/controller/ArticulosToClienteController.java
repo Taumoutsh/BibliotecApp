@@ -29,17 +29,31 @@ public class ArticulosToClienteController {
 	@RequestMapping("todos")
 	public ModelAndView todosArticulosToClientes() throws BDException {
 		
+		final ModelAndView mv = new ModelAndView("prestamos/articulosToClientes");
+		
 		Thread t = new Thread() {
-		      public void run() {
-		        System.out.println("Mon traitement");
+			public void run() {
+		    	  try {
+		    		  
+		    		  int contar;
+		    		  List<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
+		    		  IDatabaseRequests databaseRequests;
+		    		  databaseRequests = new DatabaseRequests();
+		    		  todosArticulosToClientes = databaseRequests.obtenerTodosArticulosToClientes(false);
+		    		  contar = databaseRequests.contarRebasarFechaDevolucion(todosArticulosToClientes);
+		    		  mv.addObject("contar", contar);
+		    		  
+			      } catch (BDException e) {
+			    	  e.printStackTrace();
+			      } 
 		      }
 		    };
 		    t.start();
 		
+		boolean archivos = false;
+		
 		List<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
-		
-		boolean archivos = false;
 		
 		try {
 			todosArticulosToClientes = databaseRequests.obtenerTodosArticulosToClientes(false);
@@ -47,11 +61,11 @@ public class ArticulosToClienteController {
 			e.printStackTrace();
 		}
 		
-		ModelAndView mv = new ModelAndView("prestamos/articulosToClientes");
 		mv.addObject("archivos", archivos);
 		mv.addObject("todosArticulosToClientes", todosArticulosToClientes);
 		return mv;
 	}
+	
 	@RequestMapping("todosArchivos")
 	public ModelAndView todosArticulosToClientesArchivos() throws BDException {
 		
@@ -134,7 +148,7 @@ public class ArticulosToClienteController {
 	
 	}
 	@RequestMapping(value = "archivar",method = RequestMethod.GET)
-	public RedirectView borrarDvd(@RequestParam("id") String idArticuloToClienteString) throws BDException {
+	public RedirectView archivarArticuloToCliente(@RequestParam("id") String idArticuloToClienteString) throws BDException {
 		int idArticuloToCliente = Integer.valueOf(idArticuloToClienteString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.archivarPrestacion(idArticuloToCliente);

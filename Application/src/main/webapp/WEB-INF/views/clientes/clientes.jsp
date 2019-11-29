@@ -55,7 +55,7 @@
 									<a href="${contextPath}/clientes/modificar?id=<c:out value="${idString}" />"><i class="fas fa-user-edit"></i> Modificar</a> 
 									<c:if test = "${archivos == false}">
 								  | <a href="${contextPath}/clientes/archivar?id=<c:out value="${idString}" />"><i class="fas fa-user-minus"></i> Archivar</a> 
-								</c:if>
+									</c:if>
 								</div>
 							</div>
 						</div>

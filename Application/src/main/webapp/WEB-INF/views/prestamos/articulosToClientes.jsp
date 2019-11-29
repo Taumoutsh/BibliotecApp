@@ -40,6 +40,18 @@
 			</div>
 		</div>
 		<div class="container mt-4 ">
+		
+		<c:if test = "${contar > 0}">
+			<div class="alert alert-danger" role="alert">
+				<i class="fas fa-exclamation-triangle"></i> Hay ${contar} prestamo(s) en retraso !
+			</div> 
+		</c:if>
+		<c:if test = "${contar == 0}">
+			<div class="alert alert-success" role="alert">
+				<i class="fas fa-check"></i> Ninguno prestamo en restraso
+			</div> 
+		</c:if>
+			
 			<table class="table table-striped">
 				<tr>
 					<th>Cliente</th>

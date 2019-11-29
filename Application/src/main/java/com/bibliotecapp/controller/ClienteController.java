@@ -94,9 +94,11 @@ public class ClienteController {
 		int idCliente = Integer.valueOf(idClienteString);
 		Cliente unCliente = new Cliente();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		boolean archivo = false;
 		
 		try {
 			unCliente = databaseRequests.obtenerClientePorId(idCliente);
+			archivo = unCliente.isArchivo();
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -106,6 +108,7 @@ public class ClienteController {
 		
 		ModelAndView mv = new ModelAndView("clientes/cliente");
 		mv.addObject("cliente", unCliente);
+		mv.addObject("archivo", archivo);
 		return mv;
 	}
 	
@@ -177,11 +180,14 @@ public class ClienteController {
 	public String prestamosPorClienteFichieros(@RequestParam("id") String idClienteString) throws BDException {
 		
 		List<ArticuloToCliente> articulosToClientePorCliente = new ArrayList<ArticuloToCliente>();
+		List<ArticuloToCliente> articulosToClientePorClienteArchivados = new ArrayList<ArticuloToCliente>();
 		
 		int idCliente = Integer.valueOf(idClienteString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		Cliente cliente = databaseRequests.obtenerClientePorId(idCliente);
 		articulosToClientePorCliente = databaseRequests.obtenerTodosArticulosToClientePorCliente(idCliente, false);
+		articulosToClientePorClienteArchivados = databaseRequests.obtenerTodosArticulosToClientePorCliente(idCliente, true);
+		
 		
 		DateFormat dateFormatTitulo = new SimpleDateFormat("yyyyMMdd-HHmmss");
 		DateFormat dateFormatContent = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -195,7 +201,21 @@ public class ClienteController {
 		      out.println("Prestamos por el cliente "+cliente.getApellido()+" "+cliente.getNombre());
 		      out.println("Fichero creado el : "+dateFormatContent.format(date)+"\n");
 		      out.println("****************\n");
+		      out.println("###########################");
+		      out.println("Prestamos no archivados");
+		      out.println("###########################\n");
 		      for (ArticuloToCliente a : articulosToClientePorCliente) {
+		    	  out.println("Articulo prestado : "+a.getUnArticulo().getTitulo()+" ("+a.getUnArticulo().getUnTipo().getMensaje()+")");
+		    	  out.println("Identificador del articulo : "+a.getUnArticulo().getIdentificador());
+		    	  out.println("Fecha de prestamo : "+a.getFechaPrestamo());
+			      out.println("Fecha de devolucion planificada : "+a.getFechaPanificadaDevolucion());
+			      out.println("Fecha de devolucion real : "+a.getFechaRealDevolucion());
+			      out.println("-------------------");
+		      }
+		      out.println("\n###########################");
+		      out.println("Prestamos archivados");
+		      out.println("###########################\n");
+		      for (ArticuloToCliente a : articulosToClientePorClienteArchivados) {
 		    	  out.println("Articulo prestado : "+a.getUnArticulo().getTitulo()+" ("+a.getUnArticulo().getUnTipo().getMensaje()+")");
 		    	  out.println("Identificador del articulo : "+a.getUnArticulo().getIdentificador());
 		    	  out.println("Fecha de prestamo : "+a.getFechaPrestamo());
