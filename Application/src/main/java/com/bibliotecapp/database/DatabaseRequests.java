@@ -1140,7 +1140,6 @@ public class DatabaseRequests implements IDatabaseRequests{
 		return validezCuento;
 		
 	}
-	
 	public int contarRebasarFechaDevolucion(List<ArticuloToCliente> atc){
 		
 		int contar = 0;
@@ -1159,14 +1158,7 @@ public class DatabaseRequests implements IDatabaseRequests{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return contar;
-		
-	}
-	
-	public int recursividadContarLosArticulo(List<Articulo> listArticulo) {
-		
 	}
 
-	
 }

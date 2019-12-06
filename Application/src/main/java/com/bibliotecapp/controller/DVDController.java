@@ -3,6 +3,7 @@ package com.bibliotecapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +26,9 @@ import com.bibliotecapp.interfaces.IDatabaseRequests;
 @Controller
 @RequestMapping("dvds")
 public class DVDController {
-	 
+	
+	public final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
 	@RequestMapping("todos")
 	public ModelAndView paginaPrincipal() throws BDException {
 		
@@ -36,6 +39,11 @@ public class DVDController {
 		
 		try {
 			todosDVDs = databaseRequests.obtenerTodosDVDs(archivos);
+			
+			logger.setLevel(Level.INFO);
+			logger.info("BIBLIOTEC'APP LOGGER -  Recupera los DVDs de la base de datos");
+			
+			
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -43,6 +51,11 @@ public class DVDController {
 		ModelAndView mv = new ModelAndView("dvds/dvds");
 		mv.addObject("todosDVDs", todosDVDs);
 		mv.addObject("archivos", archivos);
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista con todos los DVDs en la base de datos");
+		
+		
 		return mv;
 	}
 	
@@ -56,6 +69,10 @@ public class DVDController {
 		
 		try {
 			todosDVDs = databaseRequests.obtenerTodosDVDs(archivos);
+			
+			logger.info("BIBLIOTEC'APP LOGGER -  Recupera los DVDs archivados de la base de datos");
+			
+			
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -63,6 +80,9 @@ public class DVDController {
 		ModelAndView mv = new ModelAndView("dvds/dvds");
 		mv.addObject("todosDVDs", todosDVDs);
 		mv.addObject("archivos", archivos);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista con todos los DVDs archivados en la base de datos");
+		
 		return mv;
 	}
 	
@@ -74,6 +94,8 @@ public class DVDController {
 		ModelAndView mv = new ModelAndView("dvds/anadirDvd", "command", new DVD());
 		mv.addObject("temas", temas);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para anadir un DVD en la base de datos");
+		
 		return mv;
 	}
 	@RequestMapping(value = "anadirSave",method = RequestMethod.POST)
@@ -81,6 +103,8 @@ public class DVDController {
 		
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.anadirDvd(dvd);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el DVD introducido en la base de datos");
 
 		return "redirect:todos";
 		
@@ -93,12 +117,16 @@ public class DVDController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		DVD unDVD = databaseRequests.obtenerDVDPorId(idDVD);
 		
-		List<Tipo> tipos = databaseRequests.obtenerTodosTipos();
 		List<Tema> temas = databaseRequests.obtenerTodosTemas();
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para modificar un DVD de la base de datos");
 		
 		ModelAndView mv = new ModelAndView("dvds/modificarDvd", "command", new DVD());
 		mv.addObject("temas", temas);
 		mv.addObject("dvd", unDVD);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el DVD introducido en la base de datos");
+		
 		return mv;
 	}
 	
@@ -108,6 +136,8 @@ public class DVDController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarDvd(dvd);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Update el DVD introducido en la base de datos");
+		
 		return "redirect:todos";
 	}
 	
@@ -116,6 +146,8 @@ public class DVDController {
 		int idDVD = Integer.valueOf(idDvdString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.archivarDvd(idDVD);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Archiva el DVD seleccionado en la base de datos");
 		
 		return "redirect:todos";
 	}
