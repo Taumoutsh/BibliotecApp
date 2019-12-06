@@ -2,6 +2,8 @@ package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,12 +27,17 @@ import com.bibliotecapp.interfaces.IDatabaseRequests;
 @Controller
 @RequestMapping("cds")
 public class CDController {
+	
+	public final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	 
 	@RequestMapping("todos")
 	public ModelAndView paginaPrincipal() throws BDException {
 		
 		List<CD> todosCDs = new ArrayList<CD>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER -  Recupera los CDs de la base de datos");
 		
 		boolean archivos = false;
 		
@@ -43,6 +50,10 @@ public class CDController {
 		ModelAndView mv = new ModelAndView("cds/cds");
 		mv.addObject("todosCDs", todosCDs);
 		mv.addObject("archivos", archivos);
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER -  Recupera los CDs de la base de datos");
+		
 		return mv;
 	}
 	
@@ -56,6 +67,9 @@ public class CDController {
 		
 		try {
 			todosCDs = databaseRequests.obtenerTodosCDs(archivos);
+			
+			logger.info("BIBLIOTEC'APP LOGGER -  Recupera los CDs archivados de la base de datos");
+			
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -63,6 +77,9 @@ public class CDController {
 		ModelAndView mv = new ModelAndView("cds/cds");
 		mv.addObject("todosCDs", todosCDs);
 		mv.addObject("archivos", archivos);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista con todos los CDs archivados en la base de datos");
+		
 		return mv;
 	}
 	
@@ -74,6 +91,8 @@ public class CDController {
 		ModelAndView mv = new ModelAndView("cds/anadirCds", "command", new CD());
 		mv.addObject("temas", temas);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para anadir un CD en la base de datos");
+		
 		return mv;
 	}
 	@RequestMapping(value = "anadirSave",method = RequestMethod.POST)
@@ -81,6 +100,8 @@ public class CDController {
 		
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.anadirCd(cd);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el CD introducido en la base de datos");
 
 		return "redirect:todos";
 		
@@ -93,12 +114,16 @@ public class CDController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		CD unCD = databaseRequests.obtenerCDPorId(idCD);
 		
-		List<Tipo> tipos = databaseRequests.obtenerTodosTipos();
 		List<Tema> temas = databaseRequests.obtenerTodosTemas();
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para modificar un CD de la base de datos");
 		
 		ModelAndView mv = new ModelAndView("cds/modificarCd", "command", new CD());
 		mv.addObject("temas", temas);
 		mv.addObject("cd", unCD);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el CD introducido en la base de datos");
+		
 		return mv;
 	}
 	
@@ -107,6 +132,8 @@ public class CDController {
 		
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarCd(cd);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Update el CD introducido en la base de datos");
 		
 		return "redirect:todos";
 	}
@@ -117,23 +144,8 @@ public class CDController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.archivarCd(idCD);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Archiva el CD seleccionado en la base de datos");
+		
 		return "redirect:todos";
-	}
-	
-	@RequestMapping("archivos")
-	public ModelAndView cdArchivos() throws BDException {
-		
-		List<CD> todosCDs = new ArrayList<CD>();
-		IDatabaseRequests databaseRequests = new DatabaseRequests();
-		
-		try {
-			todosCDs = databaseRequests.obtenerTodosCDs(true);
-		} catch (BDException e) {
-			e.printStackTrace();
-		}
-		
-		ModelAndView mv = new ModelAndView("cds/cds");
-		mv.addObject("todosCDs", todosCDs);
-		return mv;
 	}
 }

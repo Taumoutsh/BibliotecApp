@@ -2,6 +2,8 @@ package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +27,8 @@ import com.bibliotecapp.interfaces.IDatabaseRequests;
 @Controller
 @RequestMapping("videojuegos")
 public class VideoJuegoController {
+	
+	public final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	 
 	@RequestMapping("todos")
 	public ModelAndView paginaPrincipal() throws BDException {
@@ -36,6 +40,10 @@ public class VideoJuegoController {
 		
 		try {
 			todosVideoJuegos = databaseRequests.obtenerTodosVideoJuegos(archivos);
+			
+			logger.setLevel(Level.INFO);
+			logger.info("BIBLIOTEC'APP LOGGER -  Recupera los video juegos de la base de datos");
+			
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -43,6 +51,9 @@ public class VideoJuegoController {
 		ModelAndView mv = new ModelAndView("videojuegos/videojuegos");
 		mv.addObject("todosVideoJuegos", todosVideoJuegos);
 		mv.addObject("archivos", archivos);
+
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista con todos los video juegos en la base de datos");
+		
 		return mv;
 	}
 	
@@ -56,6 +67,9 @@ public class VideoJuegoController {
 		
 		try {
 			todosVideoJuegos = databaseRequests.obtenerTodosVideoJuegos(archivos);
+			
+			logger.info("BIBLIOTEC'APP LOGGER -  Recupera los video juegos archivados de la base de datos");
+			
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -63,6 +77,9 @@ public class VideoJuegoController {
 		ModelAndView mv = new ModelAndView("videojuegos/videojuegos");
 		mv.addObject("todosVideoJuegos", todosVideoJuegos);
 		mv.addObject("archivos", archivos);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista con todos los video juegos archivados en la base de datos");
+		
 		return mv;
 	}
 	
@@ -74,6 +91,8 @@ public class VideoJuegoController {
 		ModelAndView mv = new ModelAndView("videojuegos/anadirVideoJuego", "command", new VideoJuego());
 		mv.addObject("temas", temas);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para anadir un video juego en la base de datos");
+		
 		return mv;
 	}
 	@RequestMapping(value = "anadirSave",method = RequestMethod.POST)
@@ -81,6 +100,9 @@ public class VideoJuegoController {
 		
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.anadirVideoJuego(videoJuego);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el video juego introducido en la base de datos");
+		
 		return "redirect:todos";
 		
 	}
@@ -92,12 +114,16 @@ public class VideoJuegoController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		VideoJuego unVideoJuego = databaseRequests.obtenerVideoJuegoPorId(idVideoJuego);
 		
-		List<Tipo> tipos = databaseRequests.obtenerTodosTipos();
 		List<Tema> temas = databaseRequests.obtenerTodosTemas();
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para modificar un video juego de la base de datos");
 		
 		ModelAndView mv = new ModelAndView("videojuegos/modificarVideoJuego", "command", new VideoJuego());
 		mv.addObject("temas", temas);
 		mv.addObject("videoJuego", unVideoJuego);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el video juego introducido en la base de datos");
+		
 		return mv;
 	}
 	
@@ -107,6 +133,8 @@ public class VideoJuegoController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarVideoJuego(videoJuego);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Update el video juego introducido en la base de datos");
+		
 		return "redirect:todos";
 	}
 	
@@ -115,6 +143,8 @@ public class VideoJuegoController {
 		int idVideoJuego = Integer.valueOf(idVideoJuegoString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.archivarVideoJuego(idVideoJuego);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Archiva el video juego seleccionado en la base de datos");
 		
 		return "redirect:todos";
 	}

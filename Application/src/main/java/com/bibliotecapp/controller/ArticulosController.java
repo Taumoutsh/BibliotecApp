@@ -2,6 +2,8 @@ package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +21,17 @@ import com.bibliotecapp.interfaces.IDatabaseRequests;
 @Controller
 @RequestMapping("articulos")
 public class ArticulosController {
+	
+	public final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	 
 	@RequestMapping("todos")
 	public ModelAndView paginaPrincipal() throws BDException {
 		
 		List<Articulo> todosArticulos = new ArrayList<Articulo>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER -  Recupera los articulos de la base de datos");
 		
 		try {
 			todosArticulos = databaseRequests.obtenerTodosArticulos(false);
@@ -34,6 +41,9 @@ public class ArticulosController {
 		
 		ModelAndView mv = new ModelAndView("articulos");
 		mv.addObject("todosArticulos", todosArticulos);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista con todos los articulos en la base de datos");
+		
 		return mv;
 	}
 }

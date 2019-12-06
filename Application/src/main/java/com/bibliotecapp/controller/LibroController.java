@@ -2,6 +2,8 @@ package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +28,8 @@ import com.bibliotecapp.interfaces.IDatabaseRequests;
 @RequestMapping("libros")
 public class LibroController {
 	 
+	public final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
 	@RequestMapping("todos")
 	public ModelAndView paginaPrincipal() throws BDException {
 		
@@ -36,6 +40,10 @@ public class LibroController {
 		
 		try {
 			todosLibros = databaseRequests.obtenerTodosLibros(archivos);
+			
+			logger.setLevel(Level.INFO);
+			logger.info("BIBLIOTEC'APP LOGGER -  Recupera los libros de la base de datos");
+			
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
@@ -43,6 +51,9 @@ public class LibroController {
 		ModelAndView mv = new ModelAndView("libros/libros");
 		mv.addObject("todosLibros", todosLibros);
 		mv.addObject("archivos", archivos);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista con todos los libros en la base de datos");
+		
 		return mv;
 	}
 	
@@ -51,6 +62,8 @@ public class LibroController {
 		
 		List<Libro> todosLibros = new ArrayList<Libro>();
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
+		
+		logger.info("BIBLIOTEC'APP LOGGER -  Recupera los libros archivados de la base de datos");
 		
 		boolean archivos = true;
 		
@@ -63,6 +76,9 @@ public class LibroController {
 		ModelAndView mv = new ModelAndView("libros/libros");
 		mv.addObject("todosLibros", todosLibros);
 		mv.addObject("archivos", archivos);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista con todos los libros archivados en la base de datos");
+		
 		return mv;
 	}
 	
@@ -74,6 +90,8 @@ public class LibroController {
 		ModelAndView mv = new ModelAndView("libros/anadirLibro", "command", new Libro());
 		mv.addObject("temas", temas);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para anadir un libro en la base de datos");
+		
 		return mv;
 	}
 	@RequestMapping(value = "anadirSave",method = RequestMethod.POST)
@@ -82,6 +100,8 @@ public class LibroController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.anadirLibro(libro);
 
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el libro introducido en la base de datos");
+		
 		return "redirect:todos";
 		
 	}
@@ -93,12 +113,16 @@ public class LibroController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		Libro unLibro = databaseRequests.obtenerLibroPorId(idLibro);
 		
-		List<Tipo> tipos = databaseRequests.obtenerTodosTipos();
 		List<Tema> temas = databaseRequests.obtenerTodosTemas();
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para modificar un libro de la base de datos");
 		
 		ModelAndView mv = new ModelAndView("libros/modificarLibro", "command", new Libro());
 		mv.addObject("temas", temas);
 		mv.addObject("libro", unLibro);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el libro introducido en la base de datos");
+		
 		return mv;
 	}
 	
@@ -108,6 +132,8 @@ public class LibroController {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarLibro(libro);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Update el libro introducido en la base de datos");
+		
 		return "redirect:todos";
 	}
 	
@@ -116,6 +142,8 @@ public class LibroController {
 		int idLibro = Integer.valueOf(idLibroString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.archivarDvd(idLibro);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Archiva el libro seleccionado en la base de datos");
 		
 		return "redirect:todos";
 	}
