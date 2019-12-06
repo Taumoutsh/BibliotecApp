@@ -198,7 +198,7 @@ public class ClienteController {
 		 try{
 			  File file = new File(nombreFichero);
 		      PrintWriter out  = new PrintWriter(new FileWriter(file));
-		      out.println("Prestamos por el cliente "+cliente.getApellido()+" "+cliente.getNombre());
+		      out.println("\nPrestamos por el cliente "+cliente.getApellido()+" "+cliente.getNombre());
 		      out.println("Fichero creado el : "+dateFormatContent.format(date)+"\n");
 		      out.println("****************\n");
 		      out.println("###########################");

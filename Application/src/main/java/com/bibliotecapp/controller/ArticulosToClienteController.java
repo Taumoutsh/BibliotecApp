@@ -2,6 +2,8 @@ package com.bibliotecapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,11 +27,16 @@ import com.bibliotecapp.interfaces.IDatabaseRequests;
 @Controller
 @RequestMapping("articulosToClientes")
 public class ArticulosToClienteController {
+	
+	public final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	 
 	@RequestMapping("todos")
 	public ModelAndView todosArticulosToClientes() throws BDException {
 		
 		final ModelAndView mv = new ModelAndView("prestamos/articulosToClientes");
+		
+		logger.setLevel(Level.INFO);
+		logger.info("BIBLIOTEC'APP LOGGER -  Lanzar the hilo recuperando los prestamos en restraso de la base de datos");
 		
 		Thread t = new Thread() {
 			public void run() {
@@ -37,10 +44,12 @@ public class ArticulosToClienteController {
 		    		  
 		    		  int contar;
 		    		  List<ArticuloToCliente> todosArticulosToClientes = new ArrayList<ArticuloToCliente>();
-		    		  IDatabaseRequests databaseRequests;
-		    		  databaseRequests = new DatabaseRequests();
+		    		  IDatabaseRequests databaseRequests = new DatabaseRequests();
 		    		  todosArticulosToClientes = databaseRequests.obtenerTodosArticulosToClientes(false);
 		    		  contar = databaseRequests.contarRebasarFechaDevolucion(todosArticulosToClientes);
+		    		  
+		    		  logger.info("BIBLIOTEC'APP LOGGER -  Mostar los prestamos en restraso de la base de datos");
+		    		  
 		    		  mv.addObject("contar", contar);
 		    		  
 			      } catch (BDException e) {
@@ -60,6 +69,8 @@ public class ArticulosToClienteController {
 		} catch (BDException e) {
 			e.printStackTrace();
 		}
+		
+		logger.info("BIBLIOTEC'APP LOGGER -  Mostrar los prestamos no archivados de la base de datos");
 		
 		mv.addObject("archivos", archivos);
 		mv.addObject("todosArticulosToClientes", todosArticulosToClientes);
@@ -83,6 +94,9 @@ public class ArticulosToClienteController {
 		ModelAndView mv = new ModelAndView("prestamos/articulosToClientes");
 		mv.addObject("archivos", archivos);
 		mv.addObject("todosArticulosToClientes", todosArticulosToClientes);
+		
+		logger.info("BIBLIOTEC'APP LOGGER -  Mostrar la vista los prestamos archivados de la base de datos");
+		
 		return mv;
 	}
 	
@@ -104,6 +118,9 @@ public class ArticulosToClienteController {
 		ModelAndView mv = new ModelAndView("prestamos/anadirArticuloToCliente", "command", new ArticuloToCliente());
 		mv.addObject("articulos", todosArticulos);
 		mv.addObject("clientes", todosClientes);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para anadir un prestamo en la base de datos");
+		
 		return mv;
 	}
 	@RequestMapping(value="saveAnadir", method = RequestMethod.POST)
@@ -115,6 +132,8 @@ public class ArticulosToClienteController {
 		if(validezCuento == true) {
 			databaseRequests.anadirPrestacion(articuloToCliente);
 		}
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Anade el vista introducido en la base de datos");
 		
 		return "redirect:todos";
 	
@@ -133,16 +152,23 @@ public class ArticulosToClienteController {
 		todosArticulos = databaseRequests.obtenerTodosArticulosPorEstado(true, false);
 		todosClientes = databaseRequests.obtenerTodosClientes(false);
 		
+		logger.info("BIBLIOTEC'APP LOGGER - Mostrar la vista para modificar un prestamo de la base de datos");
+		
 		ModelAndView mv = new ModelAndView("prestamos/modificarArticuloToCliente", "command", new ArticuloToCliente());
 		mv.addObject("ArticuloToCliente", atc);
 		mv.addObject("articulos", todosArticulos);
 		mv.addObject("clientes", todosClientes);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Modifica el prestamo introducido en la base de datos");
+		
 		return mv;
 	}
 	@RequestMapping(value="saveModificar", method = RequestMethod.POST)
 	public String saveModificarArticuloToCliente(@ModelAttribute("articuloToCliente") ArticuloToCliente articuloToCliente) throws BDException {
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.modificarPrestacion(articuloToCliente);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Update el prestamo introducido en la base de datos");
 		
 		return "redirect:todos";
 	
@@ -152,6 +178,8 @@ public class ArticulosToClienteController {
 		int idArticuloToCliente = Integer.valueOf(idArticuloToClienteString);
 		IDatabaseRequests databaseRequests = new DatabaseRequests();
 		databaseRequests.archivarPrestacion(idArticuloToCliente);
+		
+		logger.info("BIBLIOTEC'APP LOGGER - Archiva el prestamo seleccionado en la base de datos");
 		
 		return new RedirectView("../todos");
 	}

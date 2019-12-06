@@ -51,7 +51,6 @@ public class CDController {
 		mv.addObject("todosCDs", todosCDs);
 		mv.addObject("archivos", archivos);
 		
-		logger.setLevel(Level.INFO);
 		logger.info("BIBLIOTEC'APP LOGGER -  Recupera los CDs de la base de datos");
 		
 		return mv;
@@ -122,7 +121,7 @@ public class CDController {
 		mv.addObject("temas", temas);
 		mv.addObject("cd", unCD);
 		
-		logger.info("BIBLIOTEC'APP LOGGER - Anade el CD introducido en la base de datos");
+		logger.info("BIBLIOTEC'APP LOGGER - Modifica el CD introducido en la base de datos");
 		
 		return mv;
 	}
